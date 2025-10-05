@@ -232,6 +232,8 @@ function App() {
                 <h4>Ceiling Cleaning</h4>
                 <p className="additional-price">$10-$50</p>
               </div>
+            </div>
+            <div className="additional-bottom-row">
               <div className="additional-item">
                 <h4>Seat Cleaning</h4>
                 <p className="additional-price">$10-$20/seat</p>

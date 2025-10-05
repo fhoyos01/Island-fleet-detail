@@ -436,6 +436,16 @@
   margin: 0 auto;
 }
 
+.additional-bottom-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .additional-item {
   text-align: center;
   padding: 1.5rem;

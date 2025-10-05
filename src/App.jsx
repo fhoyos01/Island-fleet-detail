@@ -147,52 +147,54 @@ function App() {
               </div>
             </div>
 
-            <div className="service-card">
-              <div className="card-header">
-                <h3>Interior Detail</h3>
-                <div className="price-container">
-                  <div className="vehicle-pricing">
-                    <span className="vehicle-type">Car: <span className="price-small">$40-$50</span></span>
-                    <span className="vehicle-type">SUV: <span className="price-small">$50-$60</span></span>
-                    <span className="vehicle-type">Truck: <span className="price-small">$45-$55</span></span>
+            <div className="bottom-row-cards">
+              <div className="service-card">
+                <div className="card-header">
+                  <h3>Interior Detail</h3>
+                  <div className="price-container">
+                    <div className="vehicle-pricing">
+                      <span className="vehicle-type">Car: <span className="price-small">$40-$50</span></span>
+                      <span className="vehicle-type">SUV: <span className="price-small">$50-$60</span></span>
+                      <span className="vehicle-type">Truck: <span className="price-small">$45-$55</span></span>
+                    </div>
                   </div>
                 </div>
+                <div className="card-content">
+                  <ul className="service-list">
+                    <li>✓ All interior vacuum</li>
+                    <li>✓ All interior wipe down</li>
+                    <li>✓ Interior plastic wipe oil and leather w/seat down</li>
+                    <li>✓ Trunk included on trunk</li>
+                  </ul>
+                  <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
+                    Select Package
+                  </button>
+                </div>
               </div>
-              <div className="card-content">
-                <ul className="service-list">
-                  <li>✓ All interior vacuum</li>
-                  <li>✓ All interior wipe down</li>
-                  <li>✓ Interior plastic wipe oil and leather w/seat down</li>
-                  <li>✓ Trunk included on trunk</li>
-                </ul>
-                <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
-                  Select Package
-                </button>
-              </div>
-            </div>
 
-            <div className="service-card premium">
-              <div className="card-header">
-                <h3>Wax</h3>
-                <div className="price-container">
-                  <div className="vehicle-pricing">
-                    <span className="vehicle-type">Car: <span className="price-small">$40-$50</span></span>
-                    <span className="vehicle-type">SUV: <span className="price-small">$50-$55</span></span>
-                    <span className="vehicle-type">Truck: <span className="price-small">$50-$55</span></span>
+              <div className="service-card premium">
+                <div className="card-header">
+                  <h3>Wax</h3>
+                  <div className="price-container">
+                    <div className="vehicle-pricing">
+                      <span className="vehicle-type">Car: <span className="price-small">$40-$50</span></span>
+                      <span className="vehicle-type">SUV: <span className="price-small">$50-$55</span></span>
+                      <span className="vehicle-type">Truck: <span className="price-small">$50-$55</span></span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="card-content">
-                <ul className="service-list">
-                  <li>✓ All interior</li>
-                  <li>✓ Liquid & turtle wax</li>
-                  <li>✓ All interior mirrors & windshield</li>
-                  <li>✓ Advanced steam washer</li>
-                  <li>✓ Full service</li>
-                </ul>
-                <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
-                  Select Package
-                </button>
+                <div className="card-content">
+                  <ul className="service-list">
+                    <li>✓ All interior</li>
+                    <li>✓ Liquid & turtle wax</li>
+                    <li>✓ All interior mirrors & windshield</li>
+                    <li>✓ Advanced steam washer</li>
+                    <li>✓ Full service</li>
+                  </ul>
+                  <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
+                    Select Package
+                  </button>
+                </div>
               </div>
             </div>
           </div>

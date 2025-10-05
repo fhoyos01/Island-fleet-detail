@@ -8,6 +8,34 @@ function App() {
 
   return (
     <div className="app">
+      <nav className="top-navigation">
+        <div className="nav-container">
+          <div className="logo-nav">
+            <h2>Island Fleet Detail</h2>
+          </div>
+          <div className="nav-links">
+            <button 
+              className={currentStep === 'booking' ? 'nav-link active' : 'nav-link'}
+              onClick={() => setCurrentStep('booking')}
+            >
+              Book Appointment
+            </button>
+            <button 
+              className={currentStep === 'pricing' ? 'nav-link active' : 'nav-link'}
+              onClick={() => setCurrentStep('pricing')}
+            >
+              Pricing & Services
+            </button>
+            <button 
+              className={currentStep === 'contact' ? 'nav-link active' : 'nav-link'}
+              onClick={() => setCurrentStep('contact')}
+            >
+              Contact
+            </button>
+          </div>
+        </div>
+      </nav>
+      
       <header className="hero">
         <div className="hero-content">
           <div className="logo">
@@ -98,22 +126,44 @@ function App() {
             </div>
           </section>
         )}
-      </main>
 
-      <nav className="navigation">
-        <button 
-          className={currentStep === 'booking' ? 'active' : ''}
-          onClick={() => setCurrentStep('booking')}
-        >
-          Book Appointment
-        </button>
-        <button 
-          className={currentStep === 'pricing' ? 'active' : ''}
-          onClick={() => setCurrentStep('pricing')}
-        >
-          Pricing & Services
-        </button>
-      </nav>
+        {currentStep === 'contact' && (
+          <section className="contact-section">
+            <h2>Contact Us</h2>
+            <div className="contact-container">
+              <div className="contact-info">
+                <h3>Get in Touch</h3>
+                <div className="contact-item">
+                  <h4>📞 Phone</h4>
+                  <p>(555) 123-4567</p>
+                </div>
+                <div className="contact-item">
+                  <h4>📧 Email</h4>
+                  <p>info@islandfleetdetail.com</p>
+                </div>
+                <div className="contact-item">
+                  <h4>📍 Location</h4>
+                  <p>123 Marina Drive<br />Island City, FL 33139</p>
+                </div>
+                <div className="contact-item">
+                  <h4>🕒 Hours</h4>
+                  <p>Monday - Saturday: 8:00 AM - 6:00 PM<br />Sunday: 10:00 AM - 4:00 PM</p>
+                </div>
+              </div>
+              <div className="contact-form">
+                <h3>Send us a Message</h3>
+                <form className="message-form">
+                  <input type="text" placeholder="Your Name" required />
+                  <input type="email" placeholder="Your Email" required />
+                  <input type="tel" placeholder="Phone Number" />
+                  <textarea placeholder="Your Message" rows="5" required></textarea>
+                  <button type="submit" className="submit-button">Send Message</button>
+                </form>
+              </div>
+            </div>
+          </section>
+        )}
+      </main>
     </div>
   )
 }

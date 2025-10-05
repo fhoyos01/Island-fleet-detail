@@ -238,7 +238,8 @@
 }
 
 .bottom-row-cards .service-card {
-  flex: 0 1 280px;
+  flex: 1 1 280px;
+  max-width: 350px;
 }
 
 .service-card:hover {

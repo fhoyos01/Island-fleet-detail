@@ -3,7 +3,7 @@
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2a2a2a 100%);
 }
 
 .top-navigation {
@@ -25,8 +25,21 @@
   align-items: center;
 }
 
+.logo-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .logo-nav h2 {
-  color: #667eea;
+  color: #DC143C;
   margin: 0;
   font-size: 1.8rem;
   font-weight: bold;
@@ -51,17 +64,17 @@
 }
 
 .nav-link:hover {
-  color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
+  color: #DC143C;
+  background: rgba(220, 20, 60, 0.1);
 }
 
 .nav-link.active {
-  color: #667eea;
-  background: rgba(102, 126, 234, 0.15);
+  color: #DC143C;
+  background: rgba(220, 20, 60, 0.15);
 }
 
 .hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2a2a2a 100%);
   color: white;
   padding: 4rem 2rem;
   text-align: center;
@@ -72,10 +85,31 @@
   margin: 0 auto;
 }
 
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.hero-logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #D4AF37;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+}
+
 .logo h1 {
   font-size: 3rem;
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  background: linear-gradient(45deg, #DC143C, #D4AF37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero-text h2 {
@@ -91,21 +125,23 @@
 }
 
 .cta-button {
-  background: #ff6b6b;
+  background: linear-gradient(45deg, #DC143C, #ff4757);
   color: white;
-  border: none;
+  border: 2px solid #D4AF37;
   padding: 1rem 2rem;
   font-size: 1.1rem;
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
+  font-weight: bold;
 }
 
 .cta-button:hover {
-  background: #ff5252;
+  background: linear-gradient(45deg, #ff4757, #DC143C);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 6px 20px rgba(220, 20, 60, 0.4);
+  border-color: #ffd700;
 }
 
 .navigation {
@@ -171,16 +207,18 @@
 }
 
 .service-card h3 {
-  color: #667eea;
+  color: #DC143C;
   margin-bottom: 1rem;
   font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .price {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #ff6b6b;
+  color: #D4AF37;
   margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 .service-card ul {
@@ -195,20 +233,23 @@
 }
 
 .secondary-button {
-  background: #667eea;
+  background: linear-gradient(45deg, #DC143C, #ff4757);
   color: white;
-  border: none;
+  border: 2px solid #D4AF37;
   padding: 1rem 2rem;
   border-radius: 25px;
   cursor: pointer;
   font-size: 1.1rem;
   display: block;
   margin: 0 auto;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+  font-weight: bold;
 }
 
 .secondary-button:hover {
-  background: #5a6fd8;
+  background: linear-gradient(45deg, #ff4757, #DC143C);
+  border-color: #ffd700;
+  transform: translateY(-1px);
 }
 
 .booking-container {
@@ -243,7 +284,8 @@
 .calendar-header h4 {
   text-align: center;
   margin-bottom: 1rem;
-  color: #667eea;
+  color: #DC143C;
+  font-weight: bold;
 }
 
 .calendar-grid {
@@ -272,13 +314,14 @@
 }
 
 .calendar-day:hover:not(.disabled):not(.empty) {
-  background: #e3f2fd;
-  color: #667eea;
+  background: rgba(220, 20, 60, 0.1);
+  color: #DC143C;
 }
 
 .calendar-day.selected {
-  background: #667eea;
+  background: linear-gradient(45deg, #DC143C, #ff4757);
   color: white;
+  border: 2px solid #D4AF37;
 }
 
 .calendar-day.disabled {
@@ -307,14 +350,14 @@
 }
 
 .time-slot:hover {
-  border-color: #667eea;
-  background: #f0f4ff;
+  border-color: #DC143C;
+  background: rgba(220, 20, 60, 0.05);
 }
 
 .time-slot.selected {
-  background: #667eea;
+  background: linear-gradient(45deg, #DC143C, #ff4757);
   color: white;
-  border-color: #667eea;
+  border-color: #D4AF37;
 }
 
 .customer-form {
@@ -343,24 +386,27 @@
 .customer-form select:focus,
 .customer-form textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #DC143C;
+  box-shadow: 0 0 5px rgba(220, 20, 60, 0.3);
 }
 
 .submit-button {
-  background: #ff6b6b;
+  background: linear-gradient(45deg, #DC143C, #ff4757);
   color: white;
-  border: none;
+  border: 2px solid #D4AF37;
   padding: 1rem;
   border-radius: 10px;
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   margin-top: 1rem;
 }
 
 .submit-button:hover {
-  background: #ff5252;
+  background: linear-gradient(45deg, #ff4757, #DC143C);
+  border-color: #ffd700;
+  transform: translateY(-1px);
 }
 
 .contact-section {
@@ -386,9 +432,10 @@
 }
 
 .contact-info h3 {
-  color: #667eea;
+  color: #DC143C;
   margin-bottom: 2rem;
   font-size: 1.8rem;
+  font-weight: bold;
 }
 
 .contact-item {
@@ -442,7 +489,8 @@
 .message-form input:focus,
 .message-form textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #DC143C;
+  box-shadow: 0 0 5px rgba(220, 20, 60, 0.3);
 }
 
 /* Large Desktop (1200px+) */

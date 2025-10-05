@@ -11,6 +11,7 @@ function App() {
       <nav className="top-navigation">
         <div className="nav-container">
           <div className="logo-nav">
+            <img src="/logo.jpg" alt="Island Fleet Detail Logo" className="nav-logo" />
             <h2>Island Fleet Detail</h2>
           </div>
           <div className="nav-links">
@@ -39,6 +40,7 @@ function App() {
       <header className="hero">
         <div className="hero-content">
           <div className="logo">
+            <img src="/logo.jpg" alt="Island Fleet Detail Logo" className="hero-logo" />
             <h1>Island Fleet Detail</h1>
           </div>
           <div className="hero-text">

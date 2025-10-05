@@ -59,42 +59,133 @@ function App() {
       <main>
         {currentStep === 'pricing' && (
           <section className="pricing-section">
-            <h2>Our Services</h2>
+            <div className="pricing-header">
+              <h2>Our Premium Detailing Services</h2>
+              <p className="pricing-subtitle">Professional auto detailing packages designed to keep your vehicle looking its best</p>
+            </div>
+
             <div className="service-grid">
-              <div className="service-card">
-                <h3>Basic Wash</h3>
-                <p className="price">$25</p>
-                <ul>
-                  <li>Exterior wash</li>
-                  <li>Window cleaning</li>
-                  <li>Tire shine</li>
-                </ul>
+              <div className="service-card basic">
+                <div className="card-header">
+                  <h3>Express Wash</h3>
+                  <div className="price-container">
+                    <span className="price">$25</span>
+                    <span className="duration">15-20 min</span>
+                  </div>
+                </div>
+                <div className="card-content">
+                  <h4>Perfect for regular maintenance</h4>
+                  <ul className="service-list">
+                    <li>✓ Premium exterior wash</li>
+                    <li>✓ Spot-free rinse</li>
+                    <li>✓ Tire shine application</li>
+                    <li>✓ Quick dry & towel finish</li>
+                  </ul>
+                  <button className="select-package-btn" onClick={() => setCurrentStep('booking')}>
+                    Select Package
+                  </button>
+                </div>
               </div>
-              <div className="service-card">
-                <h3>Full Detail</h3>
-                <p className="price">$75</p>
-                <ul>
-                  <li>Exterior & interior cleaning</li>
-                  <li>Wax application</li>
-                  <li>Vacuum & leather treatment</li>
-                </ul>
+
+              <div className="service-card popular">
+                <div className="popular-badge">Most Popular</div>
+                <div className="card-header">
+                  <h3>Full Detail</h3>
+                  <div className="price-container">
+                    <span className="price">$75</span>
+                    <span className="duration">45-60 min</span>
+                  </div>
+                </div>
+                <div className="card-content">
+                  <h4>Complete interior & exterior care</h4>
+                  <ul className="service-list">
+                    <li>✓ Everything in Express Wash</li>
+                    <li>✓ Interior vacuum & wipe down</li>
+                    <li>✓ Dashboard & console cleaning</li>
+                    <li>✓ Window cleaning (inside & out)</li>
+                    <li>✓ Floor mat cleaning</li>
+                    <li>✓ Premium car wax application</li>
+                  </ul>
+                  <button className="select-package-btn" onClick={() => setCurrentStep('booking')}>
+                    Select Package
+                  </button>
+                </div>
               </div>
-              <div className="service-card">
-                <h3>Premium Detail</h3>
-                <p className="price">$125</p>
-                <ul>
-                  <li>Complete detail package</li>
-                  <li>Paint correction</li>
-                  <li>Ceramic coating</li>
-                </ul>
+
+              <div className="service-card premium">
+                <div className="card-header">
+                  <h3>Signature Detail</h3>
+                  <div className="price-container">
+                    <span className="price">$125</span>
+                    <span className="duration">90-120 min</span>
+                  </div>
+                </div>
+                <div className="card-content">
+                  <h4>Ultimate protection & restoration</h4>
+                  <ul className="service-list">
+                    <li>✓ Everything in Full Detail</li>
+                    <li>✓ Paint decontamination</li>
+                    <li>✓ Clay bar treatment</li>
+                    <li>✓ Paint correction (minor scratches)</li>
+                    <li>✓ Ceramic coating application</li>
+                    <li>✓ Leather conditioning</li>
+                    <li>✓ Engine bay cleaning</li>
+                    <li>✓ 30-day protection guarantee</li>
+                  </ul>
+                  <button className="select-package-btn" onClick={() => setCurrentStep('booking')}>
+                    Select Package
+                  </button>
+                </div>
               </div>
             </div>
-            <button 
-              className="secondary-button"
-              onClick={() => setCurrentStep('booking')}
-            >
-              Book Service
-            </button>
+
+            <div className="every-wash-includes">
+              <h3>Every Wash Includes</h3>
+              <div className="includes-grid">
+                <div className="include-item">
+                  <div className="include-icon">🧽</div>
+                  <h4>Premium Products</h4>
+                  <p>Professional-grade soaps, waxes, and detailing products</p>
+                </div>
+                <div className="include-item">
+                  <div className="include-icon">💧</div>
+                  <h4>Spot-Free Rinse</h4>
+                  <p>Filtered water system prevents water spots and streaking</p>
+                </div>
+                <div className="include-item">
+                  <div className="include-icon">🛡️</div>
+                  <h4>Paint Protection</h4>
+                  <p>UV protection and paint-safe cleaning methods</p>
+                </div>
+                <div className="include-item">
+                  <div className="include-icon">✨</div>
+                  <h4>Quality Guarantee</h4>
+                  <p>100% satisfaction guarantee on all services</p>
+                </div>
+                <div className="include-item">
+                  <div className="include-icon">🚗</div>
+                  <h4>Hand Finish</h4>
+                  <p>Personal attention to detail with hand-drying and touch-ups</p>
+                </div>
+                <div className="include-item">
+                  <div className="include-icon">⚡</div>
+                  <h4>Fast Service</h4>
+                  <p>Efficient process that respects your time</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="pricing-footer">
+              <p className="pricing-note">
+                <strong>Fleet Discounts Available:</strong> 10% off for 5+ vehicles | 15% off for 10+ vehicles
+              </p>
+              <button 
+                className="main-cta-button"
+                onClick={() => setCurrentStep('booking')}
+              >
+                Schedule Your Detail Today
+              </button>
+            </div>
           </section>
         )}
 

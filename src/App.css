@@ -899,6 +899,60 @@
   transform: translateY(-1px);
 }
 
+.additional-services-section {
+  margin: 1rem 0;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.additional-services-section h4 {
+  color: #DC143C;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+}
+
+.additional-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.additional-service-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.additional-service-item:hover {
+  background: rgba(220, 20, 60, 0.05);
+}
+
+.additional-service-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #DC143C;
+  cursor: pointer;
+}
+
+.additional-service-item span {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.4;
+}
+
+@media (max-width: 575px) {
+  .additional-services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .customer-form-container {
   background: white;
   padding: 2rem;

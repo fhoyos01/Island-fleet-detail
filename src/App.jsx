@@ -475,12 +475,30 @@ function BookingModal({ selectedDate, selectedTime, onClose }) {
     phone: '',
     vehicleType: '',
     service: '',
-    specialRequests: ''
+    specialRequests: '',
+    additionalServices: []
   })
+
+  const handleAdditionalServiceChange = (service, checked) => {
+    if (checked) {
+      setFormData({
+        ...formData,
+        additionalServices: [...formData.additionalServices, service]
+      })
+    } else {
+      setFormData({
+        ...formData,
+        additionalServices: formData.additionalServices.filter(s => s !== service)
+      })
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    alert(`Booking confirmed!\nDate: ${new Date(selectedDate).toLocaleDateString()}\nTime: ${selectedTime}\nName: ${formData.name}\nVehicle: ${formData.vehicleType.toUpperCase()}\nService: ${formData.service}`)
+    const additionalServicesText = formData.additionalServices.length > 0 
+      ? `\nAdditional Services: ${formData.additionalServices.join(', ')}`
+      : ''
+    alert(`Booking confirmed!\nDate: ${new Date(selectedDate).toLocaleDateString()}\nTime: ${selectedTime}\nName: ${formData.name}\nVehicle: ${formData.vehicleType.toUpperCase()}\nService: ${formData.service}${additionalServicesText}`)
     onClose()
   }
 
@@ -539,6 +557,66 @@ function BookingModal({ selectedDate, selectedTime, onClose }) {
             <option value="interior-detail">Interior Detail - $40-$60</option>
             <option value="wax">Wax - $40-$55</option>
           </select>
+          
+          <div className="additional-services-section">
+            <h4>Additional Services (Optional)</h4>
+            <div className="additional-services-grid">
+              <label className="additional-service-item">
+                <input
+                  type="checkbox"
+                  checked={formData.additionalServices.includes('Ceramic Coat - Starting @ $650')}
+                  onChange={(e) => handleAdditionalServiceChange('Ceramic Coat - Starting @ $650', e.target.checked)}
+                />
+                <span>Ceramic Coat - Starting @ $650</span>
+              </label>
+              
+              <label className="additional-service-item">
+                <input
+                  type="checkbox"
+                  checked={formData.additionalServices.includes('Hood & Engine - $20-$40')}
+                  onChange={(e) => handleAdditionalServiceChange('Hood & Engine - $20-$40', e.target.checked)}
+                />
+                <span>Hood & Engine - $20-$40</span>
+              </label>
+              
+              <label className="additional-service-item">
+                <input
+                  type="checkbox"
+                  checked={formData.additionalServices.includes('Ceiling Cleaning - $10-$50')}
+                  onChange={(e) => handleAdditionalServiceChange('Ceiling Cleaning - $10-$50', e.target.checked)}
+                />
+                <span>Ceiling Cleaning - $10-$50</span>
+              </label>
+              
+              <label className="additional-service-item">
+                <input
+                  type="checkbox"
+                  checked={formData.additionalServices.includes('Seat Cleaning - $10-$20/seat')}
+                  onChange={(e) => handleAdditionalServiceChange('Seat Cleaning - $10-$20/seat', e.target.checked)}
+                />
+                <span>Seat Cleaning - $10-$20/seat</span>
+              </label>
+              
+              <label className="additional-service-item">
+                <input
+                  type="checkbox"
+                  checked={formData.additionalServices.includes('Carpet Cleaning - $10-$20/seat')}
+                  onChange={(e) => handleAdditionalServiceChange('Carpet Cleaning - $10-$20/seat', e.target.checked)}
+                />
+                <span>Carpet Cleaning - $10-$20/seat</span>
+              </label>
+              
+              <label className="additional-service-item">
+                <input
+                  type="checkbox"
+                  checked={formData.additionalServices.includes('Travel Fee - $15 (over 15 miles)')}
+                  onChange={(e) => handleAdditionalServiceChange('Travel Fee - $15 (over 15 miles)', e.target.checked)}
+                />
+                <span>Travel Fee - $15 (over 15 miles)</span>
+              </label>
+            </div>
+          </div>
+          
           <textarea
             placeholder="Special Requests (optional)"
             value={formData.specialRequests}

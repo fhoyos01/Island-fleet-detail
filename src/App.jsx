@@ -496,7 +496,7 @@ function BookingModal({ selectedDate, selectedTime, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault()
     const additionalServicesText = formData.additionalServices.length > 0 
-      ? `\nAdditional Services: ${formData.additionalServices.join(', ')}`
+      ? `\nAdditional Services:\n${formData.additionalServices.map(service => `• ${service}`).join('\n')}`
       : ''
     alert(`Booking confirmed!\nDate: ${new Date(selectedDate).toLocaleDateString()}\nTime: ${selectedTime}\nName: ${formData.name}\nVehicle: ${formData.vehicleType.toUpperCase()}\nService: ${formData.service}${additionalServicesText}`)
     onClose()

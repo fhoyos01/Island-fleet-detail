@@ -233,7 +233,6 @@ function App() {
               <div className="contact-item phone-only">
                 <h4>📞 Call or Text Us Today</h4>
                 <p className="phone-number">(954) 798-8956</p>
-                <p className="phone-subtitle">Ready to schedule your appointment</p>
               </div>
             </div>
             <div className="contact-form">

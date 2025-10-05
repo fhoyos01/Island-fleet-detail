@@ -103,6 +103,7 @@ function App() {
                   <li>✓ Rinse & dry includes</li>
                   <li>✓ Tire & rim cleaning</li>
                 </ul>
+                <p className="travel-fee-note">*$15 travel fee for locations over 15 miles</p>
                 <button className="select-package-btn" onClick={() => selectPackageAndScroll('exterior-only', 'Exterior Only')}>
                   Select Package
                 </button>
@@ -127,6 +128,7 @@ function App() {
                   <li>✓ Wipe & clean plastic</li>
                   <li>✓ Tires not included</li>
                 </ul>
+                <p className="travel-fee-note">*$15 travel fee for locations over 15 miles</p>
                 <button className="select-package-btn" onClick={() => selectPackageAndScroll('basic-package', 'Basic Package')}>
                   Select Package
                 </button>
@@ -154,6 +156,7 @@ function App() {
                   <li>✓ All tire shine included</li>
                   <li>✓ Windows in/out shine</li>
                 </ul>
+                <p className="travel-fee-note">*$15 travel fee for locations over 15 miles</p>
                 <button className="select-package-btn" onClick={() => selectPackageAndScroll('premium-package', 'Premium Package')}>
                   Select Package
                 </button>
@@ -179,6 +182,7 @@ function App() {
                     <li>✓ Interior plastic wipe oil and leather w/seat down</li>
                     <li>✓ Trunk included on trunk</li>
                   </ul>
+                  <p className="travel-fee-note">*$15 travel fee for locations over 15 miles</p>
                   <button className="select-package-btn" onClick={() => selectPackageAndScroll('interior-detail', 'Interior Detail')}>
                     Select Package
                   </button>
@@ -204,6 +208,7 @@ function App() {
                     <li>✓ Advanced steam washer</li>
                     <li>✓ Full service</li>
                   </ul>
+                  <p className="travel-fee-note">*$15 travel fee for locations over 15 miles</p>
                   <button className="select-package-btn" onClick={() => selectPackageAndScroll('wax', 'Wax')}>
                     Select Package
                   </button>
@@ -234,10 +239,6 @@ function App() {
               <div className="additional-item">
                 <h4>Carpet Cleaning</h4>
                 <p className="additional-price">$10-$20/seat</p>
-              </div>
-              <div className="additional-item">
-                <h4>Travel Fee</h4>
-                <p className="additional-price">$15 (over 15 miles)</p>
               </div>
             </div>
           </div>
@@ -716,14 +717,6 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
                 <span>Carpet Cleaning - $10-$20/seat</span>
               </label>
               
-              <label className="additional-service-item">
-                <input
-                  type="checkbox"
-                  checked={formData.additionalServices.includes('Travel Fee - $15 (over 15 miles)')}
-                  onChange={(e) => handleAdditionalServiceChange('Travel Fee - $15 (over 15 miles)', e.target.checked)}
-                />
-                <span>Travel Fee - $15 (over 15 miles)</span>
-              </label>
             </div>
           </div>
           

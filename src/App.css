@@ -362,6 +362,14 @@
   border-bottom: none;
 }
 
+.travel-fee-note {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0.75rem 0;
+  font-style: italic;
+  text-align: center;
+}
+
 .select-package-btn {
   width: 100%;
   background: linear-gradient(45deg, #DC143C, #ff4757);

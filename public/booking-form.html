@@ -2,24 +2,42 @@
 <html>
 <head>
     <title>Booking Form - Island Fleet Detail</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
+        label { display: block; margin: 10px 0; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #DC143C; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #b8102f; }
+    </style>
 </head>
 <body>
-    <!-- Static form for Netlify to detect -->
-    <form name="booking" method="POST" data-netlify="true" action="/booking-success.html">
+    <h2>Island Fleet Detail - Test Booking Form</h2>
+    
+    <form name="booking" method="POST" netlify>
         <input type="hidden" name="form-name" value="booking" />
         
-        <label>Name: <input type="text" name="name" required /></label><br><br>
-        <label>Email: <input type="email" name="email" required /></label><br><br>
-        <label>Phone: <input type="tel" name="phone" required /></label><br><br>
-        <label>Vehicle Type: 
+        <label>Name:
+            <input type="text" name="name" required />
+        </label>
+        
+        <label>Email:
+            <input type="email" name="email" required />
+        </label>
+        
+        <label>Phone:
+            <input type="tel" name="phone" required />
+        </label>
+        
+        <label>Vehicle Type:
             <select name="vehicleType" required>
                 <option value="">Select Vehicle Type</option>
                 <option value="car">Car</option>
                 <option value="suv">SUV</option>
                 <option value="truck">Truck</option>
             </select>
-        </label><br><br>
-        <label>Service: 
+        </label>
+        
+        <label>Service:
             <select name="service" required>
                 <option value="">Select Service</option>
                 <option value="exterior-only">Exterior Only</option>
@@ -28,13 +46,35 @@
                 <option value="interior-detail">Interior Detail</option>
                 <option value="wax">Wax</option>
             </select>
-        </label><br><br>
-        <label>Date: <input type="date" name="date" required /></label><br><br>
-        <label>Time: <input type="time" name="time" required /></label><br><br>
-        <label>Additional Services: <input type="text" name="additionalServices" /></label><br><br>
-        <label>Special Requests: <textarea name="specialRequests"></textarea></label><br><br>
+        </label>
         
-        <button type="submit">Submit Booking</button>
+        <label>Date:
+            <input type="date" name="date" required />
+        </label>
+        
+        <label>Time:
+            <select name="time" required>
+                <option value="">Select Time</option>
+                <option value="9:00am">9:00 AM</option>
+                <option value="10:00am">10:00 AM</option>
+                <option value="11:00am">11:00 AM</option>
+                <option value="1:00pm">1:00 PM</option>
+                <option value="2:30pm">2:30 PM</option>
+                <option value="4:00pm">4:00 PM</option>
+            </select>
+        </label>
+        
+        <label>Additional Services:
+            <input type="text" name="additionalServices" placeholder="Optional" />
+        </label>
+        
+        <label>Special Requests:
+            <textarea name="specialRequests" rows="3" placeholder="Optional"></textarea>
+        </label>
+        
+        <button type="submit">Submit Test Booking</button>
     </form>
+    
+    <p><a href="/">← Back to Main Site</a></p>
 </body>
 </html>

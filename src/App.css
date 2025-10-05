@@ -209,9 +209,9 @@
 
 .service-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-  margin-bottom: 4rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
 }
 
 .service-card {
@@ -356,6 +356,79 @@
   background: linear-gradient(45deg, #ff4757, #DC143C);
   border-color: #ffd700;
   transform: translateY(-1px);
+}
+
+.vehicle-pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.vehicle-type {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 140px;
+}
+
+.price-small {
+  color: #D4AF37;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.additional-services {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  margin-bottom: 3rem;
+}
+
+.additional-services h3 {
+  text-align: center;
+  color: #DC143C;
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 2.5rem;
+}
+
+.additional-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.additional-item {
+  text-align: center;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+}
+
+.additional-item:hover {
+  transform: translateY(-3px);
+}
+
+.additional-item h4 {
+  color: #DC143C;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.additional-price {
+  color: #D4AF37;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
 }
 
 .every-wash-includes {
@@ -760,6 +833,10 @@
     grid-template-columns: repeat(3, 1fr);
   }
   
+  .additional-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
   .booking-container {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 4rem;
@@ -774,6 +851,10 @@
   }
   
   .includes-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .additional-grid {
     grid-template-columns: repeat(3, 1fr);
   }
   
@@ -795,6 +876,10 @@
   }
   
   .includes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .additional-grid {
     grid-template-columns: repeat(2, 1fr);
   }
   
@@ -836,6 +921,11 @@
   }
   
   .includes-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .additional-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
@@ -902,6 +992,11 @@
   }
   
   .includes-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .additional-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }

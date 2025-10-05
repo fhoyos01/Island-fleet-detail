@@ -75,19 +75,44 @@ function App() {
           <div className="service-grid">
             <div className="service-card basic">
               <div className="card-header">
-                <h3>Express Wash</h3>
+                <h3>Exterior Only</h3>
                 <div className="price-container">
-                  <span className="price">$25</span>
-                  <span className="duration">15-20 min</span>
+                  <div className="vehicle-pricing">
+                    <span className="vehicle-type">Car: <span className="price-small">$20</span></span>
+                    <span className="vehicle-type">SUV: <span className="price-small">$25</span></span>
+                    <span className="vehicle-type">Truck: <span className="price-small">$25-$35</span></span>
+                  </div>
                 </div>
               </div>
               <div className="card-content">
-                <h4>Perfect for regular maintenance</h4>
                 <ul className="service-list">
-                  <li>✓ Premium exterior wash</li>
-                  <li>✓ Spot-free rinse</li>
-                  <li>✓ Tire shine application</li>
-                  <li>✓ Quick dry & towel finish</li>
+                  <li>✓ Exterior wash</li>
+                  <li>✓ Rinse & dry includes</li>
+                  <li>✓ Tire & rim cleaning</li>
+                </ul>
+                <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
+                  Select Package
+                </button>
+              </div>
+            </div>
+
+            <div className="service-card">
+              <div className="card-header">
+                <h3>Basic Package</h3>
+                <div className="price-container">
+                  <div className="vehicle-pricing">
+                    <span className="vehicle-type">Car: <span className="price-small">$30-$40</span></span>
+                    <span className="vehicle-type">SUV: <span className="price-small">$40-$50</span></span>
+                    <span className="vehicle-type">Truck: <span className="price-small">$45-$55</span></span>
+                  </div>
+                </div>
+              </div>
+              <div className="card-content">
+                <ul className="service-list">
+                  <li>✓ Exterior wash</li>
+                  <li>✓ Interior vacuum</li>
+                  <li>✓ Wipe & clean plastic</li>
+                  <li>✓ Tires not included</li>
                 </ul>
                 <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
                   Select Package
@@ -98,21 +123,47 @@ function App() {
             <div className="service-card popular">
               <div className="popular-badge">Most Popular</div>
               <div className="card-header">
-                <h3>Full Detail</h3>
+                <h3>Premium Package</h3>
                 <div className="price-container">
-                  <span className="price">$75</span>
-                  <span className="duration">45-60 min</span>
+                  <div className="vehicle-pricing">
+                    <span className="vehicle-type">Car: <span className="price-small">$50-$60</span></span>
+                    <span className="vehicle-type">SUV: <span className="price-small">$60-$80</span></span>
+                    <span className="vehicle-type">Truck: <span className="price-small">$60-$80</span></span>
+                  </div>
                 </div>
               </div>
               <div className="card-content">
-                <h4>Complete interior & exterior care</h4>
                 <ul className="service-list">
-                  <li>✓ Everything in Express Wash</li>
-                  <li>✓ Interior vacuum & wipe down</li>
-                  <li>✓ Dashboard & console cleaning</li>
-                  <li>✓ Window cleaning (inside & out)</li>
-                  <li>✓ Floor mat cleaning</li>
-                  <li>✓ Premium car wax application</li>
+                  <li>✓ Everything in basic wash</li>
+                  <li>✓ Seat wipe down</li>
+                  <li>✓ All interior plastic wipe down</li>
+                  <li>✓ Seat wipe down</li>
+                  <li>✓ All tire shine included</li>
+                  <li>✓ Windows in/out shine</li>
+                </ul>
+                <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
+                  Select Package
+                </button>
+              </div>
+            </div>
+
+            <div className="service-card">
+              <div className="card-header">
+                <h3>Interior Detail</h3>
+                <div className="price-container">
+                  <div className="vehicle-pricing">
+                    <span className="vehicle-type">Car: <span className="price-small">$40-$50</span></span>
+                    <span className="vehicle-type">SUV: <span className="price-small">$50-$60</span></span>
+                    <span className="vehicle-type">Truck: <span className="price-small">$45-$55</span></span>
+                  </div>
+                </div>
+              </div>
+              <div className="card-content">
+                <ul className="service-list">
+                  <li>✓ All interior vacuum</li>
+                  <li>✓ All interior wipe down</li>
+                  <li>✓ Interior plastic wipe oil and leather w/seat down</li>
+                  <li>✓ Trunk included on trunk</li>
                 </ul>
                 <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
                   Select Package
@@ -122,27 +173,56 @@ function App() {
 
             <div className="service-card premium">
               <div className="card-header">
-                <h3>Signature Detail</h3>
+                <h3>Wax</h3>
                 <div className="price-container">
-                  <span className="price">$125</span>
-                  <span className="duration">90-120 min</span>
+                  <div className="vehicle-pricing">
+                    <span className="vehicle-type">Car: <span className="price-small">$40-$50</span></span>
+                    <span className="vehicle-type">SUV: <span className="price-small">$50-$55</span></span>
+                    <span className="vehicle-type">Truck: <span className="price-small">$50-$55</span></span>
+                  </div>
                 </div>
               </div>
               <div className="card-content">
-                <h4>Ultimate protection & restoration</h4>
                 <ul className="service-list">
-                  <li>✓ Everything in Full Detail</li>
-                  <li>✓ Paint decontamination</li>
-                  <li>✓ Clay bar treatment</li>
-                  <li>✓ Paint correction (minor scratches)</li>
-                  <li>✓ Ceramic coating application</li>
-                  <li>✓ Leather conditioning</li>
-                  <li>✓ Engine bay cleaning</li>
-                  <li>✓ 30-day protection guarantee</li>
+                  <li>✓ All interior</li>
+                  <li>✓ Liquid & turtle wax</li>
+                  <li>✓ All interior mirrors & windshield</li>
+                  <li>✓ Advanced steam washer</li>
+                  <li>✓ Full service</li>
                 </ul>
                 <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
                   Select Package
                 </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="additional-services">
+            <h3>Additional Services</h3>
+            <div className="additional-grid">
+              <div className="additional-item">
+                <h4>Ceramic Coat</h4>
+                <p className="additional-price">Starting @ $650</p>
+              </div>
+              <div className="additional-item">
+                <h4>Hood & Engine</h4>
+                <p className="additional-price">$20-$40</p>
+              </div>
+              <div className="additional-item">
+                <h4>Ceiling Cleaning</h4>
+                <p className="additional-price">$10-$50</p>
+              </div>
+              <div className="additional-item">
+                <h4>Seat Cleaning</h4>
+                <p className="additional-price">$10-$20/seat</p>
+              </div>
+              <div className="additional-item">
+                <h4>Carpet Cleaning</h4>
+                <p className="additional-price">$10-$20/seat</p>
+              </div>
+              <div className="additional-item">
+                <h4>Travel Fee</h4>
+                <p className="additional-price">$15 (over 15 miles)</p>
               </div>
             </div>
           </div>

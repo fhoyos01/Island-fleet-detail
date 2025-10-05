@@ -222,6 +222,8 @@
   transition: all 0.3s ease;
   position: relative;
   border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
 }
 
 .service-card:hover {
@@ -310,6 +312,9 @@
 
 .card-content {
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .card-content h4 {
@@ -324,6 +329,7 @@
   list-style: none;
   padding: 0;
   margin-bottom: 2rem;
+  flex-grow: 1;
 }
 
 .service-list li {
@@ -350,6 +356,7 @@
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin-top: auto;
 }
 
 .select-package-btn:hover {

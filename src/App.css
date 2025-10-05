@@ -430,10 +430,24 @@
 
 .additional-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   max-width: 1000px;
   margin: 0 auto;
+  justify-items: center;
+}
+
+.additional-grid .additional-item:nth-child(4),
+.additional-grid .additional-item:nth-child(5) {
+  grid-column: span 1;
+}
+
+.additional-grid .additional-item:nth-child(4) {
+  grid-column-start: 2;
+}
+
+.additional-grid .additional-item:nth-child(5) {
+  grid-column-start: 3;
 }
 
 .additional-item {

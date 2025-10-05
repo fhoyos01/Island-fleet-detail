@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Form - Island Fleet Detail</title>
+</head>
+<body>
+    <!-- Static form for Netlify to detect -->
+    <form name="booking" method="POST" data-netlify="true" action="/booking-success.html">
+        <input type="hidden" name="form-name" value="booking" />
+        
+        <label>Name: <input type="text" name="name" required /></label><br><br>
+        <label>Email: <input type="email" name="email" required /></label><br><br>
+        <label>Phone: <input type="tel" name="phone" required /></label><br><br>
+        <label>Vehicle Type: 
+            <select name="vehicleType" required>
+                <option value="">Select Vehicle Type</option>
+                <option value="car">Car</option>
+                <option value="suv">SUV</option>
+                <option value="truck">Truck</option>
+            </select>
+        </label><br><br>
+        <label>Service: 
+            <select name="service" required>
+                <option value="">Select Service</option>
+                <option value="exterior-only">Exterior Only</option>
+                <option value="basic-package">Basic Package</option>
+                <option value="premium-package">Premium Package</option>
+                <option value="interior-detail">Interior Detail</option>
+                <option value="wax">Wax</option>
+            </select>
+        </label><br><br>
+        <label>Date: <input type="date" name="date" required /></label><br><br>
+        <label>Time: <input type="time" name="time" required /></label><br><br>
+        <label>Additional Services: <input type="text" name="additionalServices" /></label><br><br>
+        <label>Special Requests: <textarea name="specialRequests"></textarea></label><br><br>
+        
+        <button type="submit">Submit Booking</button>
+    </form>
+</body>
+</html>

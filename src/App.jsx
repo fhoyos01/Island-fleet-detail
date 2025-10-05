@@ -4,6 +4,7 @@ import './App.css'
 function App() {
   const [selectedDate, setSelectedDate] = useState(null)
   const [selectedTime, setSelectedTime] = useState(null)
+  const [showBookingModal, setShowBookingModal] = useState(false)
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId)
@@ -298,15 +299,10 @@ function App() {
                 selectedTime={selectedTime}
                 onTimeSelect={setSelectedTime}
                 selectedDate={selectedDate}
+                onConfirm={() => setShowBookingModal(true)}
               />
             </div>
           </div>
-          
-          {selectedDate && selectedTime && (
-            <div className="customer-form-container" style={{marginTop: '2rem'}}>
-              <CustomerForm />
-            </div>
-          )}
         </section>
 
         <section id="contact" className="contact-section">
@@ -332,6 +328,14 @@ function App() {
           </div>
         </section>
       </main>
+      
+      {showBookingModal && (
+        <BookingModal 
+          selectedDate={selectedDate}
+          selectedTime={selectedTime}
+          onClose={() => setShowBookingModal(false)}
+        />
+      )}
     </div>
   )
 }
@@ -424,7 +428,7 @@ function SimpleCalendar({ selectedDate, onDateSelect }) {
   )
 }
 
-function TimeSlots({ selectedTime, onTimeSelect, selectedDate }) {
+function TimeSlots({ selectedTime, onTimeSelect, selectedDate, onConfirm }) {
   const timeSlots = [
     { time: '10:00am', available: true },
     { time: '11:00am', available: false },
@@ -456,10 +460,85 @@ function TimeSlots({ selectedTime, onTimeSelect, selectedDate }) {
         </button>
       ))}
       {selectedTime && (
-        <button className="confirm-button" onClick={() => alert('Time confirmed!')}>
+        <button className="confirm-button" onClick={onConfirm}>
           Confirm
         </button>
       )}
+    </div>
+  )
+}
+
+function BookingModal({ selectedDate, selectedTime, onClose }) {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    service: '',
+    specialRequests: ''
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    alert(`Booking confirmed!\nDate: ${new Date(selectedDate).toLocaleDateString()}\nTime: ${selectedTime}\nName: ${formData.name}\nService: ${formData.service}`)
+    onClose()
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <h3>Your Information</h3>
+          <button className="modal-close" onClick={onClose}>×</button>
+        </div>
+        <div className="booking-summary">
+          <p><strong>Date:</strong> {new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
+          <p><strong>Time:</strong> {selectedTime}</p>
+        </div>
+        <form className="modal-form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={formData.name}
+            onChange={(e) => setFormData({...formData, name: e.target.value})}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
+            required
+          />
+          <input
+            type="tel"
+            placeholder="Phone Number"
+            value={formData.phone}
+            onChange={(e) => setFormData({...formData, phone: e.target.value})}
+            required
+          />
+          <select
+            value={formData.service}
+            onChange={(e) => setFormData({...formData, service: e.target.value})}
+            required
+          >
+            <option value="">Select Service</option>
+            <option value="exterior-only">Exterior Only - $20-$35</option>
+            <option value="basic-package">Basic Package - $30-$55</option>
+            <option value="premium-package">Premium Package - $50-$80</option>
+            <option value="interior-detail">Interior Detail - $40-$60</option>
+            <option value="wax">Wax - $40-$55</option>
+          </select>
+          <textarea
+            placeholder="Special Requests (optional)"
+            value={formData.specialRequests}
+            onChange={(e) => setFormData({...formData, specialRequests: e.target.value})}
+            rows="3"
+          ></textarea>
+          <button type="submit" className="modal-submit-button">
+            Confirm Booking
+          </button>
+        </form>
+      </div>
     </div>
   )
 }

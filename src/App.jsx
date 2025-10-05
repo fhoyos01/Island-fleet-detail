@@ -4,7 +4,16 @@ import './App.css'
 function App() {
   const [selectedDate, setSelectedDate] = useState(null)
   const [selectedTime, setSelectedTime] = useState(null)
-  const [currentStep, setCurrentStep] = useState('booking')
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }
 
   return (
     <div className="app">
@@ -16,20 +25,20 @@ function App() {
           </div>
           <div className="nav-links">
             <button 
-              className={currentStep === 'booking' ? 'nav-link active' : 'nav-link'}
-              onClick={() => setCurrentStep('booking')}
-            >
-              Book Appointment
-            </button>
-            <button 
-              className={currentStep === 'pricing' ? 'nav-link active' : 'nav-link'}
-              onClick={() => setCurrentStep('pricing')}
+              className="nav-link"
+              onClick={() => scrollToSection('pricing')}
             >
               Pricing & Services
             </button>
             <button 
-              className={currentStep === 'contact' ? 'nav-link active' : 'nav-link'}
-              onClick={() => setCurrentStep('contact')}
+              className="nav-link"
+              onClick={() => scrollToSection('booking')}
+            >
+              Book Appointment
+            </button>
+            <button 
+              className="nav-link"
+              onClick={() => scrollToSection('contact')}
             >
               Contact
             </button>
@@ -48,7 +57,7 @@ function App() {
             <p>Transform your vehicle with our premium detailing services. Book your appointment today!</p>
             <button 
               className="cta-button"
-              onClick={() => setCurrentStep('booking')}
+              onClick={() => scrollToSection('booking')}
             >
               Book Now
             </button>
@@ -57,205 +66,199 @@ function App() {
       </header>
 
       <main>
-        {currentStep === 'pricing' && (
-          <section className="pricing-section">
-            <div className="pricing-header">
-              <h2>Our Premium Detailing Services</h2>
-              <p className="pricing-subtitle">Professional auto detailing packages designed to keep your vehicle looking its best</p>
-            </div>
+        <section id="pricing" className="pricing-section">
+          <div className="pricing-header">
+            <h2>Our Premium Detailing Services</h2>
+            <p className="pricing-subtitle">Professional auto detailing packages designed to keep your vehicle looking its best</p>
+          </div>
 
-            <div className="service-grid">
-              <div className="service-card basic">
-                <div className="card-header">
-                  <h3>Express Wash</h3>
-                  <div className="price-container">
-                    <span className="price">$25</span>
-                    <span className="duration">15-20 min</span>
-                  </div>
-                </div>
-                <div className="card-content">
-                  <h4>Perfect for regular maintenance</h4>
-                  <ul className="service-list">
-                    <li>✓ Premium exterior wash</li>
-                    <li>✓ Spot-free rinse</li>
-                    <li>✓ Tire shine application</li>
-                    <li>✓ Quick dry & towel finish</li>
-                  </ul>
-                  <button className="select-package-btn" onClick={() => setCurrentStep('booking')}>
-                    Select Package
-                  </button>
+          <div className="service-grid">
+            <div className="service-card basic">
+              <div className="card-header">
+                <h3>Express Wash</h3>
+                <div className="price-container">
+                  <span className="price">$25</span>
+                  <span className="duration">15-20 min</span>
                 </div>
               </div>
-
-              <div className="service-card popular">
-                <div className="popular-badge">Most Popular</div>
-                <div className="card-header">
-                  <h3>Full Detail</h3>
-                  <div className="price-container">
-                    <span className="price">$75</span>
-                    <span className="duration">45-60 min</span>
-                  </div>
-                </div>
-                <div className="card-content">
-                  <h4>Complete interior & exterior care</h4>
-                  <ul className="service-list">
-                    <li>✓ Everything in Express Wash</li>
-                    <li>✓ Interior vacuum & wipe down</li>
-                    <li>✓ Dashboard & console cleaning</li>
-                    <li>✓ Window cleaning (inside & out)</li>
-                    <li>✓ Floor mat cleaning</li>
-                    <li>✓ Premium car wax application</li>
-                  </ul>
-                  <button className="select-package-btn" onClick={() => setCurrentStep('booking')}>
-                    Select Package
-                  </button>
-                </div>
-              </div>
-
-              <div className="service-card premium">
-                <div className="card-header">
-                  <h3>Signature Detail</h3>
-                  <div className="price-container">
-                    <span className="price">$125</span>
-                    <span className="duration">90-120 min</span>
-                  </div>
-                </div>
-                <div className="card-content">
-                  <h4>Ultimate protection & restoration</h4>
-                  <ul className="service-list">
-                    <li>✓ Everything in Full Detail</li>
-                    <li>✓ Paint decontamination</li>
-                    <li>✓ Clay bar treatment</li>
-                    <li>✓ Paint correction (minor scratches)</li>
-                    <li>✓ Ceramic coating application</li>
-                    <li>✓ Leather conditioning</li>
-                    <li>✓ Engine bay cleaning</li>
-                    <li>✓ 30-day protection guarantee</li>
-                  </ul>
-                  <button className="select-package-btn" onClick={() => setCurrentStep('booking')}>
-                    Select Package
-                  </button>
-                </div>
+              <div className="card-content">
+                <h4>Perfect for regular maintenance</h4>
+                <ul className="service-list">
+                  <li>✓ Premium exterior wash</li>
+                  <li>✓ Spot-free rinse</li>
+                  <li>✓ Tire shine application</li>
+                  <li>✓ Quick dry & towel finish</li>
+                </ul>
+                <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
+                  Select Package
+                </button>
               </div>
             </div>
 
-            <div className="every-wash-includes">
-              <h3>Every Wash Includes</h3>
-              <div className="includes-grid">
-                <div className="include-item">
-                  <div className="include-icon">🧽</div>
-                  <h4>Premium Products</h4>
-                  <p>Professional-grade soaps, waxes, and detailing products</p>
+            <div className="service-card popular">
+              <div className="popular-badge">Most Popular</div>
+              <div className="card-header">
+                <h3>Full Detail</h3>
+                <div className="price-container">
+                  <span className="price">$75</span>
+                  <span className="duration">45-60 min</span>
                 </div>
-                <div className="include-item">
-                  <div className="include-icon">💧</div>
-                  <h4>Spot-Free Rinse</h4>
-                  <p>Filtered water system prevents water spots and streaking</p>
-                </div>
-                <div className="include-item">
-                  <div className="include-icon">🛡️</div>
-                  <h4>Paint Protection</h4>
-                  <p>UV protection and paint-safe cleaning methods</p>
-                </div>
-                <div className="include-item">
-                  <div className="include-icon">✨</div>
-                  <h4>Quality Guarantee</h4>
-                  <p>100% satisfaction guarantee on all services</p>
-                </div>
-                <div className="include-item">
-                  <div className="include-icon">🚗</div>
-                  <h4>Hand Finish</h4>
-                  <p>Personal attention to detail with hand-drying and touch-ups</p>
-                </div>
-                <div className="include-item">
-                  <div className="include-icon">⚡</div>
-                  <h4>Fast Service</h4>
-                  <p>Efficient process that respects your time</p>
-                </div>
+              </div>
+              <div className="card-content">
+                <h4>Complete interior & exterior care</h4>
+                <ul className="service-list">
+                  <li>✓ Everything in Express Wash</li>
+                  <li>✓ Interior vacuum & wipe down</li>
+                  <li>✓ Dashboard & console cleaning</li>
+                  <li>✓ Window cleaning (inside & out)</li>
+                  <li>✓ Floor mat cleaning</li>
+                  <li>✓ Premium car wax application</li>
+                </ul>
+                <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
+                  Select Package
+                </button>
               </div>
             </div>
 
-            <div className="pricing-footer">
-              <p className="pricing-note">
-                <strong>Fleet Discounts Available:</strong> 10% off for 5+ vehicles | 15% off for 10+ vehicles
-              </p>
-              <button 
-                className="main-cta-button"
-                onClick={() => setCurrentStep('booking')}
-              >
-                Schedule Your Detail Today
-              </button>
+            <div className="service-card premium">
+              <div className="card-header">
+                <h3>Signature Detail</h3>
+                <div className="price-container">
+                  <span className="price">$125</span>
+                  <span className="duration">90-120 min</span>
+                </div>
+              </div>
+              <div className="card-content">
+                <h4>Ultimate protection & restoration</h4>
+                <ul className="service-list">
+                  <li>✓ Everything in Full Detail</li>
+                  <li>✓ Paint decontamination</li>
+                  <li>✓ Clay bar treatment</li>
+                  <li>✓ Paint correction (minor scratches)</li>
+                  <li>✓ Ceramic coating application</li>
+                  <li>✓ Leather conditioning</li>
+                  <li>✓ Engine bay cleaning</li>
+                  <li>✓ 30-day protection guarantee</li>
+                </ul>
+                <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
+                  Select Package
+                </button>
+              </div>
             </div>
-          </section>
-        )}
+          </div>
 
-        {currentStep === 'booking' && (
-          <section className="booking-section">
-            <h2>Book Your Appointment</h2>
-            <div className="booking-container">
-              <div className="calendar-container">
-                <h3>Select Date</h3>
-                <SimpleCalendar 
-                  selectedDate={selectedDate}
-                  onDateSelect={setSelectedDate}
+          <div className="every-wash-includes">
+            <h3>Every Wash Includes</h3>
+            <div className="includes-grid">
+              <div className="include-item">
+                <div className="include-icon">🧽</div>
+                <h4>Premium Products</h4>
+                <p>Professional-grade soaps, waxes, and detailing products</p>
+              </div>
+              <div className="include-item">
+                <div className="include-icon">💧</div>
+                <h4>Spot-Free Rinse</h4>
+                <p>Filtered water system prevents water spots and streaking</p>
+              </div>
+              <div className="include-item">
+                <div className="include-icon">🛡️</div>
+                <h4>Paint Protection</h4>
+                <p>UV protection and paint-safe cleaning methods</p>
+              </div>
+              <div className="include-item">
+                <div className="include-icon">✨</div>
+                <h4>Quality Guarantee</h4>
+                <p>100% satisfaction guarantee on all services</p>
+              </div>
+              <div className="include-item">
+                <div className="include-icon">🚗</div>
+                <h4>Hand Finish</h4>
+                <p>Personal attention to detail with hand-drying and touch-ups</p>
+              </div>
+              <div className="include-item">
+                <div className="include-icon">⚡</div>
+                <h4>Fast Service</h4>
+                <p>Efficient process that respects your time</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="pricing-footer">
+            <p className="pricing-note">
+              <strong>Fleet Discounts Available:</strong> 10% off for 5+ vehicles | 15% off for 10+ vehicles
+            </p>
+            <button 
+              className="main-cta-button"
+              onClick={() => scrollToSection('booking')}
+            >
+              Schedule Your Detail Today
+            </button>
+          </div>
+        </section>
+
+        <section id="booking" className="booking-section">
+          <h2>Book Your Appointment</h2>
+          <div className="booking-container">
+            <div className="calendar-container">
+              <h3>Select Date</h3>
+              <SimpleCalendar 
+                selectedDate={selectedDate}
+                onDateSelect={setSelectedDate}
+              />
+            </div>
+            
+            {selectedDate && (
+              <div className="time-slots-container">
+                <h3>Available Times</h3>
+                <TimeSlots 
+                  selectedTime={selectedTime}
+                  onTimeSelect={setSelectedTime}
                 />
               </div>
-              
-              {selectedDate && (
-                <div className="time-slots-container">
-                  <h3>Available Times</h3>
-                  <TimeSlots 
-                    selectedTime={selectedTime}
-                    onTimeSelect={setSelectedTime}
-                  />
-                </div>
-              )}
-              
-              {selectedDate && selectedTime && (
-                <div className="customer-form-container">
-                  <CustomerForm />
-                </div>
-              )}
-            </div>
-          </section>
-        )}
+            )}
+            
+            {selectedDate && selectedTime && (
+              <div className="customer-form-container">
+                <CustomerForm />
+              </div>
+            )}
+          </div>
+        </section>
 
-        {currentStep === 'contact' && (
-          <section className="contact-section">
-            <h2>Contact Us</h2>
-            <div className="contact-container">
-              <div className="contact-info">
-                <h3>Get in Touch</h3>
-                <div className="contact-item">
-                  <h4>📞 Phone</h4>
-                  <p>(555) 123-4567</p>
-                </div>
-                <div className="contact-item">
-                  <h4>📧 Email</h4>
-                  <p>info@islandfleetdetail.com</p>
-                </div>
-                <div className="contact-item">
-                  <h4>📍 Location</h4>
-                  <p>123 Marina Drive<br />Island City, FL 33139</p>
-                </div>
-                <div className="contact-item">
-                  <h4>🕒 Hours</h4>
-                  <p>Monday - Saturday: 8:00 AM - 6:00 PM<br />Sunday: 10:00 AM - 4:00 PM</p>
-                </div>
+        <section id="contact" className="contact-section">
+          <h2>Contact Us</h2>
+          <div className="contact-container">
+            <div className="contact-info">
+              <h3>Get in Touch</h3>
+              <div className="contact-item">
+                <h4>📞 Phone</h4>
+                <p>(555) 123-4567</p>
               </div>
-              <div className="contact-form">
-                <h3>Send us a Message</h3>
-                <form className="message-form">
-                  <input type="text" placeholder="Your Name" required />
-                  <input type="email" placeholder="Your Email" required />
-                  <input type="tel" placeholder="Phone Number" />
-                  <textarea placeholder="Your Message" rows="5" required></textarea>
-                  <button type="submit" className="submit-button">Send Message</button>
-                </form>
+              <div className="contact-item">
+                <h4>📧 Email</h4>
+                <p>info@islandfleetdetail.com</p>
+              </div>
+              <div className="contact-item">
+                <h4>📍 Location</h4>
+                <p>123 Marina Drive<br />Island City, FL 33139</p>
+              </div>
+              <div className="contact-item">
+                <h4>🕒 Hours</h4>
+                <p>Monday - Saturday: 8:00 AM - 6:00 PM<br />Sunday: 10:00 AM - 4:00 PM</p>
               </div>
             </div>
-          </section>
-        )}
+            <div className="contact-form">
+              <h3>Send us a Message</h3>
+              <form className="message-form">
+                <input type="text" placeholder="Your Name" required />
+                <input type="email" placeholder="Your Email" required />
+                <input type="tel" placeholder="Phone Number" />
+                <textarea placeholder="Your Message" rows="5" required></textarea>
+                <button type="submit" className="submit-button">Send Message</button>
+              </form>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   )

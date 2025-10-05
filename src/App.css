@@ -171,11 +171,13 @@
 }
 
 .pricing-section,
-.booking-section {
+.booking-section,
+.contact-section {
   padding: 3rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
   background: white;
+  scroll-margin-top: 100px;
 }
 
 .pricing-header {

@@ -1118,11 +1118,15 @@
   box-shadow: 0 6px 15px rgba(220, 20, 60, 0.2);
 }
 
+.instagram-link:hover .instagram-icon {
+  color: #DC143C;
+}
+
 .instagram-icon {
-  font-size: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: #E4405F;
+  transition: color 0.3s ease;
 }
 
 .instagram-link span {

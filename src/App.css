@@ -446,6 +446,12 @@
   margin-right: auto;
 }
 
+.additional-bottom-row .additional-item {
+  flex: 0 0 auto;
+  width: 200px;
+  min-width: 200px;
+}
+
 .additional-item {
   text-align: center;
   padding: 1.5rem;

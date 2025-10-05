@@ -1,11 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
+import { initEmailJS, sendBookingEmails } from './services/emailService'
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(null)
   const [selectedTime, setSelectedTime] = useState(null)
   const [showBookingModal, setShowBookingModal] = useState(false)
   const [preselectedService, setPreselectedService] = useState('')
+
+  // Initialize EmailJS when component mounts
+  useEffect(() => {
+    initEmailJS()
+  }, [])
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId)
@@ -565,7 +571,29 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
         bookings.push(newBooking)
         localStorage.setItem('bookings', JSON.stringify(bookings))
         
-        alert('🎉 Booking submitted successfully!\n\nThank you for choosing Island Fleet Detail!\nWe will contact you within 24 hours to confirm your appointment.\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase())
+        // Prepare booking data for email service
+        const bookingData = {
+          ...formData,
+          date: new Date(selectedDate).toLocaleDateString(),
+          time: selectedTime,
+          additionalServices: formData.additionalServices.join(', '),
+          id: newBooking.id
+        }
+        
+        // Send email notifications (non-blocking)
+        sendBookingEmails(bookingData).then(results => {
+          console.log('Email results:', results)
+          if (results.businessNotification.success) {
+            console.log('✅ Business notification sent')
+          }
+          if (results.customerConfirmation.success) {
+            console.log('✅ Customer confirmation sent')
+          }
+        }).catch(error => {
+          console.log('📧 Email sending failed (non-critical):', error)
+        })
+        
+        alert('🎉 Booking submitted successfully!\n\nThank you for choosing Island Fleet Detail!\nWe will contact you within 24 hours to confirm your appointment.\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase() + '\n\n📧 Confirmation emails are being sent!')
         
         onClose()
         

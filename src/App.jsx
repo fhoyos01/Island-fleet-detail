@@ -32,7 +32,7 @@ function App() {
     <div className="app">
       <nav className="top-navigation">
         <div className="nav-container">
-          <div className="logo-nav">
+          <div className="logo-nav" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <img src="/logo.jpg" alt="Island Fleet Detail Logo" className="nav-logo" />
             <h2>Island Fleet Detail</h2>
           </div>

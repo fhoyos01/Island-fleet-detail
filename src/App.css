@@ -893,10 +893,17 @@
   margin-top: 1rem;
 }
 
-.modal-submit-button:hover {
+.modal-submit-button:hover:not(:disabled) {
   background: linear-gradient(45deg, #ff4757, #DC143C);
   border-color: #ffd700;
   transform: translateY(-1px);
+}
+
+.modal-submit-button:disabled {
+  background: #ccc;
+  border-color: #999;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .additional-services-section {

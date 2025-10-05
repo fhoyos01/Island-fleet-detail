@@ -512,6 +512,7 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
     specialRequests: '',
     additionalServices: []
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleAdditionalServiceChange = (service, checked) => {
     if (checked) {
@@ -529,30 +530,29 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsSubmitting(true)
     
-    // Prepare form data for Netlify
-    const netlifyFormData = new FormData()
-    netlifyFormData.append('form-name', 'booking')
-    netlifyFormData.append('date', new Date(selectedDate).toLocaleDateString())
-    netlifyFormData.append('time', selectedTime)
-    netlifyFormData.append('name', formData.name)
-    netlifyFormData.append('email', formData.email)
-    netlifyFormData.append('phone', formData.phone)
-    netlifyFormData.append('vehicleType', formData.vehicleType)
-    netlifyFormData.append('service', formData.service)
-    netlifyFormData.append('additionalServices', formData.additionalServices.join(', '))
-    netlifyFormData.append('specialRequests', formData.specialRequests)
+    // Create form data in the format Netlify expects
+    const formData2 = new URLSearchParams()
+    formData2.append('form-name', 'booking')
+    formData2.append('name', formData.name)
+    formData2.append('email', formData.email)
+    formData2.append('phone', formData.phone)
+    formData2.append('vehicleType', formData.vehicleType)
+    formData2.append('service', formData.service)
+    formData2.append('additionalServices', formData.additionalServices.join(', '))
+    formData2.append('specialRequests', formData.specialRequests)
+    formData2.append('date', new Date(selectedDate).toLocaleDateString())
+    formData2.append('time', selectedTime)
     
     try {
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(netlifyFormData).toString()
+        body: formData2.toString()
       })
       
       if (response.ok) {
-        alert('Booking submitted successfully! We will contact you within 24 hours to confirm your appointment.')
-        
         // Store booking locally for availability tracking
         const bookings = JSON.parse(localStorage.getItem('bookings') || '[]')
         const newBooking = {
@@ -565,12 +565,28 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
         bookings.push(newBooking)
         localStorage.setItem('bookings', JSON.stringify(bookings))
         
+        alert('🎉 Booking submitted successfully!\n\nThank you for choosing Island Fleet Detail!\nWe will contact you within 24 hours to confirm your appointment.\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase())
+        
         onClose()
+        
+        // Reset form for next booking
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          vehicleType: '',
+          service: preselectedService?.value || '',
+          specialRequests: '',
+          additionalServices: []
+        })
       } else {
         throw new Error('Form submission failed')
       }
     } catch (error) {
-      alert('There was an error submitting your booking. Please call us at (954) 798-8956.')
+      console.error('Booking submission error:', error)
+      alert('⚠️ There was an error submitting your booking.\n\nPlease try again or call us directly at:\n(954) 798-8956\n\nWe apologize for the inconvenience!')
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -708,8 +724,8 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
             rows="3"
           ></textarea>
           <input type="hidden" name="additionalServices" value={formData.additionalServices.join(', ')} />
-          <button type="submit" className="modal-submit-button">
-            Confirm Booking
+          <button type="submit" className="modal-submit-button" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : 'Confirm Booking'}
           </button>
         </form>
       </div>

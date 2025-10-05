@@ -230,21 +230,10 @@ function App() {
           <div className="contact-container">
             <div className="contact-info">
               <h3>Get in Touch</h3>
-              <div className="contact-item">
-                <h4>📞 Phone</h4>
-                <p>(555) 123-4567</p>
-              </div>
-              <div className="contact-item">
-                <h4>📧 Email</h4>
-                <p>info@islandfleetdetail.com</p>
-              </div>
-              <div className="contact-item">
-                <h4>📍 Location</h4>
-                <p>123 Marina Drive<br />Island City, FL 33139</p>
-              </div>
-              <div className="contact-item">
-                <h4>🕒 Hours</h4>
-                <p>Monday - Saturday: 8:00 AM - 6:00 PM<br />Sunday: 10:00 AM - 4:00 PM</p>
+              <div className="contact-item phone-only">
+                <h4>📞 Call Us Today</h4>
+                <p className="phone-number">(954) 798-8956</p>
+                <p className="phone-subtitle">Ready to schedule your appointment</p>
               </div>
             </div>
             <div className="contact-form">

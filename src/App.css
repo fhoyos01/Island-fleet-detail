@@ -649,32 +649,52 @@
   gap: 4rem;
   max-width: 1000px;
   margin: 0 auto;
+  align-items: center;
+}
+
+.contact-info {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .contact-info h3 {
   color: #DC143C;
   margin-bottom: 2rem;
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: bold;
 }
 
-.contact-item {
-  margin-bottom: 2rem;
+.contact-item.phone-only {
+  margin-bottom: 0;
 }
 
-.contact-item h4 {
-  color: #333;
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
+.contact-item.phone-only h4 {
+  color: #DC143C;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  justify-content: center;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.contact-item p {
+.phone-number {
+  color: #D4AF37;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.phone-subtitle {
   color: #666;
   font-size: 1.1rem;
   line-height: 1.6;
+  margin: 0;
 }
 
 .contact-form {
@@ -857,6 +877,10 @@
     gap: 2rem;
   }
   
+  .phone-number {
+    font-size: 2rem;
+  }
+  
   .time-slots {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -940,6 +964,18 @@
   .contact-container {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+  
+  .contact-info {
+    padding: 1.5rem;
+  }
+  
+  .phone-number {
+    font-size: 1.8rem;
+  }
+  
+  .contact-info h3 {
+    font-size: 1.5rem;
   }
   
   .time-slots {

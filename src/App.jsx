@@ -320,6 +320,13 @@ function App() {
                 <h4>📞 Call or Text Us Today</h4>
                 <p className="phone-number">(954) 798-8956</p>
               </div>
+              <div className="social-section">
+                <img src="/logo.jpg" alt="Island Fleet Detail Logo" className="contact-logo" />
+                <a href="https://instagram.com/islandfleetdetail" target="_blank" rel="noopener noreferrer" className="instagram-link">
+                  <div className="instagram-icon">📷</div>
+                  <span>@islandfleetdetail</span>
+                </a>
+              </div>
             </div>
             <div className="contact-form">
               <h3>Send us a Message</h3>

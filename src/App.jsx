@@ -279,32 +279,34 @@ function App() {
         </section>
 
         <section id="booking" className="booking-section">
-          <h2>Book Your Appointment</h2>
+          <div className="calendar-section-title">Select a Date & Time</div>
           <div className="booking-container">
             <div className="calendar-container">
-              <h3>Select Date</h3>
               <SimpleCalendar 
                 selectedDate={selectedDate}
                 onDateSelect={setSelectedDate}
               />
             </div>
             
-            {selectedDate && (
-              <div className="time-slots-container">
-                <h3>Available Times</h3>
-                <TimeSlots 
-                  selectedTime={selectedTime}
-                  onTimeSelect={setSelectedTime}
-                />
-              </div>
-            )}
-            
-            {selectedDate && selectedTime && (
-              <div className="customer-form-container">
-                <CustomerForm />
-              </div>
-            )}
+            <div className="time-slots-container">
+              {selectedDate && (
+                <div className="selected-date-display">
+                  <h4>{new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</h4>
+                </div>
+              )}
+              <TimeSlots 
+                selectedTime={selectedTime}
+                onTimeSelect={setSelectedTime}
+                selectedDate={selectedDate}
+              />
+            </div>
           </div>
+          
+          {selectedDate && selectedTime && (
+            <div className="customer-form-container" style={{marginTop: '2rem'}}>
+              <CustomerForm />
+            </div>
+          )}
         </section>
 
         <section id="contact" className="contact-section">
@@ -335,31 +337,67 @@ function App() {
 }
 
 function SimpleCalendar({ selectedDate, onDateSelect }) {
+  const [currentDate, setCurrentDate] = useState(new Date())
   const today = new Date()
-  const currentMonth = today.getMonth()
-  const currentYear = today.getFullYear()
+  
+  const currentMonth = currentDate.getMonth()
+  const currentYear = currentDate.getFullYear()
   
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay()
+  const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate()
+  
+  const goToPrevMonth = () => {
+    setCurrentDate(new Date(currentYear, currentMonth - 1, 1))
+  }
+  
+  const goToNextMonth = () => {
+    setCurrentDate(new Date(currentYear, currentMonth + 1, 1))
+  }
   
   const days = []
   
-  for (let i = 0; i < firstDayOfMonth; i++) {
-    days.push(<div key={`empty-${i}`} className="calendar-day empty"></div>)
+  // Previous month days
+  for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+    const day = daysInPrevMonth - i
+    days.push(
+      <div key={`prev-${day}`} className="calendar-day other-month">
+        {day}
+      </div>
+    )
   }
   
+  // Current month days
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(currentYear, currentMonth, day)
     const dateString = date.toDateString()
     const isSelected = selectedDate === dateString
     const isPast = date < today.setHours(0,0,0,0)
+    const isAvailable = !isPast && (day === 16 || day === 17 || day === 19 || day === 22 || day === 23 || day === 24 || day === 25 || day === 29 || day === 30 || day === 31)
+    
+    let className = 'calendar-day'
+    if (isSelected) className += ' selected'
+    if (isPast) className += ' disabled'
+    if (isAvailable && !isPast) className += ' available'
     
     days.push(
       <div 
         key={day}
-        className={`calendar-day ${isSelected ? 'selected' : ''} ${isPast ? 'disabled' : ''}`}
+        className={className}
         onClick={() => !isPast && onDateSelect(dateString)}
       >
+        {day}
+      </div>
+    )
+  }
+  
+  // Next month days to fill the grid
+  const totalCells = Math.ceil((firstDayOfMonth + daysInMonth) / 7) * 7
+  const remainingCells = totalCells - (firstDayOfMonth + daysInMonth)
+  
+  for (let day = 1; day <= remainingCells; day++) {
+    days.push(
+      <div key={`next-${day}`} className="calendar-day other-month">
         {day}
       </div>
     )
@@ -368,7 +406,9 @@ function SimpleCalendar({ selectedDate, onDateSelect }) {
   return (
     <div className="calendar">
       <div className="calendar-header">
-        <h4>{today.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h4>
+        <button className="calendar-nav-btn" onClick={goToPrevMonth}>‹</button>
+        <h4>{currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h4>
+        <button className="calendar-nav-btn" onClick={goToNextMonth}>›</button>
       </div>
       <div className="calendar-grid">
         <div className="day-header">Sun</div>
@@ -384,23 +424,42 @@ function SimpleCalendar({ selectedDate, onDateSelect }) {
   )
 }
 
-function TimeSlots({ selectedTime, onTimeSelect }) {
+function TimeSlots({ selectedTime, onTimeSelect, selectedDate }) {
   const timeSlots = [
-    '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
-    '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'
+    { time: '10:00am', available: true },
+    { time: '11:00am', available: false },
+    { time: '1:00pm', available: true },
+    { time: '2:30pm', available: true },
+    { time: '4:00pm', available: true }
   ]
+  
+  if (!selectedDate) {
+    return (
+      <div className="time-slots">
+        <div style={{textAlign: 'center', color: '#666', padding: '2rem'}}>
+          Please select a date first
+        </div>
+      </div>
+    )
+  }
   
   return (
     <div className="time-slots">
-      {timeSlots.map(time => (
+      {timeSlots.map(slot => (
         <button
-          key={time}
-          className={`time-slot ${selectedTime === time ? 'selected' : ''}`}
-          onClick={() => onTimeSelect(time)}
+          key={slot.time}
+          className={`time-slot ${selectedTime === slot.time ? 'selected' : ''} ${!slot.available ? 'unavailable' : ''}`}
+          onClick={() => slot.available && onTimeSelect(slot.time)}
+          disabled={!slot.available}
         >
-          {time}
+          {slot.time}
         </button>
       ))}
+      {selectedTime && (
+        <button className="confirm-button" onClick={() => alert('Time confirmed!')}>
+          Confirm
+        </button>
+      )}
     </div>
   )
 }

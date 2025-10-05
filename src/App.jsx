@@ -538,78 +538,62 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
     e.preventDefault()
     setIsSubmitting(true)
     
-    // Create form data in the format Netlify expects
-    const formData2 = new URLSearchParams()
-    formData2.append('form-name', 'booking')
-    formData2.append('name', formData.name)
-    formData2.append('email', formData.email)
-    formData2.append('phone', formData.phone)
-    formData2.append('vehicleType', formData.vehicleType)
-    formData2.append('service', formData.service)
-    formData2.append('additionalServices', formData.additionalServices.join(', '))
-    formData2.append('specialRequests', formData.specialRequests)
-    formData2.append('date', new Date(selectedDate).toLocaleDateString())
-    formData2.append('time', selectedTime)
-    
     try {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData2.toString()
+      // Store booking locally for availability tracking
+      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]')
+      const newBooking = {
+        id: Date.now(),
+        date: selectedDate,
+        time: selectedTime,
+        customer: formData.name,
+        status: 'pending'
+      }
+      bookings.push(newBooking)
+      localStorage.setItem('bookings', JSON.stringify(bookings))
+      
+      // Prepare booking data for email service
+      const bookingData = {
+        ...formData,
+        date: new Date(selectedDate).toLocaleDateString(),
+        time: selectedTime,
+        additionalServices: formData.additionalServices.join(', '),
+        id: newBooking.id
+      }
+      
+      // Send email notifications using EmailJS
+      const results = await sendBookingEmails(bookingData)
+      
+      // Check if at least one email was sent successfully
+      const emailSuccess = results.businessNotification.success || results.customerConfirmation.success
+      
+      if (emailSuccess) {
+        console.log('Email results:', results)
+        if (results.businessNotification.success) {
+          console.log('✅ Business notification sent')
+        }
+        if (results.customerConfirmation.success) {
+          console.log('✅ Customer confirmation sent')
+        }
+        
+        alert('🎉 Booking submitted successfully!\n\nThank you for choosing Island Fleet Detail!\nWe will contact you within 24 hours to confirm your appointment.\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase() + '\n\n📧 Confirmation emails sent!')
+      } else {
+        // Email sending failed but booking is still stored locally
+        alert('⚠️ Booking submitted but email notifications failed.\n\nYour booking has been saved locally. Please call us directly to confirm:\n(954) 798-8956\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase())
+      }
+      
+      onClose()
+      
+      // Reset form for next booking
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        vehicleType: '',
+        service: preselectedService?.value || '',
+        specialRequests: '',
+        additionalServices: []
       })
       
-      if (response.ok) {
-        // Store booking locally for availability tracking
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]')
-        const newBooking = {
-          id: Date.now(),
-          date: selectedDate,
-          time: selectedTime,
-          customer: formData.name,
-          status: 'pending'
-        }
-        bookings.push(newBooking)
-        localStorage.setItem('bookings', JSON.stringify(bookings))
-        
-        // Prepare booking data for email service
-        const bookingData = {
-          ...formData,
-          date: new Date(selectedDate).toLocaleDateString(),
-          time: selectedTime,
-          additionalServices: formData.additionalServices.join(', '),
-          id: newBooking.id
-        }
-        
-        // Send email notifications (non-blocking)
-        sendBookingEmails(bookingData).then(results => {
-          console.log('Email results:', results)
-          if (results.businessNotification.success) {
-            console.log('✅ Business notification sent')
-          }
-          if (results.customerConfirmation.success) {
-            console.log('✅ Customer confirmation sent')
-          }
-        }).catch(error => {
-          console.log('📧 Email sending failed (non-critical):', error)
-        })
-        
-        alert('🎉 Booking submitted successfully!\n\nThank you for choosing Island Fleet Detail!\nWe will contact you within 24 hours to confirm your appointment.\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase() + '\n\n📧 Confirmation emails are being sent!')
-        
-        onClose()
-        
-        // Reset form for next booking
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          vehicleType: '',
-          service: preselectedService?.value || '',
-          specialRequests: '',
-          additionalServices: []
-        })
-      } else {
-        throw new Error('Form submission failed')
-      }
     } catch (error) {
       console.error('Booking submission error:', error)
       alert('⚠️ There was an error submitting your booking.\n\nPlease try again or call us directly at:\n(954) 798-8956\n\nWe apologize for the inconvenience!')
@@ -632,10 +616,7 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
             <p><strong>Selected Service:</strong> {preselectedService.name}</p>
           )}
         </div>
-        <form className="modal-form" onSubmit={handleSubmit} name="booking" netlify>
-          <input type="hidden" name="form-name" value="booking" />
-          <input type="hidden" name="date" value={new Date(selectedDate).toLocaleDateString()} />
-          <input type="hidden" name="time" value={selectedTime} />
+        <form className="modal-form" onSubmit={handleSubmit}>
           <input
             type="text"
             name="name"
@@ -751,7 +732,6 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
             onChange={(e) => setFormData({...formData, specialRequests: e.target.value})}
             rows="3"
           ></textarea>
-          <input type="hidden" name="additionalServices" value={formData.additionalServices.join(', ')} />
           <button type="submit" className="modal-submit-button" disabled={isSubmitting}>
             {isSubmitting ? 'Submitting...' : 'Confirm Booking'}
           </button>

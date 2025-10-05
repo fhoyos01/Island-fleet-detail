@@ -402,7 +402,7 @@ function SimpleCalendar({ selectedDate, onDateSelect }) {
     const dateString = date.toDateString()
     const isSelected = selectedDate === dateString
     const isPast = date < today.setHours(0,0,0,0)
-    const isAvailable = !isPast && (day === 16 || day === 17 || day === 19 || day === 22 || day === 23 || day === 24 || day === 25 || day === 29 || day === 30 || day === 31)
+    const isAvailable = !isPast
     
     let className = 'calendar-day'
     if (isSelected) className += ' selected'

@@ -448,13 +448,28 @@ function SimpleCalendar({ selectedDate, onDateSelect }) {
 }
 
 function TimeSlots({ selectedTime, onTimeSelect, selectedDate, onConfirm }) {
-  const timeSlots = [
-    { time: '10:00am', available: true },
-    { time: '11:00am', available: false },
-    { time: '1:00pm', available: true },
-    { time: '2:30pm', available: true },
-    { time: '4:00pm', available: true }
-  ]
+  // Check localStorage for existing bookings
+  const getAvailableSlots = () => {
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]')
+    const dateBookings = bookings.filter(booking => booking.date === selectedDate)
+    const bookedTimes = dateBookings.map(booking => booking.time)
+    
+    const allSlots = [
+      { time: '9:00am', available: true },
+      { time: '10:00am', available: true },
+      { time: '11:00am', available: true },
+      { time: '1:00pm', available: true },
+      { time: '2:30pm', available: true },
+      { time: '4:00pm', available: true }
+    ]
+    
+    return allSlots.map(slot => ({
+      ...slot,
+      available: !bookedTimes.includes(slot.time)
+    }))
+  }
+  
+  const timeSlots = getAvailableSlots()
   
   if (!selectedDate) {
     return (
@@ -512,13 +527,51 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const additionalServicesText = formData.additionalServices.length > 0 
-      ? `\nAdditional Services:\n${formData.additionalServices.map(service => `• ${service}`).join('\n')}`
-      : ''
-    alert(`Booking confirmed!\nDate: ${new Date(selectedDate).toLocaleDateString()}\nTime: ${selectedTime}\nName: ${formData.name}\nVehicle: ${formData.vehicleType.toUpperCase()}\nService: ${formData.service}${additionalServicesText}`)
-    onClose()
+    
+    // Prepare form data for Netlify
+    const netlifyFormData = new FormData()
+    netlifyFormData.append('form-name', 'booking')
+    netlifyFormData.append('date', new Date(selectedDate).toLocaleDateString())
+    netlifyFormData.append('time', selectedTime)
+    netlifyFormData.append('name', formData.name)
+    netlifyFormData.append('email', formData.email)
+    netlifyFormData.append('phone', formData.phone)
+    netlifyFormData.append('vehicleType', formData.vehicleType)
+    netlifyFormData.append('service', formData.service)
+    netlifyFormData.append('additionalServices', formData.additionalServices.join(', '))
+    netlifyFormData.append('specialRequests', formData.specialRequests)
+    
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(netlifyFormData).toString()
+      })
+      
+      if (response.ok) {
+        alert('Booking submitted successfully! We will contact you within 24 hours to confirm your appointment.')
+        
+        // Store booking locally for availability tracking
+        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]')
+        const newBooking = {
+          id: Date.now(),
+          date: selectedDate,
+          time: selectedTime,
+          customer: formData.name,
+          status: 'pending'
+        }
+        bookings.push(newBooking)
+        localStorage.setItem('bookings', JSON.stringify(bookings))
+        
+        onClose()
+      } else {
+        throw new Error('Form submission failed')
+      }
+    } catch (error) {
+      alert('There was an error submitting your booking. Please call us at (954) 798-8956.')
+    }
   }
 
   return (
@@ -535,9 +588,13 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
             <p><strong>Selected Service:</strong> {preselectedService.name}</p>
           )}
         </div>
-        <form className="modal-form" onSubmit={handleSubmit}>
+        <form className="modal-form" onSubmit={handleSubmit} name="booking" netlify>
+          <input type="hidden" name="form-name" value="booking" />
+          <input type="hidden" name="date" value={new Date(selectedDate).toLocaleDateString()} />
+          <input type="hidden" name="time" value={selectedTime} />
           <input
             type="text"
+            name="name"
             placeholder="Full Name"
             value={formData.name}
             onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -545,6 +602,7 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
           />
           <input
             type="email"
+            name="email"
             placeholder="Email"
             value={formData.email}
             onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -552,12 +610,14 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
           />
           <input
             type="tel"
+            name="phone"
             placeholder="Phone Number"
             value={formData.phone}
             onChange={(e) => setFormData({...formData, phone: e.target.value})}
             required
           />
           <select
+            name="vehicleType"
             value={formData.vehicleType}
             onChange={(e) => setFormData({...formData, vehicleType: e.target.value})}
             required
@@ -568,6 +628,7 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
             <option value="truck">Truck</option>
           </select>
           <select
+            name="service"
             value={formData.service}
             onChange={(e) => setFormData({...formData, service: e.target.value})}
             required
@@ -640,11 +701,13 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
           </div>
           
           <textarea
+            name="specialRequests"
             placeholder="Special Requests (optional)"
             value={formData.specialRequests}
             onChange={(e) => setFormData({...formData, specialRequests: e.target.value})}
             rows="3"
           ></textarea>
+          <input type="hidden" name="additionalServices" value={formData.additionalServices.join(', ')} />
           <button type="submit" className="modal-submit-button">
             Confirm Booking
           </button>

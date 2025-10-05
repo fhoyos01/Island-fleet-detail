@@ -5,6 +5,7 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(null)
   const [selectedTime, setSelectedTime] = useState(null)
   const [showBookingModal, setShowBookingModal] = useState(false)
+  const [preselectedService, setPreselectedService] = useState('')
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId)
@@ -14,6 +15,11 @@ function App() {
         block: 'start'
       })
     }
+  }
+
+  const selectPackageAndScroll = (serviceValue, serviceName) => {
+    setPreselectedService({ value: serviceValue, name: serviceName })
+    scrollToSection('booking')
   }
 
   return (
@@ -91,7 +97,7 @@ function App() {
                   <li>✓ Rinse & dry includes</li>
                   <li>✓ Tire & rim cleaning</li>
                 </ul>
-                <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
+                <button className="select-package-btn" onClick={() => selectPackageAndScroll('exterior-only', 'Exterior Only')}>
                   Select Package
                 </button>
               </div>
@@ -115,7 +121,7 @@ function App() {
                   <li>✓ Wipe & clean plastic</li>
                   <li>✓ Tires not included</li>
                 </ul>
-                <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
+                <button className="select-package-btn" onClick={() => selectPackageAndScroll('basic-package', 'Basic Package')}>
                   Select Package
                 </button>
               </div>
@@ -142,7 +148,7 @@ function App() {
                   <li>✓ All tire shine included</li>
                   <li>✓ Windows in/out shine</li>
                 </ul>
-                <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
+                <button className="select-package-btn" onClick={() => selectPackageAndScroll('premium-package', 'Premium Package')}>
                   Select Package
                 </button>
               </div>
@@ -167,7 +173,7 @@ function App() {
                     <li>✓ Interior plastic wipe oil and leather w/seat down</li>
                     <li>✓ Trunk included on trunk</li>
                   </ul>
-                  <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
+                  <button className="select-package-btn" onClick={() => selectPackageAndScroll('interior-detail', 'Interior Detail')}>
                     Select Package
                   </button>
                 </div>
@@ -192,7 +198,7 @@ function App() {
                     <li>✓ Advanced steam washer</li>
                     <li>✓ Full service</li>
                   </ul>
-                  <button className="select-package-btn" onClick={() => scrollToSection('booking')}>
+                  <button className="select-package-btn" onClick={() => selectPackageAndScroll('wax', 'Wax')}>
                     Select Package
                   </button>
                 </div>
@@ -333,7 +339,11 @@ function App() {
         <BookingModal 
           selectedDate={selectedDate}
           selectedTime={selectedTime}
-          onClose={() => setShowBookingModal(false)}
+          preselectedService={preselectedService}
+          onClose={() => {
+            setShowBookingModal(false)
+            setPreselectedService('')
+          }}
         />
       )}
     </div>
@@ -468,13 +478,13 @@ function TimeSlots({ selectedTime, onTimeSelect, selectedDate, onConfirm }) {
   )
 }
 
-function BookingModal({ selectedDate, selectedTime, onClose }) {
+function BookingModal({ selectedDate, selectedTime, preselectedService, onClose }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     vehicleType: '',
-    service: '',
+    service: preselectedService?.value || '',
     specialRequests: '',
     additionalServices: []
   })
@@ -512,6 +522,9 @@ function BookingModal({ selectedDate, selectedTime, onClose }) {
         <div className="booking-summary">
           <p><strong>Date:</strong> {new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
           <p><strong>Time:</strong> {selectedTime}</p>
+          {preselectedService && (
+            <p><strong>Selected Service:</strong> {preselectedService.name}</p>
+          )}
         </div>
         <form className="modal-form" onSubmit={handleSubmit}>
           <input

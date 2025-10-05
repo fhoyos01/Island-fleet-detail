@@ -2,8 +2,8 @@ import { Resend } from 'resend';
 
 // Resend Configuration
 const RESEND_CONFIG = {
-  API_KEY: 'your_resend_api_key', // Replace with your Resend API key
-  BUSINESS_EMAIL: 'your-business-email@gmail.com', // Replace with your business email
+  API_KEY: 're_RGzSBHKr_FGnGioFuKs5Xo67sqfrANh6z', // Your Resend API key
+  BUSINESS_EMAIL: 'Islandfleetllc@gmail.com', // Your business email
   FROM_EMAIL: 'onboarding@resend.dev' // Default Resend sender (or your verified domain)
 };
 

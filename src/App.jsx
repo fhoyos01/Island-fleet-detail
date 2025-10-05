@@ -473,13 +473,14 @@ function BookingModal({ selectedDate, selectedTime, onClose }) {
     name: '',
     email: '',
     phone: '',
+    vehicleType: '',
     service: '',
     specialRequests: ''
   })
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    alert(`Booking confirmed!\nDate: ${new Date(selectedDate).toLocaleDateString()}\nTime: ${selectedTime}\nName: ${formData.name}\nService: ${formData.service}`)
+    alert(`Booking confirmed!\nDate: ${new Date(selectedDate).toLocaleDateString()}\nTime: ${selectedTime}\nName: ${formData.name}\nVehicle: ${formData.vehicleType.toUpperCase()}\nService: ${formData.service}`)
     onClose()
   }
 
@@ -516,6 +517,16 @@ function BookingModal({ selectedDate, selectedTime, onClose }) {
             onChange={(e) => setFormData({...formData, phone: e.target.value})}
             required
           />
+          <select
+            value={formData.vehicleType}
+            onChange={(e) => setFormData({...formData, vehicleType: e.target.value})}
+            required
+          >
+            <option value="">Select Vehicle Type</option>
+            <option value="car">Car</option>
+            <option value="suv">SUV</option>
+            <option value="truck">Truck</option>
+          </select>
           <select
             value={formData.service}
             onChange={(e) => setFormData({...formData, service: e.target.value})}

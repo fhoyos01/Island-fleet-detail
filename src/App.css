@@ -208,13 +208,16 @@
 }
 
 .service-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1.5rem;
   margin-bottom: 3rem;
+  justify-content: center;
 }
 
 .service-card {
+  flex: 1 1 280px;
+  max-width: 350px;
   background: white;
   border-radius: 20px;
   overflow: hidden;
@@ -224,6 +227,19 @@
   border: 2px solid transparent;
   display: flex;
   flex-direction: column;
+}
+
+.service-grid .service-card:nth-child(4),
+.service-grid .service-card:nth-child(5) {
+  flex: 0 1 280px;
+}
+
+.service-grid .service-card:nth-child(4) {
+  margin-right: 0.75rem;
+}
+
+.service-grid .service-card:nth-child(5) {
+  margin-left: 0.75rem;
 }
 
 .service-card:hover {
@@ -832,7 +848,6 @@
   }
   
   .service-grid {
-    grid-template-columns: repeat(3, 1fr);
     gap: 3rem;
   }
   
@@ -853,7 +868,6 @@
 /* Medium Desktop/Laptop (992px - 1199px) */
 @media (max-width: 1199px) and (min-width: 992px) {
   .service-grid {
-    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
   }
   
@@ -878,7 +892,6 @@
 /* Tablet (768px - 991px) */
 @media (max-width: 991px) and (min-width: 768px) {
   .service-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
   
@@ -923,8 +936,13 @@
 /* Small Tablet/Large Phone (576px - 767px) */
 @media (max-width: 767px) and (min-width: 576px) {
   .service-grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+  
+  .service-grid .service-card:nth-child(4),
+  .service-grid .service-card:nth-child(5) {
+    margin-left: 0;
+    margin-right: 0;
   }
   
   .includes-grid {
@@ -994,8 +1012,13 @@
 /* Mobile Phone (up to 575px) */
 @media (max-width: 575px) {
   .service-grid {
-    grid-template-columns: 1fr;
     gap: 1rem;
+  }
+  
+  .service-grid .service-card:nth-child(4),
+  .service-grid .service-card:nth-child(5) {
+    margin-left: 0;
+    margin-right: 0;
   }
   
   .includes-grid {

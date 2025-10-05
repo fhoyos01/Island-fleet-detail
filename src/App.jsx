@@ -283,7 +283,7 @@ function App() {
 
           <div className="pricing-footer">
             <p className="pricing-note">
-              <strong>Loyalty Discounts Available:</strong> 10th car wash free
+              <strong>Loyalty Discounts Available:</strong> Your 10th car wash free
             </p>
             <button 
               className="main-cta-button"

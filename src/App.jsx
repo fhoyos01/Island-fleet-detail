@@ -368,6 +368,7 @@ function App() {
 function SimpleCalendar({ selectedDate, onDateSelect }) {
   const [currentDate, setCurrentDate] = useState(new Date())
   const today = new Date()
+  today.setHours(0, 0, 0, 0) // Reset to start of today
   
   const currentMonth = currentDate.getMonth()
   const currentYear = currentDate.getFullYear()
@@ -399,9 +400,10 @@ function SimpleCalendar({ selectedDate, onDateSelect }) {
   // Current month days
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(currentYear, currentMonth, day)
+    date.setHours(0, 0, 0, 0) // Reset to start of day for accurate comparison
     const dateString = date.toDateString()
     const isSelected = selectedDate === dateString
-    const isPast = date < today.setHours(0,0,0,0)
+    const isPast = date < today
     const isAvailable = !isPast
     
     let className = 'calendar-day'

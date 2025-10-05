@@ -588,7 +588,7 @@
 
 .calendar-section-title {
   color: #333;
-  font-size: 1.8rem;
+  font-size: 2.5rem;
   font-weight: 600;
   margin-bottom: 2rem;
   text-align: center;
@@ -1503,7 +1503,8 @@
   
   .pricing-section h2,
   .booking-section h2,
-  .contact-section h2 {
+  .contact-section h2,
+  .calendar-section-title {
     font-size: 2rem;
   }
 }
@@ -1529,7 +1530,8 @@
   
   .pricing-section h2,
   .booking-section h2,
-  .contact-section h2 {
+  .contact-section h2,
+  .calendar-section-title {
     font-size: 1.8rem;
   }
 }

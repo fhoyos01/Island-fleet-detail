@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import { initEmailJS, sendBookingEmails } from './services/emailService'
+import { sendBookingEmails, sendContactEmails } from './services/resendService'
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(null)
@@ -8,10 +8,7 @@ function App() {
   const [showBookingModal, setShowBookingModal] = useState(false)
   const [preselectedService, setPreselectedService] = useState('')
 
-  // Initialize EmailJS when component mounts
-  useEffect(() => {
-    initEmailJS()
-  }, [])
+  // Resend is ready to use without initialization
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId)
@@ -341,13 +338,7 @@ function App() {
             </div>
             <div className="contact-form">
               <h3>Send us a Message</h3>
-              <form className="message-form">
-                <input type="text" placeholder="Your Name" required />
-                <input type="email" placeholder="Your Email" required />
-                <input type="tel" placeholder="Phone Number" />
-                <textarea placeholder="Your Message" rows="5" required></textarea>
-                <button type="submit" className="submit-button">Send Message</button>
-              </form>
+              <ContactForm />
             </div>
           </div>
         </section>
@@ -738,34 +729,55 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
   )
 }
 
-function CustomerForm() {
+function ContactForm() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    service: '',
-    vehicle: '',
-    notes: ''
+    message: ''
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    alert('Appointment booked! We will contact you to confirm.')
+    setIsSubmitting(true)
+    
+    try {
+      const results = await sendContactEmails(formData)
+      
+      if (results.businessNotification.success || results.customerAutoReply.success) {
+        alert('✅ Message sent successfully!\n\nThank you for contacting Island Fleet Detail!\nWe will get back to you as soon as possible.\n\nFor immediate assistance, call or text:\n(954) 798-8956')
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: ''
+        })
+      } else {
+        throw new Error('Email sending failed')
+      }
+    } catch (error) {
+      console.error('Contact form submission error:', error)
+      alert('⚠️ There was an error sending your message.\n\nPlease try again or contact us directly at:\n(954) 798-8956\n\nWe apologize for the inconvenience!')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
   
   return (
-    <form className="customer-form" onSubmit={handleSubmit}>
-      <h3>Your Information</h3>
+    <form className="message-form" onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="Full Name"
+        placeholder="Your Name"
         value={formData.name}
         onChange={(e) => setFormData({...formData, name: e.target.value})}
         required
       />
       <input
         type="email"
-        placeholder="Email"
+        placeholder="Your Email"
         value={formData.email}
         onChange={(e) => setFormData({...formData, email: e.target.value})}
         required
@@ -775,33 +787,16 @@ function CustomerForm() {
         placeholder="Phone Number"
         value={formData.phone}
         onChange={(e) => setFormData({...formData, phone: e.target.value})}
-        required
-      />
-      <select
-        value={formData.service}
-        onChange={(e) => setFormData({...formData, service: e.target.value})}
-        required
-      >
-        <option value="">Select Service</option>
-        <option value="basic">Basic Wash - $25</option>
-        <option value="full">Full Detail - $75</option>
-        <option value="premium">Premium Detail - $125</option>
-      </select>
-      <input
-        type="text"
-        placeholder="Vehicle (Year, Make, Model)"
-        value={formData.vehicle}
-        onChange={(e) => setFormData({...formData, vehicle: e.target.value})}
-        required
       />
       <textarea
-        placeholder="Special requests or notes"
-        value={formData.notes}
-        onChange={(e) => setFormData({...formData, notes: e.target.value})}
-        rows="3"
+        placeholder="Your Message"
+        rows="5"
+        value={formData.message}
+        onChange={(e) => setFormData({...formData, message: e.target.value})}
+        required
       ></textarea>
-      <button type="submit" className="submit-button">
-        Confirm Appointment
+      <button type="submit" className="submit-button" disabled={isSubmitting}>
+        {isSubmitting ? 'Sending...' : 'Send Message'}
       </button>
     </form>
   )

@@ -1,0 +1,15 @@
+[build]
+  command = "npm run build"
+  functions = "netlify/functions"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Environment variables (set these in Netlify dashboard)
+# RESEND_API_KEY = "your_resend_api_key_here"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import { sendBookingEmails, sendContactEmails } from './services/resendService'
+import { sendBookingEmails, sendContactEmails } from './services/netlifyService'
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(null)

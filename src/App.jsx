@@ -9,6 +9,12 @@ function App() {
   const [preselectedService, setPreselectedService] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
+  // Clear bookings function (temporary admin function)
+  const clearAllBookings = () => {
+    localStorage.removeItem('bookings')
+    window.location.reload()
+  }
+
   // Resend is ready to use without initialization
 
   const scrollToSection = (sectionId) => {
@@ -290,6 +296,23 @@ function App() {
 
         <section id="booking" className="booking-section">
           <div className="calendar-section-title">Select a Date & Time</div>
+          {/* Temporary admin button to clear bookings */}
+          <div style={{textAlign: 'center', marginBottom: '1rem'}}>
+            <button 
+              onClick={clearAllBookings}
+              style={{
+                background: '#dc3545', 
+                color: 'white', 
+                border: 'none', 
+                padding: '0.5rem 1rem', 
+                borderRadius: '5px',
+                fontSize: '0.9rem',
+                cursor: 'pointer'
+              }}
+            >
+              Clear All Bookings (Admin)
+            </button>
+          </div>
           <div className="booking-container">
             <div className="calendar-container">
               <SimpleCalendar 

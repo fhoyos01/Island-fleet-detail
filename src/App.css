@@ -501,8 +501,8 @@
   margin: 0;
 }
 
-/* Desktop: Grid layout */
-@media (min-width: 992px) {
+/* Large Desktop: 3 columns */
+@media (min-width: 1200px) {
   .services-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -511,11 +511,12 @@
   
   .service-item {
     margin: 0;
+    max-width: none;
   }
 }
 
-/* Tablet: 2 columns */
-@media (min-width: 768px) and (max-width: 991px) {
+/* Medium Desktop: 2 columns */
+@media (min-width: 900px) and (max-width: 1199px) {
   .services-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -524,6 +525,7 @@
   
   .service-item {
     margin: 0;
+    max-width: none;
   }
 }
 

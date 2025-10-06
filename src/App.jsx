@@ -7,6 +7,7 @@ function App() {
   const [selectedTime, setSelectedTime] = useState(null)
   const [showBookingModal, setShowBookingModal] = useState(false)
   const [preselectedService, setPreselectedService] = useState('')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   // Resend is ready to use without initialization
 
@@ -18,6 +19,7 @@ function App() {
         block: 'start'
       })
     }
+    setIsMobileMenuOpen(false) // Close mobile menu when navigating
   }
 
   const selectPackageAndScroll = (serviceValue, serviceName) => {
@@ -33,7 +35,8 @@ function App() {
             <img src="/logo.jpg" alt="Island Fleet Detail Logo" className="nav-logo" />
             <h2>Island Fleet Detail</h2>
           </div>
-          <div className="nav-links">
+          
+          <div className="nav-links desktop-nav">
             <button 
               className="nav-link"
               onClick={() => scrollToSection('pricing')}
@@ -53,6 +56,37 @@ function App() {
               Contact
             </button>
           </div>
+
+          <button 
+            className="mobile-menu-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+          >
+            <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`}></span>
+            <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`}></span>
+            <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`}></span>
+          </button>
+        </div>
+
+        <div className={`mobile-nav ${isMobileMenuOpen ? 'open' : ''}`}>
+          <button 
+            className="mobile-nav-link"
+            onClick={() => scrollToSection('pricing')}
+          >
+            Pricing & Services
+          </button>
+          <button 
+            className="mobile-nav-link"
+            onClick={() => scrollToSection('booking')}
+          >
+            Book Appointment
+          </button>
+          <button 
+            className="mobile-nav-link"
+            onClick={() => scrollToSection('contact')}
+          >
+            Contact
+          </button>
         </div>
       </nav>
       
@@ -211,30 +245,28 @@ function App() {
             </div>
           </div>
 
-          <div className="additional-services">
-            <h3>Additional Services</h3>
-            <div className="additional-grid">
-              <div className="additional-item">
+          <div className="add-on-services">
+            <h3>Add-On Services</h3>
+            <div className="services-container">
+              <div className="service-item">
                 <h4>Ceramic Coat</h4>
-                <p className="additional-price">Starting @ $650</p>
+                <p className="service-price">Starting @ $650</p>
               </div>
-              <div className="additional-item">
+              <div className="service-item">
                 <h4>Hood & Engine</h4>
-                <p className="additional-price">$20-$40</p>
+                <p className="service-price">$20-$40</p>
               </div>
-              <div className="additional-item">
+              <div className="service-item">
                 <h4>Ceiling Cleaning</h4>
-                <p className="additional-price">$10-$50</p>
+                <p className="service-price">$10-$50</p>
               </div>
-            </div>
-            <div className="additional-bottom-row">
-              <div className="additional-item">
+              <div className="service-item">
                 <h4>Seat Cleaning</h4>
-                <p className="additional-price">$10-$20/seat</p>
+                <p className="service-price">$10-$20/seat</p>
               </div>
-              <div className="additional-item">
+              <div className="service-item">
                 <h4>Carpet Cleaning</h4>
-                <p className="additional-price">$10-$20/seat</p>
+                <p className="service-price">$10-$20/seat</p>
               </div>
             </div>
           </div>

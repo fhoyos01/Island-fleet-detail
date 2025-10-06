@@ -5,7 +5,8 @@ const NETLIFY_FUNCTIONS_URL = '/.netlify/functions';
 // Send booking emails via Netlify function
 export const sendBookingEmails = async (bookingData) => {
   try {
-    const response = await fetch(`${NETLIFY_FUNCTIONS_URL}/send-booking-email`, {
+    // Use debug function first to test
+    const response = await fetch(`${NETLIFY_FUNCTIONS_URL}/debug-email`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -14,6 +15,11 @@ export const sendBookingEmails = async (bookingData) => {
     });
 
     const result = await response.json();
+    
+    // Debug logging
+    console.log('Function response status:', response.status);
+    console.log('Function response data:', result);
+    alert('Debug Info:\n' + JSON.stringify(result, null, 2));
     
     if (response.ok && result.success) {
       return {

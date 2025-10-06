@@ -96,9 +96,8 @@ function App() {
               </div>
               <div className="card-content">
                 <ul className="service-list">
-                  <li>✓ Exterior wash</li>
-                  <li>✓ Rinse & dry includes</li>
-                  <li>✓ Tire & rim cleaning</li>
+                  <li>✓ Premium Exterior Wash</li>
+                  <li>✓ Rims & Tires Polished</li>
                 </ul>
                 <p className="travel-fee-note">*$15 travel fee for locations over 15 miles</p>
                 <button className="select-package-btn" onClick={() => selectPackageAndScroll('exterior-only', 'Exterior Only')}>
@@ -109,21 +108,21 @@ function App() {
 
             <div className="service-card">
               <div className="card-header">
-                <h3>Basic Package</h3>
+                <h3>Basic Wash</h3>
                 <div className="price-container">
                   <div className="vehicle-pricing">
                     <span className="vehicle-type">Car: <span className="price-small">$30-$40</span></span>
-                    <span className="vehicle-type">SUV: <span className="price-small">$40-$50</span></span>
-                    <span className="vehicle-type">Truck: <span className="price-small">$45-$55</span></span>
+                    <span className="vehicle-type">SUV: <span className="price-small">$45-$55</span></span>
+                    <span className="vehicle-type">P/Truck: <span className="price-small">$40-$50</span></span>
                   </div>
                 </div>
               </div>
               <div className="card-content">
                 <ul className="service-list">
-                  <li>✓ Exterior wash</li>
-                  <li>✓ Interior vacuum</li>
-                  <li>✓ Wipe & clean plastic</li>
-                  <li>✓ Tires not included</li>
+                  <li>✓ Premium Exterior wash</li>
+                  <li>✓ Basic Vacuum</li>
+                  <li>✓ Rims & Tires Polished</li>
+                  <li>✓ Trunk not included</li>
                 </ul>
                 <p className="travel-fee-note">*$15 travel fee for locations over 15 miles</p>
                 <button className="select-package-btn" onClick={() => selectPackageAndScroll('basic-package', 'Basic Package')}>
@@ -135,23 +134,22 @@ function App() {
             <div className="service-card popular">
               <div className="popular-badge">Most Popular</div>
               <div className="card-header">
-                <h3>Premium Package</h3>
+                <h3>Premium Wash</h3>
                 <div className="price-container">
                   <div className="vehicle-pricing">
                     <span className="vehicle-type">Car: <span className="price-small">$50-$60</span></span>
                     <span className="vehicle-type">SUV: <span className="price-small">$60-$80</span></span>
-                    <span className="vehicle-type">Truck: <span className="price-small">$60-$80</span></span>
+                    <span className="vehicle-type">P/Truck: <span className="price-small">$55-$75</span></span>
                   </div>
                 </div>
               </div>
               <div className="card-content">
                 <ul className="service-list">
-                  <li>✓ Everything in basic wash</li>
-                  <li>✓ Seat wipe down</li>
-                  <li>✓ All interior plastic wipe down</li>
-                  <li>✓ Seat wipe down</li>
-                  <li>✓ All tire shine included</li>
-                  <li>✓ Windows in/out shine</li>
+                  <li>✓ Premium Exterior wash</li>
+                  <li>✓ Detailed Vacuum</li>
+                  <li>✓ All trims, plastic, vynil and leather wiped down</li>
+                  <li>✓ Rims & Tires polished & shined</li>
+                  <li>✓ Trunk included (optional)</li>
                 </ul>
                 <p className="travel-fee-note">*$15 travel fee for locations over 15 miles</p>
                 <button className="select-package-btn" onClick={() => selectPackageAndScroll('premium-package', 'Premium Package')}>
@@ -174,10 +172,10 @@ function App() {
                 </div>
                 <div className="card-content">
                   <ul className="service-list">
-                    <li>✓ All interior vacuum</li>
-                    <li>✓ All interior wipe down</li>
-                    <li>✓ Interior plastic wipe oil and leather w/seat down</li>
-                    <li>✓ Trunk included on trunk</li>
+                    <li>✓ All crevices cleaned</li>
+                    <li>✓ Detailed Vacuum</li>
+                    <li>✓ All trims, plastic, vynil and leather wiped down</li>
+                    <li>✓ Trunk included (optional)</li>
                   </ul>
                   <p className="travel-fee-note">*$15 travel fee for locations over 15 miles</p>
                   <button className="select-package-btn" onClick={() => selectPackageAndScroll('interior-detail', 'Interior Detail')}>
@@ -192,18 +190,17 @@ function App() {
                   <div className="price-container">
                     <div className="vehicle-pricing">
                       <span className="vehicle-type">Car: <span className="price-small">$40-$50</span></span>
-                      <span className="vehicle-type">SUV: <span className="price-small">$50-$55</span></span>
-                      <span className="vehicle-type">Truck: <span className="price-small">$50-$55</span></span>
+                      <span className="vehicle-type">SUV: <span className="price-small">$50-$60</span></span>
+                      <span className="vehicle-type">P/Truck: <span className="price-small">$40-$50</span></span>
                     </div>
                   </div>
                 </div>
                 <div className="card-content">
                   <ul className="service-list">
-                    <li>✓ All interior</li>
-                    <li>✓ Liquid & turtle wax</li>
-                    <li>✓ All interior mirrors & windshield</li>
-                    <li>✓ Advanced steam washer</li>
-                    <li>✓ Full service</li>
+                    <li>✓ All Panels</li>
+                    <li>✓ Headlights & tail lights</li>
+                    <li>✓ All windows, mirrors & windshield</li>
+                    <li>✓ Advanced All weather protection</li>
                   </ul>
                   <p className="travel-fee-note">*$15 travel fee for locations over 15 miles</p>
                   <button className="select-package-btn" onClick={() => selectPackageAndScroll('wax', 'Wax')}>

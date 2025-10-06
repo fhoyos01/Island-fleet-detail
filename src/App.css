@@ -288,73 +288,39 @@
   font-size: 2.5rem;
 }
 
-.service-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-bottom: 3rem;
-  justify-content: center;
+/* Premium Detailing Packages */
+.pricing-packages {
+  display: block;
+  max-width: 1200px;
+  margin: 0 auto 3rem auto;
 }
 
-.service-card {
-  flex: 1 1 280px;
-  max-width: 350px;
+.package-item {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 2rem auto;
   background: white;
   border-radius: 20px;
-  overflow: hidden;
   box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  border: 2px solid #e0e0e0;
   transition: all 0.3s ease;
   position: relative;
-  border: 2px solid transparent;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  overflow: hidden;
 }
 
-.bottom-row-cards {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  width: 100%;
-  flex-wrap: wrap;
-}
-
-.bottom-row-cards .service-card {
-  flex: 1 1 280px;
-  max-width: 350px;
-}
-
-.service-card:hover {
+.package-item:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-}
-
-.service-card.basic {
-  border-color: #e0e0e0;
-}
-
-.service-card.basic:hover {
   border-color: #DC143C;
 }
 
-.service-card.popular {
+.package-item.featured {
   border-color: #D4AF37;
-  transform: scale(1.05);
+  position: relative;
 }
 
-.service-card.popular:hover {
-  transform: scale(1.05) translateY(-8px);
-}
-
-.service-card.premium {
-  border-color: #e0e0e0;
-}
-
-.service-card.premium:hover {
-  border-color: #DC143C;
-}
-
-.popular-badge {
+.featured-badge {
   background: linear-gradient(45deg, #DC143C, #ff4757);
   color: white;
   padding: 0.5rem 1.5rem;
@@ -369,68 +335,50 @@
   z-index: 2;
 }
 
-.card-header {
+.package-item h3 {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  padding: 2rem 1.5rem 1.5rem;
+  color: #DC143C;
+  font-size: 1.8rem;
+  font-weight: bold;
   text-align: center;
-  position: relative;
+  margin: 0;
+  padding: 2rem 1.5rem 1.5rem;
 }
 
-.service-card.popular .card-header {
+.package-item.featured h3 {
   padding-top: 3rem;
 }
 
-.card-header h3 {
-  color: #DC143C;
-  margin-bottom: 1rem;
-  font-size: 1.8rem;
-  font-weight: bold;
+.pricing-info {
+  padding: 1rem 2rem;
+  background: #f8f9fa;
+  text-align: center;
 }
 
-.price-container {
+.price-row {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
 }
 
 .price {
-  font-size: 3rem;
-  font-weight: bold;
   color: #D4AF37;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-  margin: 0;
-}
-
-.duration {
-  color: #666;
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.card-content {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.card-content h4 {
-  color: #333;
+  font-weight: bold;
   font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  font-weight: 600;
 }
 
-.service-list {
+.features-list {
   list-style: none;
   padding: 0;
-  margin-bottom: 2rem;
-  flex-grow: 1;
+  margin: 0;
+  padding: 2rem;
 }
 
-.service-list li {
+.features-list li {
   padding: 0.75rem 0;
   color: #555;
   font-size: 1rem;
@@ -439,20 +387,22 @@
   align-items: center;
 }
 
-.service-list li:last-child {
+.features-list li:last-child {
   border-bottom: none;
 }
 
-.travel-fee-note {
+.travel-note {
   font-size: 0.85rem;
   color: #666;
-  margin: 0.75rem 0;
+  margin: 0;
+  padding: 0 2rem;
   font-style: italic;
   text-align: center;
 }
 
-.select-package-btn {
-  width: 100%;
+.package-btn {
+  width: calc(100% - 4rem);
+  margin: 2rem;
   background: linear-gradient(45deg, #DC143C, #ff4757);
   color: white;
   border: 2px solid #D4AF37;
@@ -462,36 +412,40 @@
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: auto;
 }
 
-.select-package-btn:hover {
+.package-btn:hover {
   background: linear-gradient(45deg, #ff4757, #DC143C);
   border-color: #ffd700;
   transform: translateY(-1px);
 }
 
-.vehicle-pricing {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: center;
+/* Desktop: Grid layout */
+@media (min-width: 1200px) {
+  .pricing-packages {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  
+  .package-item {
+    margin: 0;
+    max-width: none;
+  }
 }
 
-.vehicle-type {
-  font-size: 1rem;
-  color: #333;
-  font-weight: 500;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 140px;
-}
-
-.price-small {
-  color: #D4AF37;
-  font-weight: bold;
-  font-size: 1.1rem;
+/* Large tablet: 2 columns */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .pricing-packages {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .package-item {
+    margin: 0;
+    max-width: none;
+  }
 }
 
 /* Add-On Services Section */
@@ -1347,9 +1301,6 @@
     font-size: 2.5rem;
   }
   
-  .service-grid {
-    gap: 3rem;
-  }
   
   .includes-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -1364,9 +1315,6 @@
 
 /* Medium Desktop/Laptop (992px - 1199px) */
 @media (max-width: 1199px) and (min-width: 992px) {
-  .service-grid {
-    gap: 2rem;
-  }
   
   .includes-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -1391,9 +1339,6 @@
   
   .mobile-menu-toggle {
     display: flex;
-  }
-  .service-grid {
-    gap: 2rem;
   }
   
   .includes-grid {
@@ -1441,13 +1386,7 @@
   .mobile-menu-toggle {
     display: flex;
   }
-  .service-grid {
-    gap: 1.5rem;
-  }
   
-  .bottom-row-cards {
-    gap: 1.5rem;
-  }
   
   
   .includes-grid {
@@ -1523,15 +1462,7 @@
   .mobile-menu-toggle {
     display: flex;
   }
-  .service-grid {
-    gap: 1rem;
-  }
   
-  .bottom-row-cards {
-    gap: 1rem;
-    flex-direction: column;
-    align-items: center;
-  }
   
   
   .includes-grid {
@@ -1641,26 +1572,6 @@
     padding: 1.5rem;
   }
   
-  .service-card {
-    max-width: 100%;
-    margin: 0 auto;
-  }
-  
-  .card-content {
-    padding: 1.5rem;
-  }
-  
-  .card-header {
-    padding: 1.5rem 1rem 1rem;
-  }
-  
-  .service-card.popular {
-    transform: none;
-  }
-  
-  .service-card.popular:hover {
-    transform: translateY(-8px);
-  }
   
   .contact-info,
   .contact-form {

@@ -8,6 +8,7 @@
 
 # Environment variables (set these in Netlify dashboard)
 # RESEND_API_KEY = "your_resend_api_key_here"
+# Updated: Email functions ready for deployment
 
 [[redirects]]
   from = "/*"

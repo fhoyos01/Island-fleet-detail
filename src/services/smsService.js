@@ -1,12 +1,12 @@
 // Twilio SMS Service Implementation
 // Note: Run 'npm install twilio' to install the Twilio SDK
 
-// Twilio Configuration - Replace with your actual credentials
+// Twilio Configuration - Using environment variables for security
 const TWILIO_CONFIG = {
-  ACCOUNT_SID: 'your_twilio_account_sid_here', // Get from Twilio Console
-  AUTH_TOKEN: 'your_twilio_auth_token_here',   // Get from Twilio Console  
-  FROM_PHONE: 'your_twilio_phone_number_here', // Get free Twilio number or use verified number
-  BUSINESS_PHONE: '+19547988956' // Island Fleet Detail business number (receives notifications)
+  ACCOUNT_SID: import.meta.env.VITE_TWILIO_ACCOUNT_SID,
+  AUTH_TOKEN: import.meta.env.VITE_TWILIO_AUTH_TOKEN,
+  FROM_PHONE: import.meta.env.VITE_TWILIO_FROM_PHONE,
+  BUSINESS_PHONE: import.meta.env.VITE_TWILIO_BUSINESS_PHONE || '+19547988956'
 };
 
 // Initialize Twilio client (will be available after npm install twilio)

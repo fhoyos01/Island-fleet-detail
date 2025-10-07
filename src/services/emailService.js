@@ -1,18 +1,16 @@
 // EmailJS Email Service Implementation
 import emailjs from '@emailjs/browser';
 
-// EmailJS Configuration (to be filled after setup)
+// EmailJS Configuration
 const EMAILJS_CONFIG = {
-  SERVICE_ID: 'YOUR_SERVICE_ID',      // You'll get this from EmailJS
-  TEMPLATE_ID: 'YOUR_TEMPLATE_ID',    // You'll get this from EmailJS  
-  PUBLIC_KEY: 'YOUR_PUBLIC_KEY'       // You'll get this from EmailJS
+  SERVICE_ID: 'service_8t3f4vf',      // Your Gmail service
+  TEMPLATE_ID: 'template_phj833p',    // Your email template
+  PUBLIC_KEY: '16C07lc2eVNU-n921'     // Your public key
 };
 
 // Initialize EmailJS with your public key
 const initEmailJS = () => {
-  if (EMAILJS_CONFIG.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
-    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
-  }
+  emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 };
 
 // Send booking emails
@@ -20,15 +18,6 @@ export const sendBookingEmails = async (bookingData) => {
   try {
     console.log('Sending booking emails via EmailJS...');
     
-    // Check if EmailJS is configured
-    if (EMAILJS_CONFIG.PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
-      console.error('EmailJS not configured yet. Please complete setup first.');
-      return {
-        businessNotification: { success: false, error: 'EmailJS not configured' },
-        customerConfirmation: { success: false, error: 'EmailJS not configured' }
-      };
-    }
-
     initEmailJS();
 
     // Send business notification email
@@ -96,15 +85,6 @@ export const sendContactEmails = async (contactData) => {
   try {
     console.log('Sending contact email via EmailJS...');
     
-    // Check if EmailJS is configured
-    if (EMAILJS_CONFIG.PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
-      console.error('EmailJS not configured yet. Please complete setup first.');
-      return {
-        businessNotification: { success: false, error: 'EmailJS not configured' },
-        customerAutoReply: { success: false, error: 'EmailJS not configured' }
-      };
-    }
-
     initEmailJS();
 
     // Send contact notification

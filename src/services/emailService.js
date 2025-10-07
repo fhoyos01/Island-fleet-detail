@@ -3,9 +3,10 @@ import emailjs from '@emailjs/browser';
 
 // EmailJS Configuration
 const EMAILJS_CONFIG = {
-  SERVICE_ID: 'service_jt3c7bg',      // Your Gmail service (corrected)
-  TEMPLATE_ID: 'template_phj833p',    // Your email template
-  PUBLIC_KEY: '16C07lc2eVNU-n921'     // Your public key
+  SERVICE_ID: 'service_jt3c7bg',           // Your Gmail service
+  CUSTOMER_TEMPLATE_ID: 'template_s4srqyp', // Customer confirmation template
+  BUSINESS_TEMPLATE_ID: 'template_0dz0tfj', // Business notification template
+  PUBLIC_KEY: '16C07lc2eVNU-n921'          // Your public key
 };
 
 // Initialize EmailJS with your public key
@@ -20,16 +21,13 @@ export const sendBookingEmails = async (bookingData) => {
     
     initEmailJS();
 
-    // Send business notification email
-    const businessResult = await emailjs.send(
+    // Send customer confirmation email (directly to customer)
+    const customerResult = await emailjs.send(
       EMAILJS_CONFIG.SERVICE_ID,
-      EMAILJS_CONFIG.TEMPLATE_ID,
+      EMAILJS_CONFIG.CUSTOMER_TEMPLATE_ID,
       {
-        to_email: 'fhoyos04@gmail.com',
-        subject: '🚗 New Booking - Island Fleet Detail',
-        message_content: 'NEW BOOKING RECEIVED',
-        customer_name: bookingData.name,
         customer_email: bookingData.email,
+        customer_name: bookingData.name,
         customer_phone: bookingData.phone,
         service_date: bookingData.date,
         service_time: bookingData.time,
@@ -41,18 +39,15 @@ export const sendBookingEmails = async (bookingData) => {
       }
     );
 
-    console.log('Business notification sent:', businessResult);
+    console.log('Customer confirmation sent:', customerResult);
 
-    // Send customer confirmation copy
-    const customerResult = await emailjs.send(
+    // Send business notification email (to you)
+    const businessResult = await emailjs.send(
       EMAILJS_CONFIG.SERVICE_ID,
-      EMAILJS_CONFIG.TEMPLATE_ID,
+      EMAILJS_CONFIG.BUSINESS_TEMPLATE_ID,
       {
-        to_email: 'fhoyos04@gmail.com',
-        subject: `✅ Customer Confirmation for ${bookingData.name} - FORWARD TO: ${bookingData.email}`,
-        message_content: `CUSTOMER CONFIRMATION COPY - Please forward this to: ${bookingData.email}`,
         customer_name: bookingData.name,
-        customer_email: `FORWARD TO: ${bookingData.email}`,
+        customer_email: bookingData.email,
         customer_phone: bookingData.phone,
         service_date: bookingData.date,
         service_time: bookingData.time,
@@ -60,7 +55,8 @@ export const sendBookingEmails = async (bookingData) => {
         main_service: bookingData.service,
         additional_services: bookingData.additionalServices || 'None',
         special_requests: bookingData.specialRequests || 'None',
-        booking_id: bookingData.id
+        booking_id: bookingData.id,
+        submission_time: new Date().toLocaleString()
       }
     );
 
@@ -87,24 +83,22 @@ export const sendContactEmails = async (contactData) => {
     
     initEmailJS();
 
-    // Send contact notification
+    // Send contact notification (using business template)
     const result = await emailjs.send(
       EMAILJS_CONFIG.SERVICE_ID,
-      EMAILJS_CONFIG.TEMPLATE_ID,
+      EMAILJS_CONFIG.BUSINESS_TEMPLATE_ID,
       {
-        to_email: 'fhoyos04@gmail.com',
-        subject: '📨 New Contact Message - Island Fleet Detail',
-        message_content: `CONTACT FORM MESSAGE: ${contactData.message}`,
         customer_name: contactData.name,
         customer_email: contactData.email,
         customer_phone: contactData.phone || 'Not provided',
-        service_date: 'N/A',
+        service_date: 'Contact Form',
         service_time: 'N/A',
         vehicle_type: 'N/A',
-        main_service: 'Contact Form',
+        main_service: 'Contact Form Message',
         additional_services: 'N/A',
         special_requests: contactData.message,
-        booking_id: `contact_${Date.now()}`
+        booking_id: `contact_${Date.now()}`,
+        submission_time: new Date().toLocaleString()
       }
     );
 

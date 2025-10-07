@@ -9,19 +9,34 @@ const TWILIO_CONFIG = {
   BUSINESS_PHONE: import.meta.env.VITE_TWILIO_BUSINESS_PHONE || '+19547988956'
 };
 
-// Initialize Twilio client (will be available after npm install twilio)
+// Initialize Twilio client
 let twilioClient;
-try {
-  if (TWILIO_CONFIG.ACCOUNT_SID && TWILIO_CONFIG.AUTH_TOKEN) {
-    const twilio = require('twilio');
-    twilioClient = twilio(TWILIO_CONFIG.ACCOUNT_SID, TWILIO_CONFIG.AUTH_TOKEN);
-    console.log('✅ Twilio client initialized successfully');
-  } else {
-    console.warn('⚠️ Twilio credentials missing from environment variables');
+
+const initializeTwilio = async () => {
+  try {
+    if (TWILIO_CONFIG.ACCOUNT_SID && TWILIO_CONFIG.AUTH_TOKEN) {
+      // Use dynamic import for better compatibility with Vite
+      const twilio = (await import('twilio')).default;
+      twilioClient = twilio(TWILIO_CONFIG.ACCOUNT_SID, TWILIO_CONFIG.AUTH_TOKEN);
+      console.log('✅ Twilio client initialized successfully');
+      return true;
+    } else {
+      console.warn('⚠️ Twilio credentials missing from environment variables');
+      console.log('Environment check:', {
+        accountSid: TWILIO_CONFIG.ACCOUNT_SID ? 'Set' : 'Missing',
+        authToken: TWILIO_CONFIG.AUTH_TOKEN ? 'Set' : 'Missing',
+        fromPhone: TWILIO_CONFIG.FROM_PHONE ? 'Set' : 'Missing'
+      });
+      return false;
+    }
+  } catch (error) {
+    console.error('❌ Twilio initialization failed:', error.message);
+    return false;
   }
-} catch (error) {
-  console.error('❌ Twilio initialization failed:', error.message);
-}
+};
+
+// Try to initialize Twilio immediately
+initializeTwilio();
 
 // Format phone number to E.164 format
 const formatPhoneNumber = (phone) => {
@@ -95,12 +110,16 @@ export const sendBookingSMS = async (bookingData) => {
   console.log('- Business Phone:', TWILIO_CONFIG.BUSINESS_PHONE);
   console.log('- Twilio Client:', twilioClient ? 'Initialized' : 'Not initialized');
 
+  // Try to initialize Twilio if not already done
   if (!twilioClient) {
-    console.warn('Twilio not configured. Install with: npm install twilio');
-    return {
-      businessNotification: { success: false, error: 'Twilio not installed' },
-      customerConfirmation: { success: false, error: 'Twilio not installed' }
-    };
+    console.log('Attempting to initialize Twilio...');
+    const initialized = await initializeTwilio();
+    if (!initialized) {
+      return {
+        businessNotification: { success: false, error: 'Twilio initialization failed' },
+        customerConfirmation: { success: false, error: 'Twilio initialization failed' }
+      };
+    }
   }
 
   try {

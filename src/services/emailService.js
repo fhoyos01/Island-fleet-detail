@@ -21,11 +21,8 @@ export const sendBookingEmails = async (bookingData) => {
     
     initEmailJS();
 
-    // Test with just business notification first to isolate the issue
-    console.log('Attempting to send business notification...');
-    console.log('Service ID:', EMAILJS_CONFIG.SERVICE_ID);
-    console.log('Business Template ID:', EMAILJS_CONFIG.BUSINESS_TEMPLATE_ID);
-    
+    // Send business notification (we know this works)
+    console.log('Sending business notification...');
     const businessResult = await emailjs.send(
       EMAILJS_CONFIG.SERVICE_ID,
       EMAILJS_CONFIG.BUSINESS_TEMPLATE_ID,
@@ -46,8 +43,27 @@ export const sendBookingEmails = async (bookingData) => {
 
     console.log('Business notification sent successfully:', businessResult);
 
-    // For now, just return business email success (will add customer email back after this works)
-    const customerResult = { status: 200, text: 'Skipped for testing' };
+    // Now test customer template
+    console.log('Attempting to send customer confirmation...');
+    console.log('Customer Template ID:', EMAILJS_CONFIG.CUSTOMER_TEMPLATE_ID);
+    console.log('Customer email:', bookingData.email);
+    
+    const customerResult = await emailjs.send(
+      EMAILJS_CONFIG.SERVICE_ID,
+      EMAILJS_CONFIG.CUSTOMER_TEMPLATE_ID,
+      {
+        customer_email: bookingData.email,
+        customer_name: bookingData.name,
+        customer_phone: bookingData.phone,
+        service_date: bookingData.date,
+        service_time: bookingData.time,
+        vehicle_type: bookingData.vehicleType,
+        main_service: bookingData.service,
+        additional_services: bookingData.additionalServices || 'None',
+        special_requests: bookingData.specialRequests || 'None',
+        booking_id: bookingData.id
+      }
+    );
 
     console.log('Customer confirmation sent:', customerResult);
 

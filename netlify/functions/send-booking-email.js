@@ -36,7 +36,7 @@ exports.handler = async (event, context) => {
     // Send business notification
     const businessEmail = await resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
-      to: ['Islandfleetllc@gmail.com'],
+      to: ['fhoyos04@gmail.com'],
       subject: '🚗 New Booking - Island Fleet Detail',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -72,10 +72,10 @@ exports.handler = async (event, context) => {
 
     console.log('Business email sent successfully:', businessEmail.data);
 
-    // Send customer confirmation (temporarily to business email due to Resend limitations)
+    // Send customer confirmation (temporarily to accessible email due to Resend limitations)
     const customerEmail = await resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
-      to: ['Islandfleetllc@gmail.com'],
+      to: ['fhoyos04@gmail.com'],
       subject: `✅ Customer Confirmation for ${bookingData.name} - Island Fleet Detail`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

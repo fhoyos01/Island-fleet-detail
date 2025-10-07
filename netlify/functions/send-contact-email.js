@@ -31,8 +31,8 @@ exports.handler = async (event, context) => {
 
     // Send business notification
     const businessEmail = await resend.emails.send({
-      from: 'onboarding@resend.dev',
-      to: ['Islandfleetllc@gmail.com'],
+      from: 'Acme <onboarding@resend.dev>',
+      to: ['fhoyos04@gmail.com'],
       subject: '📨 New Contact Message - Island Fleet Detail',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -59,10 +59,10 @@ exports.handler = async (event, context) => {
       `
     });
 
-    // Send customer auto-reply
+    // Send customer auto-reply (temporarily to accessible email due to Resend limitations)
     const customerEmail = await resend.emails.send({
-      from: 'onboarding@resend.dev',
-      to: [contactData.email],
+      from: 'Acme <onboarding@resend.dev>',
+      to: ['fhoyos04@gmail.com'],
       subject: '📧 Message Received - Island Fleet Detail',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

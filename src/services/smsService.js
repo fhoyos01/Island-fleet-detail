@@ -12,10 +12,15 @@ const TWILIO_CONFIG = {
 // Initialize Twilio client (will be available after npm install twilio)
 let twilioClient;
 try {
-  const twilio = require('twilio');
-  twilioClient = twilio(TWILIO_CONFIG.ACCOUNT_SID, TWILIO_CONFIG.AUTH_TOKEN);
+  if (TWILIO_CONFIG.ACCOUNT_SID && TWILIO_CONFIG.AUTH_TOKEN) {
+    const twilio = require('twilio');
+    twilioClient = twilio(TWILIO_CONFIG.ACCOUNT_SID, TWILIO_CONFIG.AUTH_TOKEN);
+    console.log('✅ Twilio client initialized successfully');
+  } else {
+    console.warn('⚠️ Twilio credentials missing from environment variables');
+  }
 } catch (error) {
-  console.log('Twilio not installed yet. Run: npm install twilio');
+  console.error('❌ Twilio initialization failed:', error.message);
 }
 
 // Format phone number to E.164 format
@@ -83,6 +88,13 @@ Thank you for choosing Island Fleet Detail!`;
 
 // Send booking SMS notifications
 export const sendBookingSMS = async (bookingData) => {
+  console.log('SMS Service Debug:');
+  console.log('- Account SID:', TWILIO_CONFIG.ACCOUNT_SID ? 'Set' : 'Missing');
+  console.log('- Auth Token:', TWILIO_CONFIG.AUTH_TOKEN ? 'Set' : 'Missing');
+  console.log('- From Phone:', TWILIO_CONFIG.FROM_PHONE);
+  console.log('- Business Phone:', TWILIO_CONFIG.BUSINESS_PHONE);
+  console.log('- Twilio Client:', twilioClient ? 'Initialized' : 'Not initialized');
+
   if (!twilioClient) {
     console.warn('Twilio not configured. Install with: npm install twilio');
     return {

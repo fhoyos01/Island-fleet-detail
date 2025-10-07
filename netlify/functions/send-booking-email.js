@@ -72,15 +72,16 @@ exports.handler = async (event, context) => {
 
     console.log('Business email sent successfully:', businessEmail.data);
 
-    // Send customer confirmation
+    // Send customer confirmation (temporarily to business email due to Resend limitations)
     const customerEmail = await resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
-      to: [bookingData.email],
-      subject: '✅ Booking Confirmed - Island Fleet Detail',
+      to: ['Islandfleetllc@gmail.com'],
+      subject: `✅ Customer Confirmation for ${bookingData.name} - Island Fleet Detail`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #DC143C;">Thank You for Choosing Island Fleet Detail!</h2>
           
+          <p><strong>CUSTOMER EMAIL COPY</strong> - Forward this to: ${bookingData.email}</p>
           <p>Dear ${bookingData.name},</p>
           <p>We've received your booking request and will contact you within 24 hours to confirm your appointment.</p>
           

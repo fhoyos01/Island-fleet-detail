@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import { sendBookingEmails, sendContactEmails } from './services/netlifyService'
+import { sendBookingEmails, sendContactEmails } from './services/emailService'
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(null)
@@ -586,7 +586,7 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
         id: newBooking.id
       }
       
-      // Send email notifications using EmailJS
+      // Send booking emails via clean Resend implementation
       const results = await sendBookingEmails(bookingData)
       
       // Check if at least one email was sent successfully
@@ -773,6 +773,7 @@ function ContactForm() {
     setIsSubmitting(true)
     
     try {
+      // Send contact emails via clean Resend implementation
       const results = await sendContactEmails(formData)
       
       if (results.businessNotification.success || results.customerAutoReply.success) {

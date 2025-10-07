@@ -129,7 +129,7 @@ function App() {
                 <div className="pricing-info">
                   <div className="price-row">Car: <span className="price">$20</span></div>
                   <div className="price-row">SUV: <span className="price">$25</span></div>
-                  <div className="price-row">P/Truck: <span className="price">$25-$35</span></div>
+                  <div className="price-row">Truck: <span className="price">$25-$35</span></div>
                 </div>
                 <ul className="features-list">
                   <li>✓ Premium Exterior Wash</li>
@@ -148,7 +148,7 @@ function App() {
                 <div className="pricing-info">
                   <div className="price-row">Car: <span className="price">$30-$40</span></div>
                   <div className="price-row">SUV: <span className="price">$45-$55</span></div>
-                  <div className="price-row">P/Truck: <span className="price">$40-$50</span></div>
+                  <div className="price-row">Truck: <span className="price">$40-$50</span></div>
                 </div>
                 <ul className="features-list">
                   <li>✓ Premium Exterior wash</li>
@@ -170,7 +170,7 @@ function App() {
                 <div className="pricing-info">
                   <div className="price-row">Car: <span className="price">$50-$60</span></div>
                   <div className="price-row">SUV: <span className="price">$60-$80</span></div>
-                  <div className="price-row">P/Truck: <span className="price">$55-$75</span></div>
+                  <div className="price-row">Truck: <span className="price">$55-$75</span></div>
                 </div>
                 <ul className="features-list">
                   <li>✓ Premium Exterior wash</li>
@@ -192,7 +192,7 @@ function App() {
                 <div className="pricing-info">
                   <div className="price-row">Car: <span className="price">$40-$50</span></div>
                   <div className="price-row">SUV: <span className="price">$50-$60</span></div>
-                  <div className="price-row">P/Truck: <span className="price">$45-$55</span></div>
+                  <div className="price-row">Truck: <span className="price">$45-$55</span></div>
                 </div>
                 <ul className="features-list">
                   <li>✓ All crevices cleaned</li>
@@ -213,7 +213,7 @@ function App() {
                 <div className="pricing-info">
                   <div className="price-row">Car: <span className="price">$40-$50</span></div>
                   <div className="price-row">SUV: <span className="price">$50-$60</span></div>
-                  <div className="price-row">P/Truck: <span className="price">$40-$50</span></div>
+                  <div className="price-row">Truck: <span className="price">$40-$50</span></div>
                 </div>
                 <ul className="features-list">
                   <li>✓ All Panels</li>

@@ -14,12 +14,34 @@ const initEmailJS = () => {
   emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 };
 
+// Format additional services as bulleted list
+const formatAdditionalServices = (services) => {
+  if (!services || services === 'None' || services.length === 0) {
+    return 'None';
+  }
+  
+  if (typeof services === 'string') {
+    // If it's a comma-separated string, split it
+    const serviceArray = services.split(', ').filter(s => s.trim() !== '');
+    return serviceArray.length > 0 ? serviceArray.map(service => `• ${service}`).join('\n') : 'None';
+  }
+  
+  if (Array.isArray(services)) {
+    return services.length > 0 ? services.map(service => `• ${service}`).join('\n') : 'None';
+  }
+  
+  return 'None';
+};
+
 // Send booking emails
 export const sendBookingEmails = async (bookingData) => {
   try {
     console.log('Sending booking emails via EmailJS...');
     
     initEmailJS();
+
+    // Format additional services as bulleted list
+    const formattedAdditionalServices = formatAdditionalServices(bookingData.additionalServices);
 
     // Send business notification (we know this works)
     console.log('Sending business notification...');
@@ -34,7 +56,8 @@ export const sendBookingEmails = async (bookingData) => {
         service_time: bookingData.time,
         vehicle_type: bookingData.vehicleType,
         main_service: bookingData.service,
-        additional_services: bookingData.additionalServices || 'None',
+        service_location: bookingData.serviceLocation || 'Not specified',
+        additional_services: formattedAdditionalServices,
         special_requests: bookingData.specialRequests || 'None',
         booking_id: bookingData.id,
         submission_time: new Date().toLocaleString()
@@ -59,7 +82,8 @@ export const sendBookingEmails = async (bookingData) => {
         service_time: bookingData.time,
         vehicle_type: bookingData.vehicleType,
         main_service: bookingData.service,
-        additional_services: bookingData.additionalServices || 'None',
+        service_location: bookingData.serviceLocation || 'Not specified',
+        additional_services: formattedAdditionalServices,
         special_requests: bookingData.specialRequests || 'None',
         booking_id: bookingData.id
       }

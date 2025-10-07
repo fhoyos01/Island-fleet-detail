@@ -541,6 +541,7 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
     phone: '',
     vehicleType: '',
     service: preselectedService?.value || '',
+    serviceLocation: '',
     specialRequests: '',
     additionalServices: []
   })
@@ -616,6 +617,7 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
         phone: '',
         vehicleType: '',
         service: preselectedService?.value || '',
+        serviceLocation: '',
         specialRequests: '',
         additionalServices: []
       })
@@ -742,6 +744,15 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
               
             </div>
           </div>
+          
+          <input
+            type="text"
+            name="serviceLocation"
+            placeholder="Service Location"
+            value={formData.serviceLocation}
+            onChange={(e) => setFormData({...formData, serviceLocation: e.target.value})}
+            required
+          />
           
           <textarea
             name="specialRequests"

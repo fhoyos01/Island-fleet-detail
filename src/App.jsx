@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import { sendBookingEmails, sendContactEmails } from './services/emailService'
+import { sendBookingSMS, sendContactSMS } from './services/smsService'
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(null)
@@ -587,25 +588,46 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
         id: newBooking.id
       }
       
-      // Send booking emails via clean Resend implementation
-      const results = await sendBookingEmails(bookingData)
+      // Send booking emails and SMS notifications
+      console.log('Sending email notifications...');
+      const emailResults = await sendBookingEmails(bookingData)
+      
+      console.log('Sending SMS notifications...');
+      const smsResults = await sendBookingSMS(bookingData)
       
       // Check if at least one email was sent successfully
-      const emailSuccess = results.businessNotification.success || results.customerConfirmation.success
+      const emailSuccess = emailResults.businessNotification.success || emailResults.customerConfirmation.success
+      const smsSuccess = smsResults.businessNotification.success || smsResults.customerConfirmation.success
       
-      if (emailSuccess) {
-        console.log('Email results:', results)
-        if (results.businessNotification.success) {
-          console.log('✅ Business notification sent')
-        }
-        if (results.customerConfirmation.success) {
-          console.log('✅ Customer confirmation sent')
-        }
-        
-        alert('🎉 Booking submitted successfully!\n\nThank you for choosing Island Fleet Detail!\nWe will contact you within 24 hours to confirm your appointment.\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase() + '\n\n📧 Confirmation emails sent!')
+      // Display results to user
+      console.log('Email results:', emailResults)
+      console.log('SMS results:', smsResults)
+      
+      // Log successful notifications
+      if (emailResults.businessNotification.success) {
+        console.log('✅ Business email sent')
+      }
+      if (emailResults.customerConfirmation.success) {
+        console.log('✅ Customer email sent')
+      }
+      if (smsResults.businessNotification.success) {
+        console.log('✅ Business SMS sent')
+      }
+      if (smsResults.customerConfirmation.success) {
+        console.log('✅ Customer SMS sent')
+      }
+      
+      // Create notification status message
+      const notifications = [];
+      if (emailSuccess) notifications.push('📧 Emails sent');
+      if (smsSuccess) notifications.push('📱 SMS sent');
+      
+      if (emailSuccess || smsSuccess) {
+        const notificationText = notifications.length > 0 ? `\n\n${notifications.join(' & ')}!` : '';
+        alert('🎉 Booking submitted successfully!\n\nThank you for choosing Island Fleet Detail!\nWe will contact you within 24 hours to confirm your appointment.\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase() + notificationText)
       } else {
-        // Email sending failed but booking is still stored locally
-        alert('⚠️ Booking submitted but email notifications failed.\n\nYour booking has been saved locally. Please call us directly to confirm:\n(954) 798-8956\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase())
+        // Both email and SMS failed but booking is still stored locally
+        alert('⚠️ Booking submitted but notifications failed.\n\nYour booking has been saved locally. Please call us directly to confirm:\n(954) 798-8956\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase())
       }
       
       onClose()
@@ -784,11 +806,24 @@ function ContactForm() {
     setIsSubmitting(true)
     
     try {
-      // Send contact emails via clean Resend implementation
-      const results = await sendContactEmails(formData)
+      // Send contact emails and SMS notifications
+      console.log('Sending contact email notifications...');
+      const emailResults = await sendContactEmails(formData)
       
-      if (results.businessNotification.success || results.customerAutoReply.success) {
-        alert('✅ Message sent successfully!\n\nThank you for contacting Island Fleet Detail!\nWe will get back to you as soon as possible.\n\nFor immediate assistance, call or text:\n(954) 798-8956')
+      console.log('Sending contact SMS notifications...');
+      const smsResults = await sendContactSMS(formData)
+      
+      const emailSuccess = emailResults.businessNotification.success || emailResults.customerAutoReply.success
+      const smsSuccess = smsResults.businessNotification.success
+      
+      if (emailSuccess || smsSuccess) {
+        // Create notification status message
+        const notifications = [];
+        if (emailSuccess) notifications.push('📧 Email sent');
+        if (smsSuccess) notifications.push('📱 SMS sent');
+        
+        const notificationText = notifications.length > 0 ? `\n\n${notifications.join(' & ')}!` : '';
+        alert('✅ Message sent successfully!\n\nThank you for contacting Island Fleet Detail!\nWe will get back to you as soon as possible.\n\nFor immediate assistance, call or text:\n(954) 798-8956' + notificationText)
         
         // Reset form
         setFormData({
@@ -798,7 +833,7 @@ function ContactForm() {
           message: ''
         })
       } else {
-        throw new Error('Email sending failed')
+        throw new Error('Both email and SMS sending failed')
       }
     } catch (error) {
       console.error('Contact form submission error:', error)

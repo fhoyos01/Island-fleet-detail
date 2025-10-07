@@ -125,16 +125,18 @@ function App() {
           <div className="pricing-packages">
             <div className="package-item">
               <h3>Exterior Only</h3>
-              <div className="pricing-info">
-                <div className="price-row">Car: <span className="price">$20</span></div>
-                <div className="price-row">SUV: <span className="price">$25</span></div>
-                <div className="price-row">P/Truck: <span className="price">$25-$35</span></div>
+              <div className="package-content">
+                <div className="pricing-info">
+                  <div className="price-row">Car: <span className="price">$20</span></div>
+                  <div className="price-row">SUV: <span className="price">$25</span></div>
+                  <div className="price-row">P/Truck: <span className="price">$25-$35</span></div>
+                </div>
+                <ul className="features-list">
+                  <li>✓ Premium Exterior Wash</li>
+                  <li>✓ Rims & Tires Polished</li>
+                </ul>
+                <p className="travel-note">*$15 travel fee for locations over 15 miles</p>
               </div>
-              <ul className="features-list">
-                <li>✓ Premium Exterior Wash</li>
-                <li>✓ Rims & Tires Polished</li>
-              </ul>
-              <p className="travel-note">*$15 travel fee for locations over 15 miles</p>
               <button className="package-btn" onClick={() => selectPackageAndScroll('exterior-only', 'Exterior Only')}>
                 Select Package
               </button>
@@ -142,18 +144,20 @@ function App() {
 
             <div className="package-item">
               <h3>Basic Wash</h3>
-              <div className="pricing-info">
-                <div className="price-row">Car: <span className="price">$30-$40</span></div>
-                <div className="price-row">SUV: <span className="price">$45-$55</span></div>
-                <div className="price-row">P/Truck: <span className="price">$40-$50</span></div>
+              <div className="package-content">
+                <div className="pricing-info">
+                  <div className="price-row">Car: <span className="price">$30-$40</span></div>
+                  <div className="price-row">SUV: <span className="price">$45-$55</span></div>
+                  <div className="price-row">P/Truck: <span className="price">$40-$50</span></div>
+                </div>
+                <ul className="features-list">
+                  <li>✓ Premium Exterior wash</li>
+                  <li>✓ Basic Vacuum</li>
+                  <li>✓ Rims & Tires Polished</li>
+                  <li>✓ Trunk not included</li>
+                </ul>
+                <p className="travel-note">*$15 travel fee for locations over 15 miles</p>
               </div>
-              <ul className="features-list">
-                <li>✓ Premium Exterior wash</li>
-                <li>✓ Basic Vacuum</li>
-                <li>✓ Rims & Tires Polished</li>
-                <li>✓ Trunk not included</li>
-              </ul>
-              <p className="travel-note">*$15 travel fee for locations over 15 miles</p>
               <button className="package-btn" onClick={() => selectPackageAndScroll('basic-package', 'Basic Package')}>
                 Select Package
               </button>
@@ -162,19 +166,21 @@ function App() {
             <div className="package-item featured">
               <div className="featured-badge">Most Popular</div>
               <h3>Premium Wash</h3>
-              <div className="pricing-info">
-                <div className="price-row">Car: <span className="price">$50-$60</span></div>
-                <div className="price-row">SUV: <span className="price">$60-$80</span></div>
-                <div className="price-row">P/Truck: <span className="price">$55-$75</span></div>
+              <div className="package-content">
+                <div className="pricing-info">
+                  <div className="price-row">Car: <span className="price">$50-$60</span></div>
+                  <div className="price-row">SUV: <span className="price">$60-$80</span></div>
+                  <div className="price-row">P/Truck: <span className="price">$55-$75</span></div>
+                </div>
+                <ul className="features-list">
+                  <li>✓ Premium Exterior wash</li>
+                  <li>✓ Detailed Vacuum</li>
+                  <li>✓ All trims, plastic, vynil and leather wiped down</li>
+                  <li>✓ Rims & Tires polished & shined</li>
+                  <li>✓ Trunk included (optional)</li>
+                </ul>
+                <p className="travel-note">*$15 travel fee for locations over 15 miles</p>
               </div>
-              <ul className="features-list">
-                <li>✓ Premium Exterior wash</li>
-                <li>✓ Detailed Vacuum</li>
-                <li>✓ All trims, plastic, vynil and leather wiped down</li>
-                <li>✓ Rims & Tires polished & shined</li>
-                <li>✓ Trunk included (optional)</li>
-              </ul>
-              <p className="travel-note">*$15 travel fee for locations over 15 miles</p>
               <button className="package-btn" onClick={() => selectPackageAndScroll('premium-package', 'Premium Package')}>
                 Select Package
               </button>
@@ -182,18 +188,20 @@ function App() {
 
             <div className="package-item">
               <h3>Interior Detail</h3>
-              <div className="pricing-info">
-                <div className="price-row">Car: <span className="price">$40-$50</span></div>
-                <div className="price-row">SUV: <span className="price">$50-$60</span></div>
-                <div className="price-row">P/Truck: <span className="price">$45-$55</span></div>
+              <div className="package-content">
+                <div className="pricing-info">
+                  <div className="price-row">Car: <span className="price">$40-$50</span></div>
+                  <div className="price-row">SUV: <span className="price">$50-$60</span></div>
+                  <div className="price-row">P/Truck: <span className="price">$45-$55</span></div>
+                </div>
+                <ul className="features-list">
+                  <li>✓ All crevices cleaned</li>
+                  <li>✓ Detailed Vacuum</li>
+                  <li>✓ All trims, plastic, vynil and leather wiped down</li>
+                  <li>✓ Trunk included (optional)</li>
+                </ul>
+                <p className="travel-note">*$15 travel fee for locations over 15 miles</p>
               </div>
-              <ul className="features-list">
-                <li>✓ All crevices cleaned</li>
-                <li>✓ Detailed Vacuum</li>
-                <li>✓ All trims, plastic, vynil and leather wiped down</li>
-                <li>✓ Trunk included (optional)</li>
-              </ul>
-              <p className="travel-note">*$15 travel fee for locations over 15 miles</p>
               <button className="package-btn" onClick={() => selectPackageAndScroll('interior-detail', 'Interior Detail')}>
                 Select Package
               </button>
@@ -201,18 +209,20 @@ function App() {
 
             <div className="package-item">
               <h3>Wax</h3>
-              <div className="pricing-info">
-                <div className="price-row">Car: <span className="price">$40-$50</span></div>
-                <div className="price-row">SUV: <span className="price">$50-$60</span></div>
-                <div className="price-row">P/Truck: <span className="price">$40-$50</span></div>
+              <div className="package-content">
+                <div className="pricing-info">
+                  <div className="price-row">Car: <span className="price">$40-$50</span></div>
+                  <div className="price-row">SUV: <span className="price">$50-$60</span></div>
+                  <div className="price-row">P/Truck: <span className="price">$40-$50</span></div>
+                </div>
+                <ul className="features-list">
+                  <li>✓ All Panels</li>
+                  <li>✓ Headlights & tail lights</li>
+                  <li>✓ All windows, mirrors & windshield</li>
+                  <li>✓ Advanced All weather protection</li>
+                </ul>
+                <p className="travel-note">*$15 travel fee for locations over 15 miles</p>
               </div>
-              <ul className="features-list">
-                <li>✓ All Panels</li>
-                <li>✓ Headlights & tail lights</li>
-                <li>✓ All windows, mirrors & windshield</li>
-                <li>✓ Advanced All weather protection</li>
-              </ul>
-              <p className="travel-note">*$15 travel fee for locations over 15 miles</p>
               <button className="package-btn" onClick={() => selectPackageAndScroll('wax', 'Wax')}>
                 Select Package
               </button>

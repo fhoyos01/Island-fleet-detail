@@ -29,9 +29,13 @@ exports.handler = async (event, context) => {
   try {
     const bookingData = JSON.parse(event.body);
 
+    // Log for debugging
+    console.log('Attempting to send emails for booking:', bookingData.id);
+    console.log('API Key available:', !!process.env.RESEND_API_KEY);
+
     // Send business notification
     const businessEmail = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'Acme <onboarding@resend.dev>',
       to: ['Islandfleetllc@gmail.com'],
       subject: '🚗 New Booking - Island Fleet Detail',
       html: `
@@ -66,9 +70,11 @@ exports.handler = async (event, context) => {
       `
     });
 
+    console.log('Business email sent successfully:', businessEmail.data);
+
     // Send customer confirmation
     const customerEmail = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'Acme <onboarding@resend.dev>',
       to: [bookingData.email],
       subject: '✅ Booking Confirmed - Island Fleet Detail',
       html: `
@@ -107,6 +113,8 @@ exports.handler = async (event, context) => {
       `
     });
 
+    console.log('Customer email sent successfully:', customerEmail.data);
+
     return {
       statusCode: 200,
       headers: {
@@ -116,12 +124,22 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({
         success: true,
         businessEmail: businessEmail,
-        customerEmail: customerEmail
+        customerEmail: customerEmail,
+        debug: {
+          businessEmailId: businessEmail.data?.id,
+          customerEmailId: customerEmail.data?.id,
+          timestamp: new Date().toISOString()
+        }
       })
     };
 
   } catch (error) {
     console.error('Email sending error:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    });
     
     return {
       statusCode: 500,
@@ -131,7 +149,13 @@ exports.handler = async (event, context) => {
       },
       body: JSON.stringify({
         success: false,
-        error: error.message
+        error: error.message,
+        errorType: error.name,
+        debug: {
+          hasApiKey: !!process.env.RESEND_API_KEY,
+          apiKeyLength: process.env.RESEND_API_KEY?.length,
+          timestamp: new Date().toISOString()
+        }
       })
     };
   }

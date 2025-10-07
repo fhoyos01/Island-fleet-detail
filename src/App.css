@@ -296,7 +296,8 @@
 }
 
 .package-item {
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 400px;
   margin: 0 auto 2rem auto;
@@ -307,6 +308,7 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  min-height: 450px;
 }
 
 .package-item:hover {
@@ -371,11 +373,18 @@
   font-size: 1.1rem;
 }
 
+.package-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .features-list {
   list-style: none;
   padding: 0;
   margin: 0;
   padding: 2rem;
+  flex: 1;
 }
 
 .features-list li {
@@ -395,14 +404,14 @@
   font-size: 0.85rem;
   color: #666;
   margin: 0;
-  padding: 0 2rem;
+  padding: 0 2rem 1rem;
   font-style: italic;
   text-align: center;
 }
 
 .package-btn {
   width: calc(100% - 4rem);
-  margin: 2rem;
+  margin: 0 2rem 2rem 2rem;
   background: linear-gradient(45deg, #DC143C, #ff4757);
   color: white;
   border: 2px solid #D4AF37;
@@ -412,6 +421,7 @@
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin-top: auto;
 }
 
 .package-btn:hover {

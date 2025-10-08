@@ -31,47 +31,15 @@ const formatPhoneNumber = (phone) => {
 
 // Create business SMS message
 const createBusinessSMSMessage = (bookingData) => {
-  return `🚗 NEW BOOKING - Island Fleet Detail
-
-Customer: ${bookingData.name}
-Phone: ${bookingData.phone}
-Email: ${bookingData.email}
-
-Service: ${bookingData.service}
-Date: ${bookingData.date}
-Time: ${bookingData.time}
-Vehicle: ${bookingData.vehicleType}
-Location: ${bookingData.serviceLocation || 'Not specified'}
-
-Additional Services:
-${bookingData.additionalServices || 'None'}
-
-Special Requests: ${bookingData.specialRequests || 'None'}
-
-Booking ID: #${bookingData.id}
-
-Contact customer within 24 hours to confirm.`;
+  return `NEW BOOKING - Island Fleet Detail
+${bookingData.name} - ${bookingData.phone}
+${bookingData.service} - ${bookingData.date} ${bookingData.time}
+Contact customer to confirm.`;
 };
 
 // Create customer SMS message
 const createCustomerSMSMessage = (bookingData) => {
-  return `🚗 Island Fleet Detail - Booking Confirmed!
-
-Hi ${bookingData.name}! Your booking has been received.
-
-Date: ${bookingData.date}
-Time: ${bookingData.time}
-Service: ${bookingData.service}
-Vehicle: ${bookingData.vehicleType}
-Location: ${bookingData.serviceLocation || 'Not specified'}
-
-We'll contact you within 24 hours to confirm your appointment.
-
-Booking ID: #${bookingData.id}
-
-Questions? Call (954) 798-8956
-
-Thank you for choosing Island Fleet Detail!`;
+  return `Island Fleet Detail - Booking confirmed! We'll contact you within 24 hours. Questions? Call (954) 798-8956`;
 };
 
 // Netlify Function handler

@@ -738,7 +738,7 @@ function SimpleCalendar({ selectedDate, onDateSelect }) {
 function TimeSlots({ selectedTime, onTimeSelect, selectedDate, onConfirm, refreshKey }) {
   const [timeSlots, setTimeSlots] = useState([]);
   
-  // Check localStorage for existing bookings
+  // Check localStorage for existing bookings and past times
   const getAvailableSlots = () => {
     const bookings = JSON.parse(localStorage.getItem('bookings') || '[]')
     // Only count active bookings (exclude cancelled ones)
@@ -746,6 +746,37 @@ function TimeSlots({ selectedTime, onTimeSelect, selectedDate, onConfirm, refres
       booking.date === selectedDate && booking.status !== 'cancelled'
     )
     const bookedTimes = activeBookings.map(booking => booking.time)
+    
+    // Get current date and time
+    const now = new Date()
+    const selectedDateObj = new Date(selectedDate)
+    const isToday = selectedDateObj.toDateString() === now.toDateString()
+    
+    // Helper function to check if a time slot is in the past
+    const isTimePast = (timeSlot) => {
+      if (!isToday) return false // If not today, no times are past
+      
+      // Parse time slot (e.g., "11:00am", "12:00pm", "2:00pm")
+      const timeMatch = timeSlot.match(/^(\d{1,2}):(\d{2})(am|pm)$/i)
+      if (!timeMatch) return false
+      
+      const [, hourStr, minuteStr, period] = timeMatch
+      let hour = parseInt(hourStr)
+      const minute = parseInt(minuteStr)
+      
+      // Convert to 24-hour format
+      if (period.toLowerCase() === 'pm' && hour !== 12) {
+        hour += 12
+      } else if (period.toLowerCase() === 'am' && hour === 12) {
+        hour = 0
+      }
+      
+      // Create date object for the time slot
+      const slotTime = new Date()
+      slotTime.setHours(hour, minute, 0, 0)
+      
+      return slotTime <= now
+    }
     
     const allSlots = [
       { time: '9:00am', available: true },
@@ -761,7 +792,7 @@ function TimeSlots({ selectedTime, onTimeSelect, selectedDate, onConfirm, refres
     
     return allSlots.map(slot => ({
       ...slot,
-      available: !bookedTimes.includes(slot.time)
+      available: !bookedTimes.includes(slot.time) && !isTimePast(slot.time)
     }))
   }
   

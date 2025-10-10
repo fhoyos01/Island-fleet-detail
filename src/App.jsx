@@ -71,6 +71,7 @@ function App() {
   const [cancellationBookingId, setCancellationBookingId] = useState(null)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [successData, setSuccessData] = useState(null)
+  const [refreshKey, setRefreshKey] = useState(0)
 
   // Clear bookings function (temporary admin function)
   const clearAllBookings = () => {
@@ -463,6 +464,7 @@ function App() {
                 onTimeSelect={setSelectedTime}
                 selectedDate={selectedDate}
                 onConfirm={() => setShowBookingModal(true)}
+                refreshKey={refreshKey}
               />
             </div>
           </div>
@@ -531,9 +533,13 @@ function App() {
         <CancellationModal 
           bookingId={cancellationBookingId}
           onCancel={handleCancellation}
-          onClose={() => {
+          onClose={(cancelled = false) => {
             setShowCancellationModal(false)
             setCancellationBookingId(null)
+            if (cancelled) {
+              // Trigger refresh of time slots to show newly available time
+              setRefreshKey(prev => prev + 1)
+            }
           }}
         />
       )}
@@ -641,12 +647,17 @@ function SimpleCalendar({ selectedDate, onDateSelect }) {
   )
 }
 
-function TimeSlots({ selectedTime, onTimeSelect, selectedDate, onConfirm }) {
+function TimeSlots({ selectedTime, onTimeSelect, selectedDate, onConfirm, refreshKey }) {
+  const [timeSlots, setTimeSlots] = useState([]);
+  
   // Check localStorage for existing bookings
   const getAvailableSlots = () => {
     const bookings = JSON.parse(localStorage.getItem('bookings') || '[]')
-    const dateBookings = bookings.filter(booking => booking.date === selectedDate)
-    const bookedTimes = dateBookings.map(booking => booking.time)
+    // Only count active bookings (exclude cancelled ones)
+    const activeBookings = bookings.filter(booking => 
+      booking.date === selectedDate && booking.status !== 'cancelled'
+    )
+    const bookedTimes = activeBookings.map(booking => booking.time)
     
     const allSlots = [
       { time: '9:00am', available: true },
@@ -666,7 +677,12 @@ function TimeSlots({ selectedTime, onTimeSelect, selectedDate, onConfirm }) {
     }))
   }
   
-  const timeSlots = getAvailableSlots()
+  // Update time slots when date or refresh key changes
+  useEffect(() => {
+    if (selectedDate) {
+      setTimeSlots(getAvailableSlots())
+    }
+  }, [selectedDate, refreshKey])
   
   if (!selectedDate) {
     return (
@@ -1081,7 +1097,7 @@ function CancellationModal({ bookingId, onCancel, onClose }) {
       
       if (result.success) {
         alert('✅ Booking cancelled successfully!\n\nWe have received your cancellation request. You will receive a confirmation shortly.\n\nIf you need to reschedule, please call us at (954) 798-8956.')
-        onClose()
+        onClose(true) // Pass true to indicate successful cancellation
       } else {
         throw new Error(result.error || 'Cancellation failed')
       }

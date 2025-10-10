@@ -38,16 +38,32 @@ const createCalendarLink = (bookingData) => {
   // Parse date more reliably
   let startDate;
   try {
-    // Try parsing the date string with time
+    // Try multiple parsing approaches
+    console.log('Email Calendar debug - date:', bookingData.date, 'time:', bookingData.time);
+    
+    // First try direct parsing
     startDate = new Date(bookingData.date + ' ' + bookingData.time);
+    
     // If invalid, try parsing date differently
     if (isNaN(startDate.getTime())) {
       const dateParts = bookingData.date.split('/');
       if (dateParts.length === 3) {
-        // Convert MM/DD/YYYY to YYYY-MM-DD format
+        // Convert MM/DD/YYYY to YYYY-MM-DD format and normalize time
         const isoDate = `${dateParts[2]}-${dateParts[0].padStart(2, '0')}-${dateParts[1].padStart(2, '0')}`;
-        startDate = new Date(isoDate + ' ' + bookingData.time);
+        const normalizedTime = bookingData.time.replace(/(\d+):(\d+)([ap]m)/i, (match, hour, min, ampm) => {
+          let h = parseInt(hour);
+          if (ampm.toLowerCase() === 'pm' && h !== 12) h += 12;
+          if (ampm.toLowerCase() === 'am' && h === 12) h = 0;
+          return `${h.toString().padStart(2, '0')}:${min}:00`;
+        });
+        startDate = new Date(isoDate + 'T' + normalizedTime);
       }
+    }
+    
+    // Final fallback
+    if (isNaN(startDate.getTime())) {
+      console.warn('Could not parse date, using current time');
+      startDate = new Date();
     }
   } catch (error) {
     console.error('Date parsing error:', error);

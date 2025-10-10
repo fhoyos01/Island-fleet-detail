@@ -1206,10 +1206,10 @@
 .social-section {
   margin-top: 2rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-  flex-wrap: wrap;
 }
 
 .contact-logo {
@@ -1221,7 +1221,15 @@
   box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
-.instagram-link {
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.social-link {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1234,24 +1242,47 @@
   border: 2px solid transparent;
   transition: all 0.3s ease;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-size: 0.9rem;
 }
 
-.instagram-link:hover {
+.social-link:hover {
   border-color: #DC143C;
   background: rgba(220, 20, 60, 0.05);
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(220, 20, 60, 0.2);
 }
 
-.instagram-link:hover .instagram-icon {
+.social-icon {
+  width: 20px;
+  height: 20px;
+  transition: color 0.3s ease;
+}
+
+/* Instagram specific styling */
+.instagram-link .social-icon {
+  color: #E4405F;
+}
+
+.instagram-link:hover .social-icon {
   color: #DC143C;
 }
 
-.instagram-icon {
-  width: 20px;
-  height: 20px;
-  color: #E4405F;
-  transition: color 0.3s ease;
+/* TikTok specific styling */
+.tiktok-link .social-icon {
+  color: #000000;
+}
+
+.tiktok-link:hover .social-icon {
+  color: #DC143C;
+}
+
+/* YouTube specific styling */
+.youtube-link .social-icon {
+  color: #FF0000;
+}
+
+.youtube-link:hover .social-icon {
+  color: #DC143C;
 }
 
 .instagram-link span {
@@ -1692,9 +1723,17 @@
     height: 50px;
   }
   
-  .instagram-link {
+  .social-links {
+    gap: 0.75rem;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .social-link {
     padding: 0.5rem 0.75rem;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    width: 100%;
+    justify-content: center;
   }
   
   .pricing-section,

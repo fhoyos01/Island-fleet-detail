@@ -69,6 +69,8 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [showCancellationModal, setShowCancellationModal] = useState(false)
   const [cancellationBookingId, setCancellationBookingId] = useState(null)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [successData, setSuccessData] = useState(null)
 
   // Clear bookings function (temporary admin function)
   const clearAllBookings = () => {
@@ -531,6 +533,16 @@ function App() {
           }}
         />
       )}
+      
+      {showSuccessModal && (
+        <SuccessModal 
+          data={successData}
+          onClose={() => {
+            setShowSuccessModal(false)
+            setSuccessData(null)
+          }}
+        />
+      )}
     </div>
   )
 }
@@ -782,13 +794,19 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
       // Generate Google Calendar link for customer
       const calendarLink = createCustomerCalendarLink(bookingData);
       
-      if (emailSuccess || smsSuccess) {
-        const notificationText = notifications.length > 0 ? `\n\n${notifications.join(' & ')}!` : '';
-        alert('🎉 Booking submitted successfully!\n\nThank you for choosing Island Fleet Detail!\nWe will contact you within 24 hours to confirm your appointment.\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase() + notificationText + '\n\n📅 Add to your calendar:\n' + calendarLink)
-      } else {
-        // Both email and SMS failed but booking is still stored locally
-        alert('⚠️ Booking submitted but notifications failed.\n\nYour booking has been saved locally. Please call us directly to confirm:\n(954) 798-8956\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase() + '\n\n📅 Add to your calendar:\n' + calendarLink)
-      }
+      // Show success modal instead of alert
+      setSuccessData({
+        success: emailSuccess || smsSuccess,
+        bookingDetails: {
+          date: new Date(selectedDate).toLocaleDateString(),
+          time: selectedTime,
+          service: formData.service,
+          vehicle: formData.vehicleType.toUpperCase()
+        },
+        notifications: notifications,
+        calendarLink: calendarLink
+      });
+      setShowSuccessModal(true);
       
       onClose()
       
@@ -1166,6 +1184,67 @@ function CancellationModal({ bookingId, onCancel, onClose }) {
               </button>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function SuccessModal({ data, onClose }) {
+  if (!data) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content success-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <h3>🎉 Booking Confirmed!</h3>
+          <button className="modal-close" onClick={onClose}>×</button>
+        </div>
+        
+        <div className="success-content">
+          <div className="success-message">
+            <p><strong>Thank you for choosing Island Fleet Detail!</strong></p>
+            <p>We will contact you within 24 hours to confirm your appointment.</p>
+          </div>
+
+          <div className="booking-summary">
+            <h4>Booking Details:</h4>
+            <p><strong>Date:</strong> {data.bookingDetails.date}</p>
+            <p><strong>Time:</strong> {data.bookingDetails.time}</p>
+            <p><strong>Service:</strong> {data.bookingDetails.service}</p>
+            <p><strong>Vehicle:</strong> {data.bookingDetails.vehicle}</p>
+          </div>
+
+          {data.notifications.length > 0 && (
+            <div className="notification-status">
+              <p><strong>Notifications:</strong> {data.notifications.join(' & ')} sent successfully!</p>
+            </div>
+          )}
+
+          <div className="calendar-section">
+            <p><strong>📅 Add to your calendar:</strong></p>
+            <a 
+              href={data.calendarLink} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="calendar-button"
+            >
+              Add to Calendar
+            </a>
+          </div>
+
+          {!data.success && (
+            <div className="warning-section">
+              <p><strong>⚠️ Notice:</strong> Notifications may have failed to send.</p>
+              <p>Please call us directly to confirm: <strong>(954) 798-8956</strong></p>
+            </div>
+          )}
+
+          <div className="success-actions">
+            <button className="success-button" onClick={onClose}>
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </div>

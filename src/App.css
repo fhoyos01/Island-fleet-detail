@@ -1983,3 +1983,144 @@ html, body {
   }
 }
 
+/* Success Modal Styles */
+.success-modal {
+  max-width: 500px;
+  width: 90%;
+}
+
+.success-content {
+  padding: 1.5rem 0;
+  text-align: center;
+}
+
+.success-message {
+  margin-bottom: 1.5rem;
+}
+
+.success-message p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.success-content .booking-summary {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  border-left: 4px solid #28a745;
+  text-align: left;
+}
+
+.success-content .booking-summary h4 {
+  margin: 0 0 0.75rem 0;
+  color: #28a745;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.success-content .booking-summary p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+}
+
+.notification-status {
+  background: #d4edda;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+  border: 1px solid #c3e6cb;
+}
+
+.notification-status p {
+  margin: 0;
+  color: #155724;
+  font-weight: 500;
+}
+
+.calendar-section {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f0f8ff;
+  border-radius: 8px;
+  border: 1px solid #cce7ff;
+}
+
+.calendar-section p {
+  margin: 0 0 1rem 0;
+  color: #2c5aa0;
+  font-weight: 500;
+}
+
+.calendar-button {
+  display: inline-block;
+  background: #DC143C;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 2px solid #DC143C;
+}
+
+.calendar-button:hover {
+  background: #b8102e;
+  border-color: #b8102e;
+  transform: translateY(-1px);
+}
+
+.warning-section {
+  background: #fff3cd;
+  padding: 1rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+  border: 1px solid #ffeaa7;
+}
+
+.warning-section p {
+  margin: 0.25rem 0;
+  color: #856404;
+}
+
+.success-actions {
+  margin-top: 1.5rem;
+}
+
+.success-button {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.success-button:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+/* Mobile responsiveness for success modal */
+@media (max-width: 768px) {
+  .success-modal {
+    width: 95%;
+  }
+  
+  .success-content {
+    padding: 1rem 0;
+  }
+  
+  .calendar-button {
+    width: 100%;
+    padding: 1rem;
+  }
+  
+  .success-content .booking-summary {
+    padding: 0.75rem;
+  }
+}
+

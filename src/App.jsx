@@ -5,7 +5,25 @@ import { sendBookingSMS, sendContactSMS } from './services/smsService'
 
 // Create Google Calendar link for customers
 const createCustomerCalendarLink = (bookingData) => {
-  const startDate = new Date(bookingData.date + ' ' + bookingData.time);
+  // Parse date more reliably
+  let startDate;
+  try {
+    // Try parsing the date string with time
+    startDate = new Date(bookingData.date + ' ' + bookingData.time);
+    // If invalid, try parsing date differently
+    if (isNaN(startDate.getTime())) {
+      const dateParts = bookingData.date.split('/');
+      if (dateParts.length === 3) {
+        // Convert MM/DD/YYYY to YYYY-MM-DD format
+        const isoDate = `${dateParts[2]}-${dateParts[0].padStart(2, '0')}-${dateParts[1].padStart(2, '0')}`;
+        startDate = new Date(isoDate + ' ' + bookingData.time);
+      }
+    }
+  } catch (error) {
+    console.error('Date parsing error:', error);
+    startDate = new Date(); // Fallback to current date
+  }
+  
   const endDate = new Date(startDate.getTime() + (75 * 60 * 1000)); // 1 hour 15 minutes later
   
   const formatDate = (date) => {

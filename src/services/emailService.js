@@ -106,9 +106,32 @@ export const sendBookingEmails = async (bookingData) => {
     const cancellationLink = `${window.location.origin}${window.location.pathname}?cancel=${bookingData.id}`;
     const businessCancellationLink = `${window.location.origin}${window.location.pathname}?business_cancel=${bookingData.id}`;
 
-    // Business email temporarily disabled for SMS testing
-    console.log('📱 Business email disabled for SMS testing');
-    const businessResult = { status: 200, text: 'DISABLED_FOR_SMS_TESTING' };
+    // Send business notification email
+    console.log('Attempting to send business notification...');
+    console.log('Business Template ID:', EMAILJS_CONFIG.BUSINESS_TEMPLATE_ID);
+    
+    const businessResult = await emailjs.send(
+      EMAILJS_CONFIG.SERVICE_ID,
+      EMAILJS_CONFIG.BUSINESS_TEMPLATE_ID,
+      {
+        customer_name: bookingData.name,
+        customer_email: bookingData.email,
+        customer_phone: bookingData.phone,
+        service_date: bookingData.date,
+        service_time: bookingData.time,
+        vehicle_type: bookingData.vehicleType,
+        main_service: bookingData.service,
+        service_location: bookingData.serviceLocation || 'Not specified',
+        additional_services: formattedAdditionalServices,
+        special_requests: bookingData.specialRequests || 'None',
+        booking_id: bookingData.id,
+        submission_time: new Date().toLocaleString(),
+        calendar_link: createCalendarLink(bookingData),
+        business_cancellation_link: businessCancellationLink
+      }
+    );
+
+    console.log('Business notification sent:', businessResult);
 
     // Now test customer template
     console.log('Attempting to send customer confirmation...');

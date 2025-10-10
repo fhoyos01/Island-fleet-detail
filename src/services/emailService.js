@@ -102,8 +102,9 @@ export const sendBookingEmails = async (bookingData) => {
     // Format additional services as bulleted list
     const formattedAdditionalServices = formatAdditionalServices(bookingData.additionalServices);
 
-    // Create cancellation link
+    // Create cancellation links
     const cancellationLink = `${window.location.origin}${window.location.pathname}?cancel=${bookingData.id}`;
+    const businessCancellationLink = `${window.location.origin}${window.location.pathname}?business_cancel=${bookingData.id}`;
 
     // Business email temporarily disabled for SMS testing
     console.log('📱 Business email disabled for SMS testing');

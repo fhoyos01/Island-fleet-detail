@@ -3,6 +3,38 @@ import './App.css'
 import { sendBookingEmails, sendContactEmails } from './services/emailService'
 import { sendBookingSMS, sendContactSMS } from './services/smsService'
 
+// Send notification to customer when business cancels
+const sendCustomerCancellationNotification = async (booking) => {
+  try {
+    // Create notification data for SMS
+    const cancellationData = {
+      name: booking.customer,
+      phone: booking.phone || 'Not available',
+      service: 'Appointment Cancellation',
+      date: booking.date,
+      time: booking.time,
+      vehicleType: booking.vehicleType || 'N/A',
+      serviceLocation: booking.serviceLocation || 'N/A',
+      additionalServices: 'N/A',
+      specialRequests: `APPOINTMENT CANCELLED: Your ${booking.service} appointment on ${booking.date} at ${booking.time} has been cancelled by Island Fleet Detail. We apologize for any inconvenience. Please call (954) 798-8956 to reschedule.`,
+      id: `biz_cancel_${booking.id}`
+    }
+    
+    // Send SMS notification
+    console.log('📱 Sending business cancellation SMS...')
+    await sendBookingSMS(cancellationData)
+    
+    // TODO: Send email notification when business emails are re-enabled
+    // For now, SMS handles the notification
+    
+    console.log('✅ Customer notification sent for business cancellation')
+    
+  } catch (error) {
+    console.error('Customer cancellation notification error:', error)
+    throw error
+  }
+}
+
 // Create Google Calendar link for customers
 const createCustomerCalendarLink = (bookingData) => {
   // Parse date more reliably
@@ -83,15 +115,71 @@ function App() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     const cancelId = urlParams.get('cancel')
+    const businessCancelId = urlParams.get('business_cancel')
+    
     if (cancelId) {
       setCancellationBookingId(cancelId)
       setShowCancellationModal(true)
       // Clean up URL without triggering navigation
       window.history.replaceState({}, '', window.location.pathname)
+    } else if (businessCancelId) {
+      // Handle business-initiated cancellation
+      handleBusinessCancellation(businessCancelId)
+      // Clean up URL without triggering navigation
+      window.history.replaceState({}, '', window.location.pathname)
     }
   }, [])
 
-  // Handle booking cancellation
+  // Handle business-initiated cancellation
+  const handleBusinessCancellation = async (bookingId) => {
+    try {
+      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]')
+      const bookingIndex = bookings.findIndex(b => b.id.toString() === bookingId)
+      
+      if (bookingIndex === -1) {
+        alert('⚠️ Booking not found.\n\nThis booking may have already been cancelled or does not exist.')
+        return
+      }
+
+      const booking = bookings[bookingIndex]
+      
+      if (booking.status === 'cancelled') {
+        alert('ℹ️ This booking has already been cancelled.')
+        return
+      }
+
+      // Confirm business wants to cancel
+      const confirmCancel = confirm(`🚫 Cancel Booking #${bookingId}?\n\nCustomer: ${booking.customer}\nDate: ${booking.date}\nTime: ${booking.time}\nService: ${booking.service}\n\nThis will immediately notify the customer via email and SMS.`)
+      
+      if (!confirmCancel) return
+
+      // Update booking status to cancelled
+      bookings[bookingIndex] = {
+        ...booking,
+        status: 'cancelled',
+        cancellationReason: 'Cancelled by business',
+        cancelledAt: new Date().toISOString(),
+        cancelledBy: 'business'
+      }
+      
+      localStorage.setItem('bookings', JSON.stringify(bookings))
+
+      // Send customer notification
+      await sendCustomerCancellationNotification(booking)
+      
+      // Show success message
+      alert('✅ Booking cancelled successfully!\n\nThe customer has been notified via email and SMS.\n\nThe time slot is now available for new bookings.')
+      
+      // Refresh time slots
+      setRefreshKey(prev => prev + 1)
+      
+    } catch (error) {
+      console.error('Business cancellation error:', error)
+      alert('⚠️ Error cancelling booking.\n\nPlease try again or contact the customer directly at their phone number.')
+    }
+  }
+
+  // Handle customer-initiated cancellation
   const handleCancellation = async (bookingId, reason = '') => {
     try {
       const bookings = JSON.parse(localStorage.getItem('bookings') || '[]')

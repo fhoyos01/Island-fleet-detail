@@ -520,6 +520,10 @@ function App() {
             setShowBookingModal(false)
             setPreselectedService('')
           }}
+          onSuccess={(successData) => {
+            setSuccessData(successData)
+            setShowSuccessModal(true)
+          }}
         />
       )}
       
@@ -695,7 +699,7 @@ function TimeSlots({ selectedTime, onTimeSelect, selectedDate, onConfirm }) {
   )
 }
 
-function BookingModal({ selectedDate, selectedTime, preselectedService, onClose }) {
+function BookingModal({ selectedDate, selectedTime, preselectedService, onClose, onSuccess }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -795,7 +799,7 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
       const calendarLink = createCustomerCalendarLink(bookingData);
       
       // Show success modal instead of alert
-      setSuccessData({
+      onSuccess({
         success: emailSuccess || smsSuccess,
         bookingDetails: {
           date: new Date(selectedDate).toLocaleDateString(),
@@ -806,7 +810,6 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
         notifications: notifications,
         calendarLink: calendarLink
       });
-      setShowSuccessModal(true);
       
       onClose()
       

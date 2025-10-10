@@ -43,28 +43,9 @@ export const sendBookingEmails = async (bookingData) => {
     // Format additional services as bulleted list
     const formattedAdditionalServices = formatAdditionalServices(bookingData.additionalServices);
 
-    // Send business notification (we know this works)
-    console.log('Sending business notification...');
-    const businessResult = await emailjs.send(
-      EMAILJS_CONFIG.SERVICE_ID,
-      EMAILJS_CONFIG.BUSINESS_TEMPLATE_ID,
-      {
-        customer_name: bookingData.name,
-        customer_email: bookingData.email,
-        customer_phone: bookingData.phone,
-        service_date: bookingData.date,
-        service_time: bookingData.time,
-        vehicle_type: bookingData.vehicleType,
-        main_service: bookingData.service,
-        service_location: bookingData.serviceLocation || 'Not specified',
-        additional_services: formattedAdditionalServices,
-        special_requests: bookingData.specialRequests || 'None',
-        booking_id: bookingData.id,
-        submission_time: new Date().toLocaleString()
-      }
-    );
-
-    console.log('Business notification sent successfully:', businessResult);
+    // Business email temporarily disabled for SMS testing
+    console.log('📱 Business email disabled for SMS testing');
+    const businessResult = { status: 200, text: 'DISABLED_FOR_SMS_TESTING' };
 
     // Now test customer template
     console.log('Attempting to send customer confirmation...');

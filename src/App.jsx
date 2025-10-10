@@ -588,15 +588,18 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
         id: newBooking.id
       }
       
-      // Send booking emails and SMS notifications
-      console.log('Sending email notifications...');
-      const emailResults = await sendBookingEmails(bookingData)
+      // Send SMS notifications (emails temporarily disabled for SMS testing)
+      console.log('📱 SMS Testing Mode - Emails disabled temporarily');
       
       console.log('Sending SMS notifications...');
       const smsResults = await sendBookingSMS(bookingData)
       
-      // Check if at least one email was sent successfully
-      const emailSuccess = emailResults.businessNotification.success || emailResults.customerConfirmation.success
+      // For testing, only send customer emails (business emails disabled)
+      console.log('Sending customer email only...');
+      const emailResults = await sendBookingEmails(bookingData)
+      
+      // Check if at least one notification was sent successfully  
+      const emailSuccess = emailResults.customerConfirmation.success
       const smsSuccess = smsResults.businessNotification.success || smsResults.customerConfirmation.success
       
       // Display results to user

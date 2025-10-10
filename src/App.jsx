@@ -3,17 +3,101 @@ import './App.css'
 import { sendBookingEmails, sendContactEmails } from './services/emailService'
 import { sendBookingSMS, sendContactSMS } from './services/smsService'
 
+// Create Google Calendar link for customers
+const createCustomerCalendarLink = (bookingData) => {
+  const startDate = new Date(bookingData.date + ' ' + bookingData.time);
+  const endDate = new Date(startDate.getTime() + (75 * 60 * 1000)); // 1 hour 15 minutes later
+  
+  const formatDate = (date) => {
+    return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  };
+  
+  const title = encodeURIComponent(`Car Detailing Appointment - Island Fleet Detail`);
+  const details = encodeURIComponent(`Your car detailing appointment with Island Fleet Detail
+  
+Service: ${bookingData.service}
+Vehicle: ${bookingData.vehicleType}
+Location: ${bookingData.serviceLocation || 'Will be confirmed'}
+
+Contact: (954) 798-8956
+Booking ID: #${bookingData.id}`);
+  
+  const location = encodeURIComponent(bookingData.serviceLocation || 'TBD');
+  
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${formatDate(startDate)}/${formatDate(endDate)}&details=${details}&location=${location}`;
+};
+
 function App() {
   const [selectedDate, setSelectedDate] = useState(null)
   const [selectedTime, setSelectedTime] = useState(null)
   const [showBookingModal, setShowBookingModal] = useState(false)
   const [preselectedService, setPreselectedService] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [showCancellationModal, setShowCancellationModal] = useState(false)
+  const [cancellationBookingId, setCancellationBookingId] = useState(null)
 
   // Clear bookings function (temporary admin function)
   const clearAllBookings = () => {
     localStorage.removeItem('bookings')
     window.location.reload()
+  }
+
+  // Handle cancellation URL parameters
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const cancelId = urlParams.get('cancel')
+    if (cancelId) {
+      setCancellationBookingId(cancelId)
+      setShowCancellationModal(true)
+      // Clean up URL without triggering navigation
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+  }, [])
+
+  // Handle booking cancellation
+  const handleCancellation = async (bookingId, reason = '') => {
+    try {
+      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]')
+      const bookingIndex = bookings.findIndex(b => b.id.toString() === bookingId)
+      
+      if (bookingIndex === -1) {
+        throw new Error('Booking not found')
+      }
+
+      const booking = bookings[bookingIndex]
+      
+      // Update booking status to cancelled
+      bookings[bookingIndex] = {
+        ...booking,
+        status: 'cancelled',
+        cancellationReason: reason,
+        cancelledAt: new Date().toISOString()
+      }
+      
+      localStorage.setItem('bookings', JSON.stringify(bookings))
+      
+      // Send cancellation notification to business (SMS only for now)
+      const cancellationData = {
+        name: booking.customer,
+        phone: booking.phone || 'Not available',
+        service: 'Booking Cancellation',
+        date: booking.date,
+        time: booking.time,
+        vehicleType: booking.vehicleType || 'N/A',
+        serviceLocation: booking.serviceLocation || 'N/A',
+        additionalServices: 'N/A',
+        specialRequests: `CANCELLATION: Booking #${bookingId} cancelled. Original service: ${booking.service || 'N/A'}. Reason: ${reason || 'No reason provided'}`,
+        id: `cancel_${bookingId}`
+      }
+      
+      // Send SMS notification to business
+      await sendBookingSMS(cancellationData)
+      
+      return { success: true }
+    } catch (error) {
+      console.error('Cancellation error:', error)
+      return { success: false, error: error.message }
+    }
   }
 
   // Resend is ready to use without initialization
@@ -402,6 +486,17 @@ function App() {
           }}
         />
       )}
+      
+      {showCancellationModal && (
+        <CancellationModal 
+          bookingId={cancellationBookingId}
+          onCancel={handleCancellation}
+          onClose={() => {
+            setShowCancellationModal(false)
+            setCancellationBookingId(null)
+          }}
+        />
+      )}
     </div>
   )
 }
@@ -507,9 +602,12 @@ function TimeSlots({ selectedTime, onTimeSelect, selectedDate, onConfirm }) {
       { time: '9:00am', available: true },
       { time: '10:00am', available: true },
       { time: '11:00am', available: true },
+      { time: '12:00pm', available: true },
       { time: '1:00pm', available: true },
-      { time: '2:30pm', available: true },
-      { time: '4:00pm', available: true }
+      { time: '2:00pm', available: true },
+      { time: '3:00pm', available: true },
+      { time: '4:00pm', available: true },
+      { time: '5:00pm', available: true }
     ]
     
     return allSlots.map(slot => ({
@@ -590,7 +688,13 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
         date: selectedDate,
         time: selectedTime,
         customer: formData.name,
-        status: 'pending'
+        email: formData.email,
+        phone: formData.phone,
+        service: formData.service,
+        vehicleType: formData.vehicleType,
+        serviceLocation: formData.serviceLocation,
+        status: 'pending',
+        createdAt: new Date().toISOString()
       }
       bookings.push(newBooking)
       localStorage.setItem('bookings', JSON.stringify(bookings))
@@ -641,12 +745,15 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose 
       if (emailSuccess) notifications.push('📧 Emails sent');
       if (smsSuccess) notifications.push('📱 SMS sent');
       
+      // Generate Google Calendar link for customer
+      const calendarLink = createCustomerCalendarLink(bookingData);
+      
       if (emailSuccess || smsSuccess) {
         const notificationText = notifications.length > 0 ? `\n\n${notifications.join(' & ')}!` : '';
-        alert('🎉 Booking submitted successfully!\n\nThank you for choosing Island Fleet Detail!\nWe will contact you within 24 hours to confirm your appointment.\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase() + notificationText)
+        alert('🎉 Booking submitted successfully!\n\nThank you for choosing Island Fleet Detail!\nWe will contact you within 24 hours to confirm your appointment.\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase() + notificationText + '\n\n📅 Add to your calendar:\n' + calendarLink)
       } else {
         // Both email and SMS failed but booking is still stored locally
-        alert('⚠️ Booking submitted but notifications failed.\n\nYour booking has been saved locally. Please call us directly to confirm:\n(954) 798-8956\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase())
+        alert('⚠️ Booking submitted but notifications failed.\n\nYour booking has been saved locally. Please call us directly to confirm:\n(954) 798-8956\n\nBooking Details:\n• Date: ' + new Date(selectedDate).toLocaleDateString() + '\n• Time: ' + selectedTime + '\n• Service: ' + formData.service + '\n• Vehicle: ' + formData.vehicleType.toUpperCase() + '\n\n📅 Add to your calendar:\n' + calendarLink)
       }
       
       onClose()
@@ -895,6 +1002,139 @@ function ContactForm() {
         {isSubmitting ? 'Sending...' : 'Send Message'}
       </button>
     </form>
+  )
+}
+
+function CancellationModal({ bookingId, onCancel, onClose }) {
+  const [reason, setReason] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [bookingDetails, setBookingDetails] = useState(null)
+
+  useEffect(() => {
+    // Get booking details from localStorage
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]')
+    const booking = bookings.find(b => b.id.toString() === bookingId)
+    setBookingDetails(booking)
+  }, [bookingId])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    
+    try {
+      const result = await onCancel(bookingId, reason)
+      
+      if (result.success) {
+        alert('✅ Booking cancelled successfully!\n\nWe have received your cancellation request. You will receive a confirmation shortly.\n\nIf you need to reschedule, please call us at (954) 798-8956.')
+        onClose()
+      } else {
+        throw new Error(result.error || 'Cancellation failed')
+      }
+    } catch (error) {
+      console.error('Cancellation error:', error)
+      alert('⚠️ There was an error cancelling your booking.\n\nPlease try again or call us directly at:\n(954) 798-8956\n\nWe apologize for the inconvenience!')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  if (!bookingDetails) {
+    return (
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-header">
+            <h3>Booking Not Found</h3>
+            <button className="modal-close" onClick={onClose}>×</button>
+          </div>
+          <div className="cancellation-content">
+            <p>Sorry, we couldn't find a booking with ID #{bookingId}.</p>
+            <p>Please contact us directly at (954) 798-8956 for assistance.</p>
+            <button className="cancel-button" onClick={onClose}>Close</button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (bookingDetails.status === 'cancelled') {
+    return (
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-header">
+            <h3>Already Cancelled</h3>
+            <button className="modal-close" onClick={onClose}>×</button>
+          </div>
+          <div className="cancellation-content">
+            <p>This booking has already been cancelled.</p>
+            <p><strong>Cancellation Date:</strong> {new Date(bookingDetails.cancelledAt).toLocaleDateString()}</p>
+            <p><strong>Reason:</strong> {bookingDetails.cancellationReason || 'No reason provided'}</p>
+            <button className="cancel-button" onClick={onClose}>Close</button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <h3>Cancel Appointment</h3>
+          <button className="modal-close" onClick={onClose}>×</button>
+        </div>
+        
+        <div className="cancellation-content">
+          <div className="booking-summary">
+            <h4>Booking Details:</h4>
+            <p><strong>Booking ID:</strong> #{bookingId}</p>
+            <p><strong>Date:</strong> {bookingDetails.date}</p>
+            <p><strong>Time:</strong> {bookingDetails.time}</p>
+            <p><strong>Customer:</strong> {bookingDetails.customer}</p>
+            <p><strong>Status:</strong> {bookingDetails.status}</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="cancellation-form">
+            <div className="form-group">
+              <label htmlFor="reason">Reason for cancellation (optional):</label>
+              <textarea
+                id="reason"
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                placeholder="Let us know why you're cancelling (optional)"
+                rows="3"
+              />
+            </div>
+
+            <div className="cancellation-policy">
+              <p><strong>Cancellation Policy:</strong></p>
+              <ul>
+                <li>Free cancellation for now (no fees)</li>
+                <li>We'll notify our team immediately</li>
+                <li>For rescheduling, please call (954) 798-8956</li>
+              </ul>
+            </div>
+
+            <div className="cancellation-actions">
+              <button 
+                type="button" 
+                className="cancel-button secondary" 
+                onClick={onClose}
+                disabled={isSubmitting}
+              >
+                Keep Booking
+              </button>
+              <button 
+                type="submit" 
+                className="cancel-button primary" 
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Cancelling...' : 'Cancel Booking'}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   )
 }
 

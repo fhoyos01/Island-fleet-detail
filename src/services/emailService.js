@@ -33,6 +33,31 @@ const formatAdditionalServices = (services) => {
   return 'None';
 };
 
+// Create Google Calendar link
+const createCalendarLink = (bookingData) => {
+  const startDate = new Date(bookingData.date + ' ' + bookingData.time);
+  const endDate = new Date(startDate.getTime() + (75 * 60 * 1000)); // 1 hour 15 minutes later
+  
+  const formatDate = (date) => {
+    return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  };
+  
+  const title = encodeURIComponent(`Island Fleet Detail - ${bookingData.service}`);
+  const details = encodeURIComponent(`Customer: ${bookingData.name}
+Phone: ${bookingData.phone}
+Email: ${bookingData.email}
+Vehicle: ${bookingData.vehicleType}
+Service: ${bookingData.service}
+Location: ${bookingData.serviceLocation || 'Not specified'}
+Additional Services: ${bookingData.additionalServices || 'None'}
+Special Requests: ${bookingData.specialRequests || 'None'}
+Booking ID: #${bookingData.id}`);
+  
+  const location = encodeURIComponent(bookingData.serviceLocation || 'Customer Location');
+  
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${formatDate(startDate)}/${formatDate(endDate)}&details=${details}&location=${location}`;
+};
+
 // Send booking emails
 export const sendBookingEmails = async (bookingData) => {
   try {
@@ -42,6 +67,9 @@ export const sendBookingEmails = async (bookingData) => {
 
     // Format additional services as bulleted list
     const formattedAdditionalServices = formatAdditionalServices(bookingData.additionalServices);
+
+    // Create cancellation link
+    const cancellationLink = `${window.location.origin}${window.location.pathname}?cancel=${bookingData.id}`;
 
     // Business email temporarily disabled for SMS testing
     console.log('📱 Business email disabled for SMS testing');
@@ -66,7 +94,9 @@ export const sendBookingEmails = async (bookingData) => {
         service_location: bookingData.serviceLocation || 'Not specified',
         additional_services: formattedAdditionalServices,
         special_requests: bookingData.specialRequests || 'None',
-        booking_id: bookingData.id
+        booking_id: bookingData.id,
+        calendar_link: createCalendarLink(bookingData),
+        cancellation_link: cancellationLink
       }
     );
 

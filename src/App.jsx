@@ -83,7 +83,7 @@ const createCustomerCalendarLink = (bookingData) => {
   
 Service: ${bookingData.service}
 Vehicle: ${bookingData.vehicleType}
-Location: ${bookingData.serviceLocation || 'Will be confirmed'}
+Address: ${bookingData.serviceLocation || 'Will be confirmed'}
 
 Contact: (954) 798-8956
 Booking ID: #${bookingData.id}`);
@@ -1083,7 +1083,7 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose,
           <input
             type="text"
             name="serviceLocation"
-            placeholder="Service Location"
+            placeholder="Service Address"
             value={formData.serviceLocation}
             onChange={(e) => setFormData({...formData, serviceLocation: e.target.value})}
             required

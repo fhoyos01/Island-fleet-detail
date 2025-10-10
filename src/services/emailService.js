@@ -82,7 +82,7 @@ Phone: ${bookingData.phone}
 Email: ${bookingData.email}
 Vehicle: ${bookingData.vehicleType}
 Service: ${bookingData.service}
-Location: ${bookingData.serviceLocation || 'Not specified'}
+Address: ${bookingData.serviceLocation || 'Not specified'}
 Additional Services: ${bookingData.additionalServices || 'None'}
 Special Requests: ${bookingData.specialRequests || 'None'}
 Booking ID: #${bookingData.id}`);

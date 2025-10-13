@@ -885,17 +885,12 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose,
         id: newBooking.id
       }
       
-      // Send SMS notifications only (emails disabled for testing)
+      // Send all notifications (SMS + Email)
       console.log('Sending SMS notifications...');
       const smsResults = await sendBookingSMS(bookingData)
       
-      // EMAILS DISABLED FOR SMS TESTING - Uncomment to re-enable
-      // console.log('Sending business and customer emails...');
-      // const emailResults = await sendBookingEmails(bookingData)
-      const emailResults = { 
-        businessNotification: { success: false, message: 'Disabled for SMS testing' }, 
-        customerConfirmation: { success: false, message: 'Disabled for SMS testing' } 
-      }
+      console.log('Sending business and customer emails...');
+      const emailResults = await sendBookingEmails(bookingData)
       
       // Check if notifications were sent successfully  
       const emailSuccess = emailResults.businessNotification.success && emailResults.customerConfirmation.success

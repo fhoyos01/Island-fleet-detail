@@ -337,8 +337,8 @@ function App() {
               <h3>Exterior Only</h3>
               <div className="package-content">
                 <div className="pricing-info">
-                  <div className="price-row">Car: <span className="price">$20</span></div>
-                  <div className="price-row">SUV: <span className="price">$25</span></div>
+                  <div className="price-row">Car: <span className="price">$20-$30</span></div>
+                  <div className="price-row">SUV: <span className="price">$25-$35</span></div>
                   <div className="price-row">Truck: <span className="price">$25-$35</span></div>
                 </div>
                 <ul className="features-list">
@@ -356,9 +356,9 @@ function App() {
               <h3>Basic Wash</h3>
               <div className="package-content">
                 <div className="pricing-info">
-                  <div className="price-row">Car: <span className="price">$30-$40</span></div>
+                  <div className="price-row">Car: <span className="price">$40-$45</span></div>
                   <div className="price-row">SUV: <span className="price">$45-$55</span></div>
-                  <div className="price-row">Truck: <span className="price">$40-$50</span></div>
+                  <div className="price-row">Truck: <span className="price">$45-$55</span></div>
                 </div>
                 <ul className="features-list">
                   <li>✓ Premium Exterior wash</li>
@@ -375,7 +375,7 @@ function App() {
 
             <div className="package-item featured">
               <div className="featured-badge">Most Popular</div>
-              <h3>Premium Wash</h3>
+              <h3>Premium</h3>
               <div className="package-content">
                 <div className="pricing-info">
                   <div className="price-row">Car: <span className="price">$50-$60</span></div>
@@ -402,7 +402,7 @@ function App() {
                 <div className="pricing-info">
                   <div className="price-row">Car: <span className="price">$40-$50</span></div>
                   <div className="price-row">SUV: <span className="price">$50-$60</span></div>
-                  <div className="price-row">Truck: <span className="price">$45-$55</span></div>
+                  <div className="price-row">Truck: <span className="price">$50-$60</span></div>
                 </div>
                 <ul className="features-list">
                   <li>✓ All crevices cleaned</li>
@@ -421,9 +421,9 @@ function App() {
               <h3>Wax</h3>
               <div className="package-content">
                 <div className="pricing-info">
-                  <div className="price-row">Car: <span className="price">$40-$50</span></div>
-                  <div className="price-row">SUV: <span className="price">$50-$60</span></div>
-                  <div className="price-row">Truck: <span className="price">$40-$50</span></div>
+                  <div className="price-row">Car: <span className="price">$40</span></div>
+                  <div className="price-row">SUV: <span className="price">$50</span></div>
+                  <div className="price-row">Truck: <span className="price">$50</span></div>
                 </div>
                 <ul className="features-list">
                   <li>✓ All Panels</li>
@@ -443,24 +443,16 @@ function App() {
             <h3>Add-On Services</h3>
             <div className="services-container">
               <div className="service-item">
-                <h4>Ceramic Coat</h4>
-                <p className="service-price">Starting @ $650</p>
-              </div>
-              <div className="service-item">
-                <h4>Hood & Engine</h4>
-                <p className="service-price">$20-$40</p>
-              </div>
-              <div className="service-item">
-                <h4>Ceiling Cleaning</h4>
-                <p className="service-price">$10-$50</p>
+                <h4>Ceramic coating</h4>
+                <p className="service-price">$770</p>
               </div>
               <div className="service-item">
                 <h4>Seat Cleaning</h4>
-                <p className="service-price">$10-$20/seat</p>
+                <p className="service-price">$10-$40</p>
               </div>
               <div className="service-item">
                 <h4>Carpet Cleaning</h4>
-                <p className="service-price">$10-$20/seat</p>
+                <p className="service-price">$10-$40</p>
               </div>
             </div>
           </div>

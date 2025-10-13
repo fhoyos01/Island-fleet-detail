@@ -31,15 +31,12 @@ const formatPhoneNumber = (phone) => {
 
 // Create business SMS message
 const createBusinessSMSMessage = (bookingData) => {
-  return `NEW BOOKING - Island Fleet Detail
-${bookingData.name} - ${bookingData.phone}
-${bookingData.service} - ${bookingData.date} ${bookingData.time}
-Contact customer to confirm.`;
+  return `Island Fleet Detail is live`;
 };
 
 // Create customer SMS message
 const createCustomerSMSMessage = (bookingData) => {
-  return `Island Fleet Detail - Booking confirmed! We'll contact you within 24 hours. Questions? Call (954) 798-8956`;
+  return `Island Fleet Detail is live`;
 };
 
 // Netlify Function handler

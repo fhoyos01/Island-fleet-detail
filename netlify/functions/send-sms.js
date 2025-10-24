@@ -39,7 +39,7 @@ Contact customer to confirm.`;
 
 // Create customer SMS message
 const createCustomerSMSMessage = (bookingData) => {
-  return `Island Fleet Detail - Booking confirmed! We'll contact you within 24 hours. Questions? Call (954) 798-8956`;
+  return `Island Fleet Detail - Booking confirmed! We'll contact you within 24 hours. Questions? Call (954) 798-8956. Reply STOP to opt out.`;
 };
 
 // Netlify Function handler

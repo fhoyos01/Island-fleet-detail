@@ -835,7 +835,8 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose,
     service: preselectedService?.value || '',
     serviceLocation: '',
     specialRequests: '',
-    additionalServices: []
+    additionalServices: [],
+    smsOptIn: false
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -946,7 +947,8 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose,
         service: preselectedService?.value || '',
         serviceLocation: '',
         specialRequests: '',
-        additionalServices: []
+        additionalServices: [],
+        smsOptIn: false
       })
       
     } catch (error) {
@@ -1088,7 +1090,23 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose,
             onChange={(e) => setFormData({...formData, specialRequests: e.target.value})}
             rows="3"
           ></textarea>
-          <button type="submit" className="modal-submit-button" disabled={isSubmitting}>
+          
+          <div className="consent-checkbox-section">
+            <label className="consent-checkbox-label">
+              <input
+                type="checkbox"
+                name="smsOptIn"
+                checked={formData.smsOptIn}
+                onChange={(e) => setFormData({...formData, smsOptIn: e.target.checked})}
+                required
+              />
+              <span className="consent-text">
+                I consent to receive SMS notifications about my booking appointment from Island Fleet Detail.
+              </span>
+            </label>
+          </div>
+          
+          <button type="submit" className="modal-submit-button" disabled={isSubmitting || !formData.smsOptIn}>
             {isSubmitting ? 'Submitting...' : 'Confirm Booking'}
           </button>
         </form>

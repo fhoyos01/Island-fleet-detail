@@ -637,7 +637,7 @@ function App() {
       <footer className="site-footer">
         <div className="footer-content">
           <p>&copy; 2024 Island Fleet Detail - Professional Auto Detailing Services</p>
-          <a href="/privacy-policy" className="privacy-link" target="_blank" rel="noopener noreferrer">
+          <a href="/privacy-policy.html" className="privacy-link" target="_blank" rel="noopener noreferrer">
             Privacy Policy
           </a>
         </div>

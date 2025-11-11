@@ -1110,7 +1110,7 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose,
                 required
               />
               <span className="consent-text">
-                By providing your mobile number, you agree to receive informational/transactional SMS notifications about your booking appointment from Island Fleet Detail. Message and data rates may apply. Message frequency may vary. Reply STOP to opt out. Privacy Policy <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">https://islandfleetdetail.com/privacy-policy.html</a>
+                By providing your mobile number, you agree to receive informational/transactional SMS notifications about your booking appointment from Island Fleet Detail. Message and data rates may apply. Message frequency may vary. Reply STOP to opt out. <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
               </span>
             </label>
           </div>

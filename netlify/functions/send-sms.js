@@ -34,12 +34,12 @@ const createBusinessSMSMessage = (bookingData) => {
   return `NEW BOOKING - Island Fleet Detail
 ${bookingData.name} - ${bookingData.phone}
 ${bookingData.service} - ${bookingData.date} ${bookingData.time}
-Contact customer to confirm.`;
+Contact customer to confirm. By providing your mobile number, you agree to receive informational/transactional SMS notifications about your booking appointment from Island Fleet Detail. Message and data rates may apply. Message frequency may vary. Reply STOP to opt out. Privacy Policy: https://islandfleetdetail.com/privacy-policy.html`;
 };
 
 // Create customer SMS message
 const createCustomerSMSMessage = (bookingData) => {
-  return `Island Fleet Detail - Booking confirmed! We'll contact you within 24 hours. Questions? Call (954) 798-8956. Reply STOP to opt out.`;
+  return `Island Fleet Detail - Booking confirmed! We'll contact you within 24 hours. Questions? Call (954) 798-8956. By providing your mobile number, you agree to receive informational/transactional SMS notifications about your booking appointment from Island Fleet Detail. Message and data rates may apply. Message frequency may vary. Reply STOP to opt out. Privacy Policy: https://islandfleetdetail.com/privacy-policy.html`;
 };
 
 // Netlify Function handler

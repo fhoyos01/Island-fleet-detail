@@ -999,6 +999,24 @@
   border: 1px solid #e0e6ed;
 }
 
+.consent-header {
+  margin-bottom: 1rem;
+}
+
+.consent-header h4 {
+  color: #DC143C;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0 0 0.5rem 0;
+}
+
+.consent-note {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0;
+  font-style: italic;
+}
+
 .consent-checkbox-label {
   display: flex;
   align-items: flex-start;

@@ -895,12 +895,18 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose,
         id: newBooking.id
       }
       
-      // Send all notifications (SMS + Email)
-      console.log('Sending SMS notifications...');
-      const smsResults = await sendBookingSMS(bookingData)
-      
-      console.log('Sending business and customer emails...');
+      // Send notifications (Email always, SMS only if opted in)
+      console.log('Sending email notifications...');
       const emailResults = await sendBookingEmails(bookingData)
+      
+      let smsResults = { businessNotification: { success: false }, customerConfirmation: { success: false } }
+      
+      if (formData.smsOptIn) {
+        console.log('Sending SMS notifications...');
+        smsResults = await sendBookingSMS(bookingData)
+      } else {
+        console.log('SMS notifications skipped - customer opted out')
+      }
       
       // Check if notifications were sent successfully  
       const emailSuccess = emailResults.businessNotification.success && emailResults.customerConfirmation.success
@@ -1101,13 +1107,16 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose,
           ></textarea>
           
           <div className="consent-checkbox-section">
+            <div className="consent-header">
+              <h4>SMS Notifications (Optional)</h4>
+              <p className="consent-note">Check the box below if you'd like to receive SMS text notifications about your booking</p>
+            </div>
             <label className="consent-checkbox-label">
               <input
                 type="checkbox"
                 name="smsOptIn"
                 checked={formData.smsOptIn}
                 onChange={(e) => setFormData({...formData, smsOptIn: e.target.checked})}
-                required
               />
               <span className="consent-text">
                 By providing your mobile number, you agree to receive informational/transactional SMS notifications about your booking appointment from Island Fleet Detail. Message and data rates may apply. Message frequency may vary. Reply STOP to opt out. <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
@@ -1115,7 +1124,7 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose,
             </label>
           </div>
           
-          <button type="submit" className="modal-submit-button" disabled={isSubmitting || !formData.smsOptIn}>
+          <button type="submit" className="modal-submit-button" disabled={isSubmitting}>
             {isSubmitting ? 'Submitting...' : 'Confirm Booking'}
           </button>
         </form>

@@ -16,7 +16,7 @@ const sendCustomerCancellationNotification = async (booking) => {
       vehicleType: booking.vehicleType || 'N/A',
       serviceLocation: booking.serviceLocation || 'N/A',
       additionalServices: 'N/A',
-      specialRequests: `APPOINTMENT CANCELLED: Your ${booking.service} appointment on ${booking.date} at ${booking.time} has been cancelled by Island Fleet Detail. We apologize for any inconvenience. Please call (954) 798-8956 to reschedule.`,
+      specialRequests: `APPOINTMENT CANCELLED: Your ${booking.service} appointment on ${booking.date} at ${booking.time} has been cancelled by Island Fleet Detail. We apologize for any inconvenience. Please call (561) 508-0863 to reschedule.`,
       id: `biz_cancel_${booking.id}`
     }
     
@@ -85,7 +85,7 @@ Service: ${bookingData.service}
 Vehicle: ${bookingData.vehicleType}
 Address: ${bookingData.serviceLocation || 'Will be confirmed'}
 
-Contact: (954) 798-8956
+Contact: (561) 508-0863
 Booking ID: #${bookingData.id}`);
   
   const location = encodeURIComponent(bookingData.serviceLocation || 'TBD');
@@ -557,7 +557,7 @@ function App() {
               <h3>Get in Touch</h3>
               <div className="contact-item phone-only">
                 <h4>📞 Call or Text Us Today</h4>
-                <p className="phone-number">(954) 798-8956</p>
+                <p className="phone-number">(561) 508-0863</p>
               </div>
               <div className="social-section">
                 <img src="/logo.jpg" alt="Island Fleet Detail Logo" className="contact-logo" />
@@ -968,7 +968,7 @@ function BookingModal({ selectedDate, selectedTime, preselectedService, onClose,
       
     } catch (error) {
       console.error('Booking submission error:', error)
-      alert('⚠️ There was an error submitting your booking.\n\nPlease try again or call us directly at:\n(954) 798-8956\n\nWe apologize for the inconvenience!')
+      alert('⚠️ There was an error submitting your booking.\n\nPlease try again or call us directly at:\n(561) 508-0863\n\nWe apologize for the inconvenience!')
     } finally {
       setIsSubmitting(false)
     }
@@ -1164,7 +1164,7 @@ function ContactForm() {
         if (smsSuccess) notifications.push('📱 SMS sent');
         
         const notificationText = notifications.length > 0 ? `\n\n${notifications.join(' & ')}!` : '';
-        alert('✅ Message sent successfully!\n\nThank you for contacting Island Fleet Detail!\nWe will get back to you as soon as possible.\n\nFor immediate assistance, call or text:\n(954) 798-8956' + notificationText)
+        alert('✅ Message sent successfully!\n\nThank you for contacting Island Fleet Detail!\nWe will get back to you as soon as possible.\n\nFor immediate assistance, call or text:\n(561) 508-0863' + notificationText)
         
         // Reset form
         setFormData({
@@ -1178,7 +1178,7 @@ function ContactForm() {
       }
     } catch (error) {
       console.error('Contact form submission error:', error)
-      alert('⚠️ There was an error sending your message.\n\nPlease try again or contact us directly at:\n(954) 798-8956\n\nWe apologize for the inconvenience!')
+      alert('⚠️ There was an error sending your message.\n\nPlease try again or contact us directly at:\n(561) 508-0863\n\nWe apologize for the inconvenience!')
     } finally {
       setIsSubmitting(false)
     }
@@ -1240,7 +1240,7 @@ function CancellationModal({ bookingId, onCancel, onClose }) {
       const result = await onCancel(bookingId, reason)
       
       if (result.success) {
-        alert('✅ Booking cancelled successfully!\n\nWe have received your cancellation request. You will receive a confirmation shortly.\n\nIf you need to reschedule, please call us at (954) 798-8956.')
+        alert('✅ Booking cancelled successfully!\n\nWe have received your cancellation request. You will receive a confirmation shortly.\n\nIf you need to reschedule, please call us at (561) 508-0863.')
         onClose(true) // Pass true to indicate successful cancellation
       } else {
         throw new Error(result.error || 'Cancellation failed')
